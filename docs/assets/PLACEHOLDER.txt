@@ -1,0 +1,53 @@
+# 📸 PLACEHOLDER — Danh sách ảnh cần chụp
+
+> Chụp các ảnh sau để sử dụng trong báo cáo và slide
+
+## Dashboard Screenshots
+
+1. **dashboard_full.png** — Full dashboard UI (http://localhost:1880/ui)
+   - Hiện đủ 5 groups: Control, Intersection, Live, Telemetry, ACK Log
+
+2. **intersection_ns_green.png** — SVG intersection khi phase 0 (NS Green)
+   - N/S xanh, E/W đỏ
+
+3. **intersection_ew_green.png** — SVG intersection khi phase 3 (EW Green)
+   - E/W xanh, N/S đỏ
+
+4. **dashboard_ack_log.png** — ACK log table với 5+ entries
+
+## Terminal Screenshots
+
+5. **compose_ps.png** — Output `docker compose ps` (2 containers running)
+
+6. **mock_esp32_running.png** — Mock ESP32 terminal output
+
+7. **smoke_test_pass.png** — Smoke test all PASS
+
+## Benchmark Plots
+
+8. **rtt_histogram.png** — RTT histogram → from `logger/output/plots/`
+
+9. **rtt_summary.png** — RTT statistics table → from `logger/output/report.md`
+
+## Architecture Diagrams
+
+10. **architecture_diagram.png** — Sơ đồ kiến trúc (vẽ từ ARCHITECTURE_OVERVIEW.md)
+
+11. **fsm_state_diagram.png** — FSM state machine diagram
+
+12. **wiring_diagram.png** — Wiring diagram (vẽ từ WIRING.md)
+
+## How to Capture
+
+```powershell
+# 1. Start demo
+.\scripts\demo_up.ps1
+
+# 2. Open dashboard
+# http://localhost:1880/ui
+
+# 3. Use Win+Shift+S to screenshot
+# Or use browser DevTools → Screenshot
+
+# 4. Save to docs/assets/
+```

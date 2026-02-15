@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# ESP-IDF build
+esp32_idf/build/
+esp32_idf/sdkconfig
+esp32_idf/sdkconfig.old
+esp32_idf/managed_components/
+esp32_idf/dependencies.lock
+
+# PlatformIO
+esp32/.pio/
+esp32/.vscode/
+
+# Docker runtime data
+docker/mosquitto/data/
+docker/mosquitto/log/
+docker/nodered/data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Benchmark results (keep structure, ignore large raw data)
+results/*/raw/*.csv
+
+# Dashboard temp
+dashboard/fix_static.js
+
+# Misc
+*.log
+*.tmp

@@ -1,0 +1,37 @@
+# Mosquitto ACL File for Traffic Light Demo
+# See SPEC.md Section 2 for topic tree
+#
+# DESIGN DECISION: Single user "demo" for both ESP32 and Node-RED
+# Rationale: Simpler setup for demo/development. For production,
+# create separate users (esp32_user, nodered_user) with restricted ACLs.
+#
+# Topic tree: city/demo/intersection/001/
+#   - state      : ESP32 publishes, Node-RED subscribes
+#   - telemetry  : ESP32 publishes, Node-RED subscribes  
+#   - cmd        : Node-RED publishes, ESP32 subscribes
+#   - ack        : ESP32 publishes, Node-RED subscribes
+#   - status     : ESP32 publishes (LWT), Node-RED subscribes
+
+# =============================================================================
+# USER: demo (ESP32 + Node-RED shared user)
+# =============================================================================
+user demo
+
+# ESP32 publish topics
+topic write city/+/intersection/+/state
+topic write city/+/intersection/+/telemetry
+topic write city/+/intersection/+/ack
+topic write city/+/intersection/+/status
+
+# Node-RED publish topics (commands)
+topic write city/+/intersection/+/cmd
+
+# Both can subscribe to all intersection topics
+topic read city/+/intersection/+/state
+topic read city/+/intersection/+/telemetry
+topic read city/+/intersection/+/cmd
+topic read city/+/intersection/+/ack
+topic read city/+/intersection/+/status
+
+# Allow $SYS read for monitoring (optional)
+topic read $SYS/#

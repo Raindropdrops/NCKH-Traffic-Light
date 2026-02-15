@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traffic Light MQTT Dashboard</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #0a0e1a;
+        --card: #111827;
+        --card2: #1a2236;
+        --accent: #3b82f6;
+        --green: #22c55e;
+        --yellow: #eab308;
+        --red: #ef4444;
+        --text: #e2e8f0;
+        --dim: #64748b;
+        --glow-g: 0 0 20px #22c55e, 0 0 40px #22c55e55;
+        --glow-y: 0 0 20px #eab308, 0 0 40px #eab30855;
+        --glow-r: 0 0 20px #ef4444, 0 0 40px #ef444455;
+        --radius: 16px;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-radius: var(--radius);
+        margin-bottom: 16px;
+        border: 1px solid #1e3a5f;
+      }
+      .header h1 {
+        font-size: 20px;
+        font-weight: 700;
+        background: linear-gradient(to right, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      .status-badge.online {
+        background: #22c55e22;
+        color: #22c55e;
+        border: 1px solid #22c55e44;
+      }
+      .status-badge.offline {
+        background: #ef444422;
+        color: #ef4444;
+        border: 1px solid #ef444444;
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+      .status-badge.online .status-dot {
+        background: #22c55e;
+        box-shadow: 0 0 8px #22c55e;
+      }
+      .status-badge.offline .status-dot {
+        background: #ef4444;
+        box-shadow: 0 0 8px #ef4444;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* Grid */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid #1e293b;
+        transition: all 0.3s;
+      }
+      .card:hover {
+        border-color: #334155;
+        box-shadow: 0 4px 24px #0004;
+      }
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--dim);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+      }
+      .card-title .icon {
+        font-size: 18px;
+      }
+
+      /* Control Buttons */
+      .btn-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .btn {
+        padding: 12px 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn:active {
+        transform: scale(0.95);
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.4s,
+          height 0.4s;
+      }
+      .btn:active::after {
+        width: 200px;
+        height: 200px;
+      }
+      .btn-auto {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: #fff;
+      }
+      .btn-auto:hover {
+        box-shadow: 0 4px 16px #22c55e44;
+      }
+      .btn-auto.active {
+        box-shadow:
+          0 0 0 3px #22c55e55,
+          0 4px 16px #22c55e44;
+      }
+      .btn-manual {
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+      }
+      .btn-manual:hover {
+        box-shadow: 0 4px 16px #f9731644;
+      }
+      .btn-manual.active {
+        box-shadow:
+          0 0 0 3px #f9731655,
+          0 4px 16px #f9731644;
+      }
+      .btn-blink {
+        background: linear-gradient(135deg, #eab308, #ca8a04);
+        color: #111;
+      }
+      .btn-blink:hover {
+        box-shadow: 0 4px 16px #eab30844;
+      }
+      .btn-blink.active {
+        box-shadow:
+          0 0 0 3px #eab30855,
+          0 4px 16px #eab30844;
+      }
+      .btn-off {
+        background: linear-gradient(135deg, #6b7280, #4b5563);
+        color: #fff;
+      }
+      .btn-off:hover {
+        box-shadow: 0 4px 16px #6b728044;
+      }
+      .btn-off.active {
+        box-shadow:
+          0 0 0 3px #6b728055,
+          0 4px 16px #6b728044;
+      }
+      .phase-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .phase-select {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        background: #1e293b;
+        color: var(--text);
+        border: 1px solid #334155;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .phase-select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .btn-send {
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: #fff;
+        border: none;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .btn-send:hover {
+        box-shadow: 0 4px 16px #3b82f644;
+      }
+      .btn-send:active {
+        transform: scale(0.95);
+      }
+
+      /* Intersection SVG */
+      .intersection-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+      .intersection-wrap svg {
+        width: 100%;
+        max-width: 320px;
+      }
+      .light-off {
+        fill: #1a1a2e;
+        stroke: #333;
+        stroke-width: 1;
+      }
+      .light-on-r {
+        fill: #ef4444;
+        filter: drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 20px #ef444488);
+      }
+      .light-on-y {
+        fill: #eab308;
+        filter: drop-shadow(0 0 8px #eab308) drop-shadow(0 0 20px #eab30888);
+      }
+      .light-on-g {
+        fill: #22c55e;
+        filter: drop-shadow(0 0 8px #22c55e) drop-shadow(0 0 20px #22c55e88);
+      }
+      .road {
+        fill: #2a2a40;
+      }
+      .road-center {
+        fill: #3a3a55;
+      }
+      .road-line {
+        stroke: #555;
+        stroke-width: 1;
+        stroke-dasharray: 8, 6;
+      }
+      .phase-label {
+        fill: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        text-anchor: middle;
+      }
+      .dir-label {
+        fill: #94a3b8;
+        font-size: 11px;
+        font-weight: 700;
+        text-anchor: middle;
+      }
+
+      /* Info Cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .info-item {
+        background: var(--card2);
+        border-radius: 12px;
+        padding: 12px 14px;
+      }
+      .info-label {
+        font-size: 11px;
+        color: var(--dim);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .info-value {
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+      }
+      .info-value.mode {
+        color: #a78bfa;
+      }
+      .info-value.phase {
+        color: #60a5fa;
+      }
+      .info-value.uptime {
+        color: #34d399;
+      }
+      .info-value.rssi {
+        color: #fbbf24;
+      }
+      .info-value.heap {
+        color: #38bdf8;
+      }
+
+      /* ACK Log */
+      .ack-list {
+        max-height: 220px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #334155 transparent;
+      }
+      .ack-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        background: var(--card2);
+        margin-bottom: 4px;
+        font-size: 12px;
+        animation: slideIn 0.3s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .ack-ok {
+        color: #22c55e;
+      }
+      .ack-fail {
+        color: #ef4444;
+      }
+      .ack-id {
+        color: var(--dim);
+        font-family: monospace;
+        font-size: 11px;
+      }
+      .ack-time {
+        color: var(--dim);
+        margin-left: auto;
+        font-size: 11px;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s;
+        z-index: 999;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: none;
+      }
+      .toast.success {
+        background: #22c55e22;
+        color: #22c55e;
+        border: 1px solid #22c55e44;
+      }
+      .toast.info {
+        background: #3b82f622;
+        color: #60a5fa;
+        border: 1px solid #3b82f644;
+      }
+
+      /* Full width */
+      .full-width {
+        grid-column: 1/-1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🚦 Traffic Light MQTT Dashboard</h1>
+        <div class="status-badge offline" id="statusBadge">
+          <div class="status-dot"></div>
+          <span id="statusText">CONNECTING...</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Control -->
+        <div class="card">
+          <div class="card-title"><span class="icon">🎮</span>Control</div>
+          <div class="btn-grid">
+            <button class="btn btn-auto" onclick="sendMode('AUTO')">
+              ⚡ AUTO
+            </button>
+            <button class="btn btn-manual" onclick="sendMode('MANUAL')">
+              🔧 MANUAL
+            </button>
+            <button class="btn btn-blink" onclick="sendMode('BLINK')">
+              💡 BLINK
+            </button>
+            <button class="btn btn-off" onclick="sendMode('OFF')">⏹ OFF</button>
+          </div>
+          <div class="phase-row">
+            <select class="phase-select" id="phaseSelect">
+              <option value="0">0: NS_GREEN</option>
+              <option value="1">1: NS_YELLOW</option>
+              <option value="2">2: ALL_RED</option>
+              <option value="3">3: EW_GREEN</option>
+              <option value="4">4: EW_YELLOW</option>
+              <option value="5">5: ALL_RED</option>
+            </select>
+            <button class="btn btn-send" onclick="sendPhase()">
+              SET PHASE ➜
+            </button>
+          </div>
+        </div>
+
+        <!-- Intersection -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🚦</span>Intersection View
+          </div>
+          <div class="intersection-wrap">
+            <svg viewBox="0 0 300 300" id="intersectionSvg">
+              <rect width="300" height="300" rx="12" fill="#0d1117" />
+              <!-- Roads -->
+              <rect x="115" y="0" width="70" height="300" class="road" />
+              <rect x="0" y="115" width="300" height="70" class="road" />
+              <rect
+                x="115"
+                y="115"
+                width="70"
+                height="70"
+                class="road-center"
+              />
+              <!-- Dashed lines -->
+              <line x1="150" y1="0" x2="150" y2="110" class="road-line" />
+              <line x1="150" y1="190" x2="150" y2="300" class="road-line" />
+              <line x1="0" y1="150" x2="110" y2="150" class="road-line" />
+              <line x1="190" y1="150" x2="300" y2="150" class="road-line" />
+
+              <!-- North light -->
+              <rect
+                x="130"
+                y="4"
+                width="40"
+                height="84"
+                rx="8"
+                fill="#181825"
+                stroke="#333"
+                stroke-width="1"
+              />
+              <circle id="nR" cx="150" cy="22" r="11" class="light-off" />
+              <circle id="nY" cx="150" cy="46" r="11" class="light-off" />
+              <circle id="nG" cx="150" cy="70" r="11" class="light-off" />
+              <text x="150" y="100" class="dir-label">N</text>
+
+              <!-- South light -->
+              <rect
+                x="130"
+                y="212"
+                width="40"
+                height="84"
+                rx="8"
+                fill="#181825"
+                stroke="#333"
+                stroke-width="1"
+              />
+              <circle id="sR" cx="150" cy="230" r="11" class="light-off" />
+              <circle id="sY" cx="150" cy="254" r="11" class="light-off" />
+              <circle id="sG" cx="150" cy="278" r="11" class="light-off" />
+              <text x="150" y="210" class="dir-label">S</text>
+
+              <!-- West light -->
+              <rect
+                x="4"
+                y="118"
+                width="84"
+                height="40"
+                rx="8"
+                fill="#181825"
+                stroke="#333"
+                stroke-width="1"
+              />
+              <circle id="wR" cx="22" cy="138" r="11" class="light-off" />
+              <circle id="wY" cx="46" cy="138" r="11" class="light-off" />
+              <circle id="wG" cx="70" cy="138" r="11" class="light-off" />
+              <text x="46" y="173" class="dir-label">W</text>
+
+              <!-- East light -->
+              <rect
+                x="212"
+                y="118"
+                width="84"
+                height="40"
+                rx="8"
+                fill="#181825"
+                stroke="#333"
+                stroke-width="1"
+              />
+              <circle id="eR" cx="230" cy="138" r="11" class="light-off" />
+              <circle id="eY" cx="254" cy="138" r="11" class="light-off" />
+              <circle id="eG" cx="278" cy="138" r="11" class="light-off" />
+              <text x="254" y="173" class="dir-label">E</text>
+
+              <text x="150" y="155" id="phaseLabel" class="phase-label">—</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Live Status -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📊</span>Live Status</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Mode</div>
+              <div class="info-value mode" id="valMode">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Phase</div>
+              <div class="info-value phase" id="valPhase">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Uptime</div>
+              <div class="info-value uptime" id="valUptime">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Last Update</div>
+              <div
+                class="info-value"
+                id="valLastUpdate"
+                style="font-size: 14px; color: var(--dim)"
+              >
+                —
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry -->
+        <div class="card">
+          <div class="card-title"><span class="icon">📡</span>Telemetry</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">📶 RSSI</div>
+              <div class="info-value rssi" id="valRssi">—</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">💾 Heap Free</div>
+              <div class="info-value heap" id="valHeap">—</div>
+            </div>
+            <div class="info-item" style="grid-column: 1/-1">
+              <div class="info-label">⏱️ Device Uptime</div>
+              <div class="info-value uptime" id="valTelUptime">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACK Log -->
+        <div class="card full-width">
+          <div class="card-title">
+            <span class="icon">📋</span>ACK Log
+            <span
+              style="margin-left: auto; font-size: 11px; color: var(--dim)"
+              id="ackCount"
+              >0 entries</span
+            >
+          </div>
+          <div class="ack-list" id="ackList">
+            <div style="text-align: center; color: var(--dim); padding: 20px">
+              Gửi lệnh để xem ACK tại đây
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const BASE = "city/demo/intersection/001";
+      const PHASES = [
+        "NS_GREEN",
+        "NS_YELLOW",
+        "ALL_RED",
+        "EW_GREEN",
+        "EW_YELLOW",
+        "ALL_RED",
+      ];
+      let client = null;
+      let ackLog = [];
+      let currentMode = "";
+
+      function uuid() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+          const r = (Math.random() * 16) | 0;
+          return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+        });
+      }
+
+      function toast(msg, type = "info") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "toast " + type + " show";
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+
+      function connect() {
+        const host = location.hostname || "localhost";
+        client = mqtt.connect(`ws://${host}:9001`, {
+          username: "demo",
+          password: "demo_pass",
+          clientId: "dashboard-" + Math.random().toString(16).slice(2, 8),
+          keepalive: 30,
+          clean: true,
+        });
+
+        client.on("connect", () => {
+          document.getElementById("statusBadge").className =
+            "status-badge online";
+          document.getElementById("statusText").textContent = "CONNECTED";
+          client.subscribe(BASE + "/state");
+          client.subscribe(BASE + "/status");
+          client.subscribe(BASE + "/telemetry");
+          client.subscribe(BASE + "/ack");
+          toast("✅ Connected to MQTT broker", "success");
+        });
+
+        client.on("close", () => {
+          document.getElementById("statusBadge").className =
+            "status-badge offline";
+          document.getElementById("statusText").textContent = "DISCONNECTED";
+        });
+
+        client.on("error", (err) => {
+          console.error("MQTT error:", err);
+          document.getElementById("statusBadge").className =
+            "status-badge offline";
+          document.getElementById("statusText").textContent = "ERROR";
+        });
+
+        client.on("message", (topic, message) => {
+          try {
+            const data = JSON.parse(message.toString());
+            const sub = topic.replace(BASE + "/", "");
+            if (sub === "state") handleState(data);
+            else if (sub === "status") handleStatus(data);
+            else if (sub === "telemetry") handleTelemetry(data);
+            else if (sub === "ack") handleAck(data);
+          } catch (e) {
+            console.error("Parse error:", e);
+          }
+        });
+      }
+
+      function handleState(d) {
+        document.getElementById("valMode").textContent = d.mode || "—";
+        document.getElementById("valPhase").textContent =
+          d.phase !== undefined
+            ? d.phase + ": " + (PHASES[d.phase] || "?")
+            : "—";
+        document.getElementById("valUptime").textContent = formatUptime(
+          d.uptime_s,
+        );
+        document.getElementById("valLastUpdate").textContent =
+          new Date().toLocaleTimeString();
+        updateIntersection(d.phase);
+        highlightModeBtn(d.mode);
+      }
+
+      function handleStatus(d) {
+        const badge = document.getElementById("statusBadge");
+        const text = document.getElementById("statusText");
+        if (d.online) {
+          badge.className = "status-badge online";
+          text.textContent = "ESP32 ONLINE";
+        } else {
+          badge.className = "status-badge offline";
+          text.textContent = "ESP32 OFFLINE";
+        }
+      }
+
+      function handleTelemetry(d) {
+        document.getElementById("valRssi").textContent =
+          (d.rssi_dbm || 0) + " dBm";
+        document.getElementById("valHeap").textContent =
+          (d.heap_free_kb || 0) + " KB";
+        document.getElementById("valTelUptime").textContent = formatUptime(
+          d.uptime_s,
+        );
+      }
+
+      function handleAck(d) {
+        ackLog.unshift({
+          time: new Date().toLocaleTimeString(),
+          id: (d.cmd_id || "").slice(0, 8),
+          ok: d.ok,
+          err: d.err || null,
+          ts: d.edge_recv_ts_ms,
+        });
+        if (ackLog.length > 20) ackLog.pop();
+        renderAckLog();
+        toast(
+          d.ok ? "✅ ACK OK: " + (d.cmd_id || "").slice(0, 8) : "❌ ACK FAIL",
+          d.ok ? "success" : "info",
+        );
+      }
+
+      function renderAckLog() {
+        const el = document.getElementById("ackList");
+        document.getElementById("ackCount").textContent =
+          ackLog.length + " entries";
+        el.innerHTML = ackLog
+          .map(
+            (a) => `
+    <div class="ack-item">
+      <span class="${a.ok ? "ack-ok" : "ack-fail"}">${a.ok ? "✅" : "❌"}</span>
+      <span class="ack-id">${a.id}…</span>
+      <span>${a.err || "OK"}</span>
+      <span class="ack-time">${a.time}</span>
+    </div>
+  `,
+          )
+          .join("");
+      }
+
+      function updateIntersection(phase) {
+        const off = "light-off";
+        [
+          "nR",
+          "nY",
+          "nG",
+          "sR",
+          "sY",
+          "sG",
+          "eR",
+          "eY",
+          "eG",
+          "wR",
+          "wY",
+          "wG",
+        ].forEach((id) => {
+          document.getElementById(id).setAttribute("class", off);
+        });
+        const set = (id, cls) =>
+          document.getElementById(id).setAttribute("class", cls);
+        switch (phase) {
+          case 0:
+            set("nG", "light-on-g");
+            set("sG", "light-on-g");
+            set("eR", "light-on-r");
+            set("wR", "light-on-r");
+            break;
+          case 1:
+            set("nY", "light-on-y");
+            set("sY", "light-on-y");
+            set("eR", "light-on-r");
+            set("wR", "light-on-r");
+            break;
+          case 2:
+          case 5:
+            set("nR", "light-on-r");
+            set("sR", "light-on-r");
+            set("eR", "light-on-r");
+            set("wR", "light-on-r");
+            break;
+          case 3:
+            set("eG", "light-on-g");
+            set("wG", "light-on-g");
+            set("nR", "light-on-r");
+            set("sR", "light-on-r");
+            break;
+          case 4:
+            set("eY", "light-on-y");
+            set("wY", "light-on-y");
+            set("nR", "light-on-r");
+            set("sR", "light-on-r");
+            break;
+        }
+        document.getElementById("phaseLabel").textContent =
+          phase !== undefined ? phase + ": " + (PHASES[phase] || "?") : "—";
+      }
+
+      function highlightModeBtn(mode) {
+        currentMode = mode;
+        document
+          .querySelectorAll(".btn-auto,.btn-manual,.btn-blink,.btn-off")
+          .forEach((b) => b.classList.remove("active"));
+        const map = {
+          AUTO: ".btn-auto",
+          MANUAL: ".btn-manual",
+          BLINK: ".btn-blink",
+          OFF: ".btn-off",
+        };
+        if (map[mode])
+          document.querySelector(map[mode])?.classList.add("active");
+      }
+
+      function sendMode(mode) {
+        if (!client || !client.connected) {
+          toast("❌ Not connected!");
+          return;
+        }
+        const cmd = JSON.stringify({
+          cmd_id: uuid(),
+          type: "SET_MODE",
+          mode,
+          ts_ms: Date.now(),
+        });
+        client.publish(BASE + "/cmd", cmd, { qos: 1, retain: false });
+        toast("📤 SET_MODE " + mode, "info");
+      }
+
+      function sendPhase() {
+        if (!client || !client.connected) {
+          toast("❌ Not connected!");
+          return;
+        }
+        const p = parseInt(document.getElementById("phaseSelect").value);
+        const cmd = JSON.stringify({
+          cmd_id: uuid(),
+          type: "SET_PHASE",
+          phase: p,
+          ts_ms: Date.now(),
+        });
+        client.publish(BASE + "/cmd", cmd, { qos: 1, retain: false });
+        toast("📤 SET_PHASE " + p + " (" + PHASES[p] + ")", "info");
+      }
+
+      function formatUptime(s) {
+        if (!s && s !== 0) return "—";
+        const h = Math.floor(s / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const sec = s % 60;
+        return h > 0
+          ? `${h}h ${m}m ${sec}s`
+          : m > 0
+            ? `${m}m ${sec}s`
+            : `${sec}s`;
+      }
+
+      connect();
+    </script>
+  </body>
+</html>

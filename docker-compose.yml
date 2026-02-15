@@ -1,0 +1,48 @@
+# Traffic Light MQTT Demo - Docker Compose
+
+# Traffic Light MQTT Demo - Docker Compose
+# See SPEC.md for topic tree and protocol details
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    hostname: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      # Config files (read-only)
+      - ./docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./docker/mosquitto/aclfile:/mosquitto/config/aclfile:ro
+      # Password file (generated, read-only after creation)
+      - ./docker/mosquitto/pwfile:/mosquitto/config/pwfile:ro
+      # Persistent data
+      - ./docker/mosquitto/data:/mosquitto/data
+      - ./docker/mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3", "-u", "demo", "-P", "demo_pass" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    hostname: nodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./docker/nodered/data:/data
+      - ./dashboard:/data/public
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    depends_on:
+      mosquitto:
+        condition: service_started
+    restart: unless-stopped
+
+networks:
+  default:
+    name: traffic-network

@@ -1,0 +1,3 @@
+# Password file placeholder
+# Generate with: mosquitto_passwd -c pwfile demo
+# This file should NOT be committed to git with real passwords

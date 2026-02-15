@@ -1,0 +1,161 @@
+menu "Traffic Light Configuration"
+
+    menu "WiFi Settings"
+        config WIFI_SSID
+            string "WiFi SSID"
+            default "YourSSID"
+            help
+                WiFi network name.
+
+        config WIFI_PASSWORD
+            string "WiFi Password"
+            default "YourPassword"
+            help
+                WiFi network password.
+
+        config WIFI_MAXIMUM_RETRY
+            int "Maximum retry"
+            default 10
+            help
+                Maximum number of WiFi connection retries.
+    endmenu
+
+    menu "MQTT Settings"
+        config MQTT_BROKER_HOST
+            string "MQTT Broker Host"
+            default "192.168.1.100"
+            help
+                MQTT broker hostname or IP address.
+
+        config MQTT_BROKER_PORT
+            int "MQTT Broker Port"
+            default 1883
+            help
+                MQTT broker port.
+
+        config MQTT_USERNAME
+            string "MQTT Username"
+            default "demo"
+            help
+                MQTT broker username.
+
+        config MQTT_PASSWORD
+            string "MQTT Password"
+            default "demo_pass"
+            help
+                MQTT broker password.
+
+        config MQTT_CITY_ID
+            string "City ID"
+            default "demo"
+            help
+                City identifier for topic prefix.
+
+        config MQTT_INTERSECTION_ID
+            string "Intersection ID"
+            default "001"
+            help
+                Intersection identifier for topic prefix.
+    endmenu
+
+    menu "GPIO Pin Configuration"
+        comment "NORTH Module (R-Y-G)"
+        config PIN_NORTH_RED
+            int "North RED GPIO"
+            default 25
+            range 0 39
+
+        config PIN_NORTH_YELLOW
+            int "North YELLOW GPIO"
+            default 26
+            range 0 39
+
+        config PIN_NORTH_GREEN
+            int "North GREEN GPIO"
+            default 27
+            range 0 39
+
+        comment "SOUTH Module (R-Y-G)"
+        config PIN_SOUTH_RED
+            int "South RED GPIO"
+            default 16
+            range 0 39
+
+        config PIN_SOUTH_YELLOW
+            int "South YELLOW GPIO"
+            default 17
+            range 0 39
+
+        config PIN_SOUTH_GREEN
+            int "South GREEN GPIO"
+            default 22
+            range 0 39
+            help
+                Default changed from GPIO4 to GPIO22 to avoid strap conflict.
+
+        comment "EAST Module (R-Y-G)"
+        config PIN_EAST_RED
+            int "East RED GPIO"
+            default 32
+            range 0 39
+
+        config PIN_EAST_YELLOW
+            int "East YELLOW GPIO"
+            default 33
+            range 0 39
+
+        config PIN_EAST_GREEN
+            int "East GREEN GPIO"
+            default 21
+            range 0 39
+
+        comment "WEST Module (R-Y-G)"
+        config PIN_WEST_RED
+            int "West RED GPIO"
+            default 19
+            range 0 39
+
+        config PIN_WEST_YELLOW
+            int "West YELLOW GPIO"
+            default 18
+            range 0 39
+
+        config PIN_WEST_GREEN
+            int "West GREEN GPIO"
+            default 23
+            range 0 39
+    endmenu
+
+    menu "Timing Configuration"
+        config PHASE_GREEN_MS
+            int "Green phase duration (ms)"
+            default 8000
+            range 1000 60000
+
+        config PHASE_YELLOW_MS
+            int "Yellow phase duration (ms)"
+            default 3000
+            range 1000 10000
+
+        config PHASE_ALL_RED_MS
+            int "All-red phase duration (ms)"
+            default 2000
+            range 500 5000
+
+        config STATE_PUBLISH_INTERVAL_MS
+            int "State publish interval (ms)"
+            default 1000
+            range 500 5000
+
+        config TELEMETRY_INTERVAL_MS
+            int "Telemetry interval (ms)"
+            default 5000
+            range 1000 30000
+
+        config MQTT_OFFLINE_TIMEOUT_MS
+            int "MQTT offline timeout for fallback (ms)"
+            default 10000
+            range 5000 60000
+    endmenu
+
+endmenu
