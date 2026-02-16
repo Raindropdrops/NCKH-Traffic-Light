@@ -31,7 +31,8 @@
 ## 4. Code Quality
 
 - [ ] No Python syntax errors: `python -m py_compile logger/tools/*.py`
-- [ ] PowerShell script accepted: `powershell -ExecutionPolicy Bypass -File .\scripts\run_all.ps1 -WhatIf` (dry-run)
+- [ ] PowerShell syntax OK: `powershell -Command "Get-Command .\scripts\run_all.ps1 | Select-Object Name"` (no parse errors)
+- [ ] Quick pipeline sanity: `.\scripts\run_all.ps1 -SkipDocker -BenchCount 3` → exit 0
 - [ ] No hardcoded credentials in code (use pwfile / env)
 
 ## 5. Final Packaging

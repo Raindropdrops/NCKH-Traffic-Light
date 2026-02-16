@@ -36,8 +36,8 @@ docker/nodered/data/
 Thumbs.db
 desktop.ini
 
-# Benchmark results (keep structure, ignore large raw data)
-results/*/raw/*.csv
+# Pipeline results (runtime output, not tracked)
+results/
 
 # Dashboard temp
 dashboard/fix_static.js
