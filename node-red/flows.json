@@ -51,227 +51,20 @@
         "hidden": false
     },
     {
-        "id": "ui-group.control",
-        "type": "ui_group",
-        "name": "🎮 Control",
-        "tab": "ui-tab.main",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "ui-group.intersection",
-        "type": "ui_group",
-        "name": "🚦 Intersection View",
-        "tab": "ui-tab.main",
-        "order": 2,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "ui-group.live",
-        "type": "ui_group",
-        "name": "📊 Live Status",
-        "tab": "ui-tab.main",
-        "order": 3,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "ui-group.telemetry",
-        "type": "ui_group",
-        "name": "📡 Telemetry",
-        "tab": "ui-tab.main",
-        "order": 4,
-        "disp": true,
-        "width": "6",
-        "collapse": false
-    },
-    {
-        "id": "ui-group.acklog",
-        "type": "ui_group",
-        "name": "📋 ACK Log",
-        "tab": "ui-tab.main",
-        "order": 5,
-        "disp": true,
-        "width": "12",
-        "collapse": false
-    },
-
-    {"id":"comment.header","type":"comment","z":"flow.traffic-dashboard","name":"🚦 Traffic Light Dashboard — SPEC.md Compliant","info":"Base: city/demo/intersection/001\nTopics: cmd/ack/state/status/telemetry","x":280,"y":40,"wires":[]},
-
-    {
-        "id": "ui.ctrl.mode-dropdown",
-        "type": "ui_dropdown",
+        "id": "comment.header",
+        "type": "comment",
         "z": "flow.traffic-dashboard",
-        "name": "Mode Select",
-        "group": "ui-group.control",
-        "order": 1,
-        "width": "4",
-        "height": "1",
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {"label": "AUTO", "value": "AUTO", "type": "str"},
-            {"label": "MANUAL", "value": "MANUAL", "type": "str"},
-            {"label": "BLINK", "value": "BLINK", "type": "str"},
-            {"label": "OFF", "value": "OFF", "type": "str"}
-        ],
-        "payload": "AUTO",
-        "topic": "mode",
-        "topicType": "str",
-        "className": "",
-        "x": 160,
-        "y": 100,
-        "wires": [["holder.mode"]]
+        "name": "\ud83d\udea6 Traffic Light Dashboard \u2014 SPEC.md Compliant",
+        "info": "Base: city/demo/intersection/001\nTopics: cmd/ack/state/status/telemetry",
+        "x": 280,
+        "y": 40,
+        "wires": []
     },
-    {
-        "id": "holder.mode",
-        "type": "change",
-        "z": "flow.traffic-dashboard",
-        "name": "Hold Mode",
-        "rules": [{"t": "set", "p": "selected_mode", "pt": "flow", "to": "payload", "tot": "msg"}],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 340,
-        "y": 100,
-        "wires": [[]]
-    },
-    {
-        "id": "btn.send-mode",
-        "type": "ui_button",
-        "z": "flow.traffic-dashboard",
-        "name": "Send SET_MODE",
-        "group": "ui-group.control",
-        "order": 2,
-        "width": "2",
-        "height": "1",
-        "passthru": false,
-        "label": "Send SET_MODE",
-        "tooltip": "Send SET_MODE command",
-        "color": "#ffffff",
-        "bgcolor": "#4CAF50",
-        "className": "",
-        "icon": "fa-paper-plane",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "x": 170,
-        "y": 140,
-        "wires": [["func.build-set-mode"]]
-    },
-    {
-        "id": "func.build-set-mode",
-        "type": "function",
-        "z": "flow.traffic-dashboard",
-        "name": "Build SET_MODE",
-        "func": "const mode = flow.get('selected_mode') || 'AUTO';\nconst uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n});\nmsg.payload = JSON.stringify({\n    cmd_id: uuid,\n    type: 'SET_MODE',\n    mode: mode,\n    ts_ms: Date.now()\n});\nmsg.qos = 1;\nmsg.retain = false;\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 140,
-        "wires": [["mqtt.cmd.out", "debug.cmd"]]
-    },
-
-    {
-        "id": "ui.ctrl.phase-dropdown",
-        "type": "ui_dropdown",
-        "z": "flow.traffic-dashboard",
-        "name": "Phase Select",
-        "group": "ui-group.control",
-        "order": 3,
-        "width": "4",
-        "height": "1",
-        "passthru": true,
-        "multiple": false,
-        "options": [
-            {"label": "0: NS_GREEN", "value": 0, "type": "num"},
-            {"label": "1: NS_YELLOW", "value": 1, "type": "num"},
-            {"label": "2: ALL_RED", "value": 2, "type": "num"},
-            {"label": "3: EW_GREEN", "value": 3, "type": "num"},
-            {"label": "4: EW_YELLOW", "value": 4, "type": "num"},
-            {"label": "5: ALL_RED", "value": 5, "type": "num"}
-        ],
-        "payload": "0",
-        "topic": "phase",
-        "topicType": "str",
-        "className": "",
-        "x": 160,
-        "y": 200,
-        "wires": [["holder.phase"]]
-    },
-    {
-        "id": "holder.phase",
-        "type": "change",
-        "z": "flow.traffic-dashboard",
-        "name": "Hold Phase",
-        "rules": [{"t": "set", "p": "selected_phase", "pt": "flow", "to": "payload", "tot": "msg"}],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 340,
-        "y": 200,
-        "wires": [[]]
-    },
-    {
-        "id": "btn.send-phase",
-        "type": "ui_button",
-        "z": "flow.traffic-dashboard",
-        "name": "Send SET_PHASE",
-        "group": "ui-group.control",
-        "order": 4,
-        "width": "2",
-        "height": "1",
-        "passthru": false,
-        "label": "Send SET_PHASE",
-        "tooltip": "Send SET_PHASE command",
-        "color": "#ffffff",
-        "bgcolor": "#2196F3",
-        "className": "",
-        "icon": "fa-paper-plane",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "x": 170,
-        "y": 240,
-        "wires": [["func.build-set-phase"]]
-    },
-    {
-        "id": "func.build-set-phase",
-        "type": "function",
-        "z": "flow.traffic-dashboard",
-        "name": "Build SET_PHASE",
-        "func": "const phase = flow.get('selected_phase');\nconst p = (phase !== null && phase !== undefined) ? Number(phase) : 0;\nconst uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n});\nmsg.payload = JSON.stringify({\n    cmd_id: uuid,\n    type: 'SET_PHASE',\n    phase: p,\n    ts_ms: Date.now()\n});\nmsg.qos = 1;\nmsg.retain = false;\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 240,
-        "wires": [["mqtt.cmd.out", "debug.cmd"]]
-    },
-
     {
         "id": "mqtt.cmd.out",
         "type": "mqtt out",
         "z": "flow.traffic-dashboard",
-        "name": "→ cmd (QoS1)",
+        "name": "\u2192 cmd (QoS1)",
         "topic": "city/demo/intersection/001/cmd",
         "qos": "1",
         "retain": "false",
@@ -302,12 +95,11 @@
         "y": 225,
         "wires": []
     },
-
     {
         "id": "mqtt.state.in",
         "type": "mqtt in",
         "z": "flow.traffic-dashboard",
-        "name": "← state (QoS0)",
+        "name": "\u2190 state (QoS0)",
         "topic": "city/demo/intersection/001/state",
         "qos": "0",
         "datatype": "json",
@@ -318,15 +110,19 @@
         "inputs": 0,
         "x": 150,
         "y": 400,
-        "wires": [["func.parse-state", "func.intersection-svg"]]
+        "wires": [
+            [
+                "func.parse-state"
+            ]
+        ]
     },
     {
         "id": "func.parse-state",
         "type": "function",
         "z": "flow.traffic-dashboard",
-        "name": "Parse State → Live",
-        "func": "const data = msg.payload;\nconst phaseNames = ['NS_GREEN','NS_YELLOW','ALL_RED','EW_GREEN','EW_YELLOW','ALL_RED'];\nconst m1 = {payload: data.mode || 'UNKNOWN'};\nconst m2 = {payload: (data.phase !== undefined ? data.phase + ': ' + (phaseNames[data.phase]||'?') : '?')};\nconst m3 = {payload: (data.uptime_s || 0) + 's'};\nreturn [m1, m2, m3];",
-        "outputs": 3,
+        "name": "Parse State -> Dashboard",
+        "func": "const data = msg.payload || {};\nconst phaseNames = ['NS_GREEN','NS_YELLOW','ALL_RED','EW_GREEN','EW_YELLOW','ALL_RED'];\nconst phaseIndex = (data.phase !== undefined && data.phase !== null) ? Number(data.phase) : null;\nconst out = {\n    mode: data.mode || 'UNKNOWN',\n    phase: phaseIndex,\n    phase_name: (phaseIndex !== null ? (phaseNames[phaseIndex] || 'UNKNOWN') : 'UNKNOWN'),\n    uptime_s: (data.uptime_s !== undefined ? data.uptime_s : null),\n    since_ms: (data.since_ms !== undefined ? data.since_ms : null),\n    ts_ms: (data.ts_ms !== undefined ? data.ts_ms : null)\n};\nreturn [{ topic: 'state', payload: out }, { payload: data }];\n",
+        "outputs": 2,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
@@ -334,17 +130,20 @@
         "libs": [],
         "x": 380,
         "y": 400,
-        "wires": [["ui.live.mode"], ["ui.live.phase"], ["ui.live.uptime"]]
+        "wires": [
+            [
+                "func.dashboard-store"
+            ],
+            [
+                "func.intersection-svg"
+            ]
+        ]
     },
-    {"id":"ui.live.mode","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.live","order":2,"width":"3","height":"1","name":"Mode","label":"Mode:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":380,"wires":[]},
-    {"id":"ui.live.phase","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.live","order":3,"width":"3","height":"1","name":"Phase","label":"Phase:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":420,"wires":[]},
-    {"id":"ui.live.uptime","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.live","order":4,"width":"3","height":"1","name":"Uptime","label":"Uptime:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":460,"wires":[]},
-
     {
         "id": "mqtt.status.in",
         "type": "mqtt in",
         "z": "flow.traffic-dashboard",
-        "name": "← status (QoS1 retained)",
+        "name": "\u2190 status (QoS1 retained)",
         "topic": "city/demo/intersection/001/status",
         "qos": "1",
         "datatype": "json",
@@ -355,14 +154,18 @@
         "inputs": 0,
         "x": 170,
         "y": 340,
-        "wires": [["func.parse-status"]]
+        "wires": [
+            [
+                "func.parse-status"
+            ]
+        ]
     },
     {
         "id": "func.parse-status",
         "type": "function",
         "z": "flow.traffic-dashboard",
-        "name": "Parse Status",
-        "func": "const data = msg.payload;\nconst online = data.online ? '🟢 ONLINE' : '🔴 OFFLINE';\nconst ts = data.ts_ms ? new Date(data.ts_ms).toLocaleTimeString() : new Date().toLocaleTimeString();\nmsg.payload = online + ' (' + ts + ')';\nreturn msg;",
+        "name": "Parse Status -> Dashboard",
+        "func": "const data = msg.payload || {};\nmsg.topic = 'status';\nmsg.payload = {\n    online: !!data.online,\n    ts_ms: (data.ts_ms !== undefined ? data.ts_ms : null)\n};\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -371,15 +174,17 @@
         "libs": [],
         "x": 380,
         "y": 340,
-        "wires": [["ui.live.online"]]
+        "wires": [
+            [
+                "func.dashboard-store"
+            ]
+        ]
     },
-    {"id":"ui.live.online","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.live","order":1,"width":"6","height":"1","name":"Online","label":"Status:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":340,"wires":[]},
-
     {
         "id": "mqtt.telemetry.in",
         "type": "mqtt in",
         "z": "flow.traffic-dashboard",
-        "name": "← telemetry (QoS0)",
+        "name": "\u2190 telemetry (QoS0)",
         "topic": "city/demo/intersection/001/telemetry",
         "qos": "0",
         "datatype": "json",
@@ -390,15 +195,19 @@
         "inputs": 0,
         "x": 160,
         "y": 500,
-        "wires": [["func.parse-telemetry"]]
+        "wires": [
+            [
+                "func.parse-telemetry"
+            ]
+        ]
     },
     {
         "id": "func.parse-telemetry",
         "type": "function",
         "z": "flow.traffic-dashboard",
-        "name": "Parse Telemetry",
-        "func": "const d = msg.payload;\nreturn [\n    {payload: (d.rssi_dbm||0)+' dBm'},\n    {payload: (d.heap_free_kb||0)+' KB'},\n    {payload: (d.uptime_s||0)+'s'}\n];",
-        "outputs": 3,
+        "name": "Parse Telemetry -> Dashboard",
+        "func": "const d = msg.payload || {};\nmsg.topic = 'telemetry';\nmsg.payload = {\n    rssi_dbm: (d.rssi_dbm !== undefined ? d.rssi_dbm : null),\n    heap_free_kb: (d.heap_free_kb !== undefined ? d.heap_free_kb : null),\n    uptime_s: (d.uptime_s !== undefined ? d.uptime_s : null),\n    ts_ms: (d.ts_ms !== undefined ? d.ts_ms : null)\n};\nreturn msg;\n",
+        "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
@@ -406,17 +215,17 @@
         "libs": [],
         "x": 380,
         "y": 500,
-        "wires": [["ui.telem.rssi"], ["ui.telem.heap"], ["ui.telem.uptime"]]
+        "wires": [
+            [
+                "func.dashboard-store"
+            ]
+        ]
     },
-    {"id":"ui.telem.rssi","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.telemetry","order":1,"width":"4","height":"1","name":"RSSI","label":"📶 RSSI:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":490,"wires":[]},
-    {"id":"ui.telem.heap","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.telemetry","order":2,"width":"4","height":"1","name":"Heap","label":"💾 Heap:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":520,"wires":[]},
-    {"id":"ui.telem.uptime","type":"ui_text","z":"flow.traffic-dashboard","group":"ui-group.telemetry","order":3,"width":"4","height":"1","name":"Uptime T","label":"⏱️ Uptime:","format":"{{msg.payload}}","layout":"row-spread","className":"","style":false,"font":"","fontSize":16,"color":"#000000","x":570,"y":550,"wires":[]},
-
     {
         "id": "mqtt.ack.in",
         "type": "mqtt in",
         "z": "flow.traffic-dashboard",
-        "name": "← ack (QoS1)",
+        "name": "\u2190 ack (QoS1)",
         "topic": "city/demo/intersection/001/ack",
         "qos": "1",
         "datatype": "json",
@@ -427,14 +236,18 @@
         "inputs": 0,
         "x": 140,
         "y": 600,
-        "wires": [["func.ack-log"]]
+        "wires": [
+            [
+                "func.ack-log"
+            ]
+        ]
     },
     {
         "id": "func.ack-log",
         "type": "function",
         "z": "flow.traffic-dashboard",
-        "name": "ACK Log (10 entries)",
-        "func": "let log = flow.get('ack_log') || [];\nconst d = msg.payload;\nlog.unshift({\n    t: new Date().toLocaleTimeString(),\n    id: (d.cmd_id||'').substring(0,8),\n    ok: d.ok ? '✅' : '❌',\n    err: d.err || '-',\n    ts: d.edge_recv_ts_ms || 0\n});\nif (log.length > 10) log.pop();\nflow.set('ack_log', log);\nlet h='<table style=\"width:100%;font-size:11px;border-collapse:collapse;\">';\nh+='<tr style=\"background:#333;color:#fff;\"><th>Time</th><th>CMD ID</th><th>OK</th><th>Error</th><th>Edge TS</th></tr>';\nlog.forEach((e,i)=>{\n    const bg=i%2===0?'#f9f9f9':'#fff';\n    h+=`<tr style=\"background:${bg}\"><td>${e.t}</td><td>${e.id}…</td><td>${e.ok}</td><td>${e.err}</td><td>${e.ts}</td></tr>`;\n});\nh+='</table>';\nmsg.payload = h;\nreturn msg;",
+        "name": "ACK Log -> Dashboard",
+        "func": "let log = flow.get('ack_log') || [];\nconst d = msg.payload || {};\nlog.unshift({\n    t: new Date().toLocaleTimeString(),\n    id: (d.cmd_id || '').substring(0, 8),\n    ok: !!d.ok,\n    err: d.err || '',\n    edge_ts_ms: (d.edge_recv_ts_ms !== undefined ? d.edge_recv_ts_ms : null)\n});\nif (log.length > 10) log.pop();\nflow.set('ack_log', log);\nmsg.topic = 'ack_log';\nmsg.payload = log;\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -443,61 +256,104 @@
         "libs": [],
         "x": 370,
         "y": 600,
-        "wires": [["ui.ack.log"]]
+        "wires": [
+            [
+                "func.dashboard-store"
+            ]
+        ]
     },
-    {
-        "id": "ui.ack.log",
-        "type": "ui_template",
-        "z": "flow.traffic-dashboard",
-        "group": "ui-group.acklog",
-        "name": "ACK Table",
-        "order": 1,
-        "width": "12",
-        "height": "5",
-        "format": "<div ng-bind-html=\"msg.payload\"></div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 560,
-        "y": 600,
-        "wires": [[]]
-    },
-
     {
         "id": "func.intersection-svg",
         "type": "function",
         "z": "flow.traffic-dashboard",
         "name": "Build Intersection SVG",
-        "func": "const phase = msg.payload.phase;\n// Phase mapping: N=S mirror, E=W mirror\n// 0:NS_GREEN 1:NS_YELLOW 2:ALL_RED 3:EW_GREEN 4:EW_YELLOW 5:ALL_RED\nconst colors = {\n    ns: {r:'#333',y:'#333',g:'#333'},\n    ew: {r:'#333',y:'#333',g:'#333'}\n};\nswitch(phase) {\n    case 0: colors.ns.g='#00FF00'; colors.ew.r='#FF0000'; break;\n    case 1: colors.ns.y='#FFFF00'; colors.ew.r='#FF0000'; break;\n    case 2: colors.ns.r='#FF0000'; colors.ew.r='#FF0000'; break;\n    case 3: colors.ew.g='#00FF00'; colors.ns.r='#FF0000'; break;\n    case 4: colors.ew.y='#FFFF00'; colors.ns.r='#FF0000'; break;\n    case 5: colors.ns.r='#FF0000'; colors.ew.r='#FF0000'; break;\n    default: colors.ns.r='#FF0000'; colors.ew.r='#FF0000';\n}\nconst phaseNames=['NS_GREEN','NS_YELLOW','ALL_RED','EW_GREEN','EW_YELLOW','ALL_RED'];\nconst pName = phaseNames[phase] || 'UNKNOWN';\n\nfunction light(cx,cy,ns,label){\n    const c = ns ? colors.ns : colors.ew;\n    return `<g>\n        <rect x=\"${cx-18}\" y=\"${cy-30}\" width=\"36\" height=\"76\" rx=\"6\" fill=\"#222\" stroke=\"#555\" stroke-width=\"1\"/>\n        <circle cx=\"${cx}\" cy=\"${cy-16}\" r=\"10\" fill=\"${c.r}\" stroke=\"#444\" stroke-width=\"1\"/>\n        <circle cx=\"${cx}\" cy=\"${cy+4}\" r=\"10\" fill=\"${c.y}\" stroke=\"#444\" stroke-width=\"1\"/>\n        <circle cx=\"${cx}\" cy=\"${cy+24}\" r=\"10\" fill=\"${c.g}\" stroke=\"#444\" stroke-width=\"1\"/>\n        <text x=\"${cx}\" y=\"${cy+52}\" text-anchor=\"middle\" fill=\"#ccc\" font-size=\"12\" font-weight=\"bold\">${label}</text>\n    </g>`;\n}\n\nlet svg = `<svg viewBox=\"0 0 300 300\" style=\"width:100%;max-width:300px;margin:auto;display:block;\">\n  <rect width=\"300\" height=\"300\" fill=\"#1a1a2e\" rx=\"10\"/>\n  <!-- Roads -->\n  <rect x=\"115\" y=\"0\" width=\"70\" height=\"300\" fill=\"#444\"/>\n  <rect x=\"0\" y=\"115\" width=\"300\" height=\"70\" fill=\"#444\"/>\n  <!-- Center -->\n  <rect x=\"115\" y=\"115\" width=\"70\" height=\"70\" fill=\"#555\"/>\n  <!-- Dashed lines -->\n  <line x1=\"150\" y1=\"0\" x2=\"150\" y2=\"110\" stroke=\"#aaa\" stroke-width=\"1\" stroke-dasharray=\"8,6\"/>\n  <line x1=\"150\" y1=\"190\" x2=\"150\" y2=\"300\" stroke=\"#aaa\" stroke-width=\"1\" stroke-dasharray=\"8,6\"/>\n  <line x1=\"0\" y1=\"150\" x2=\"110\" y2=\"150\" stroke=\"#aaa\" stroke-width=\"1\" stroke-dasharray=\"8,6\"/>\n  <line x1=\"190\" y1=\"150\" x2=\"300\" y2=\"150\" stroke=\"#aaa\" stroke-width=\"1\" stroke-dasharray=\"8,6\"/>\n  <!-- Traffic lights -->\n  ${light(150, 30, true, 'N')}\n  ${light(150, 226, true, 'S')}\n  ${light(40, 128, false, 'W')}\n  ${light(260, 128, false, 'E')}\n  <!-- Phase label -->\n  <text x=\"150\" y=\"156\" text-anchor=\"middle\" fill=\"#fff\" font-size=\"11\" font-weight=\"bold\">${phase}: ${pName}</text>\n</svg>`;\n\nmsg.payload = svg;\nreturn msg;",
+        "func": "const phase = msg.payload.phase;\n// 0:NS_GREEN 1:NS_YELLOW 2:ALL_RED 3:EW_GREEN 4:EW_YELLOW 5:ALL_RED\n// Colors: Off state is dim, On state is bright\nconst DIM = { r: '#3a1e1e', y: '#3a321e', g: '#1e3a2e' };\nconst BRIGHT = { r: '#ff2222', y: '#ffbf00', g: '#00ff44' };\n\nconst P = {\n    NS: { r: DIM.r, y: DIM.y, g: DIM.g },\n    EW: { r: DIM.r, y: DIM.y, g: DIM.g }\n};\n\n// Logic for light states\nswitch(phase) {\n    case 0: P.NS.g=BRIGHT.g; P.EW.r=BRIGHT.r; break; // NS Green\n    case 1: P.NS.y=BRIGHT.y; P.EW.r=BRIGHT.r; break; // NS Yellow\n    case 2: P.NS.r=BRIGHT.r; P.EW.r=BRIGHT.r; break; // All Red\n    case 3: P.EW.g=BRIGHT.g; P.NS.r=BRIGHT.r; break; // EW Green\n    case 4: P.EW.y=BRIGHT.y; P.NS.r=BRIGHT.r; break; // EW Yellow\n    case 5: P.NS.r=BRIGHT.r; P.EW.r=BRIGHT.r; break; // All Red\n    default: P.NS.r=BRIGHT.r; P.EW.r=BRIGHT.r; // Safe default\n}\n\nconst phaseNames=['NS GREEN','NS YELLOW','ALL RED','EW GREEN','EW YELLOW','ALL RED'];\nconst pName = phaseNames[phase] || 'UNKNOWN';\n\n// Helper to draw a traffic light pole\n// x,y: position\n// rot: rotation degrees\n// lights: object {r,y,g} colors\n// label: N/S/E/W\nfunction drawPole(x, y, rot, lights, label) {\n    return `\n    <g transform=\"translate(${x}, ${y}) rotate(${rot})\">\n        <!-- Pole Shadow -->\n        <circle cx=\"0\" cy=\"0\" r=\"12\" fill=\"#111\" opacity=\"0.5\" />\n        <!-- Arm -->\n        <rect x=\"-6\" y=\"-10\" width=\"12\" height=\"60\" fill=\"#475569\" rx=\"4\" />\n        <!-- Housing -->\n        <rect x=\"-24\" y=\"40\" width=\"48\" height=\"110\" rx=\"12\" fill=\"#1e293b\" stroke=\"#334155\" stroke-width=\"2\" />\n        <!-- Lights -->\n        <!-- Red -->\n        <circle cx=\"0\" cy=\"60\" r=\"14\" fill=\"${lights.r}\" filter=\"url(#glow-${lights.r === BRIGHT.r ? 'red' : 'none'})\" />\n        <!-- Yellow -->\n        <circle cx=\"0\" cy=\"95\" r=\"14\" fill=\"${lights.y}\" filter=\"url(#glow-${lights.y === BRIGHT.y ? 'yellow' : 'none'})\" />\n        <!-- Green -->\n        <circle cx=\"0\" cy=\"130\" r=\"14\" fill=\"${lights.g}\" filter=\"url(#glow-${lights.g === BRIGHT.g ? 'green' : 'none'})\" />\n        <!-- Visors (visual touch) -->\n        <path d=\"M-16 50 Q 0 44 16 50\" stroke=\"#0f172a\" stroke-width=\"2\" fill=\"none\" />\n        <path d=\"M-16 85 Q 0 79 16 85\" stroke=\"#0f172a\" stroke-width=\"2\" fill=\"none\" />\n        <path d=\"M-16 120 Q 0 114 16 120\" stroke=\"#0f172a\" stroke-width=\"2\" fill=\"none\" />\n        <!-- Label -->\n        <text x=\"0\" y=\"170\" fill=\"#94a3b8\" font-size=\"14\" font-weight=\"bold\" text-anchor=\"middle\" transform=\"rotate(${-rot} 0 170)\">${label}</text>\n    </g>\n    `;\n}\n\n// SVG Construction\nlet svg = `\n<svg viewBox=\"0 0 800 800\" style=\"width:100%; height:100%; max-height:600px; display:block; margin:auto; background:#0f172a; border-radius:16px;\">\n  <defs>\n    <!-- Glow Filters -->\n    <filter id=\"glow-red\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\">\n      <feGaussianBlur stdDeviation=\"6\" result=\"coloredBlur\"/>\n      <feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>\n    </filter>\n    <filter id=\"glow-yellow\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\">\n        <feGaussianBlur stdDeviation=\"6\" result=\"coloredBlur\"/>\n        <feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>\n    </filter>\n    <filter id=\"glow-green\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\">\n        <feGaussianBlur stdDeviation=\"6\" result=\"coloredBlur\"/>\n        <feMerge><feMergeNode in=\"coloredBlur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>\n    </filter>\n    <filter id=\"glow-none\"><feGaussianBlur stdDeviation=\"0\"/></filter>\n    <!-- Patterns -->\n    <pattern id=\"road-texture\" x=\"0\" y=\"0\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">\n        <rect width=\"10\" height=\"10\" fill=\"#334155\" />\n        <circle cx=\"1\" cy=\"1\" r=\"1\" fill=\"#475569\" opacity=\"0.3\"/>\n    </pattern>\n  </defs>\n\n  <!-- Grass/Ground -->\n  <rect x=\"0\" y=\"0\" width=\"800\" height=\"800\" fill=\"#0f172a\" />\n  \n  <!-- Roads (Cross) -->\n  <rect x=\"250\" y=\"0\" width=\"300\" height=\"800\" fill=\"#1e293b\" stroke=\"#334155\" stroke-width=\"2\"/>\n  <rect x=\"0\" y=\"250\" width=\"800\" height=\"300\" fill=\"#1e293b\" stroke=\"#334155\" stroke-width=\"2\"/>\n  <rect x=\"250\" y=\"250\" width=\"300\" height=\"300\" fill=\"#1e293b\" /> <!-- Intersection Center -->\n\n  <!-- Lane Markings (Dashed) -->\n  <line x1=\"400\" y1=\"0\" x2=\"400\" y2=\"250\" stroke=\"#f1f5f9\" stroke-width=\"4\" stroke-dasharray=\"20 20\" opacity=\"0.5\"/>\n  <line x1=\"400\" y1=\"550\" x2=\"400\" y2=\"800\" stroke=\"#f1f5f9\" stroke-width=\"4\" stroke-dasharray=\"20 20\" opacity=\"0.5\"/>\n  <line x1=\"0\" y1=\"400\" x2=\"250\" y2=\"400\" stroke=\"#f1f5f9\" stroke-width=\"4\" stroke-dasharray=\"20 20\" opacity=\"0.5\"/>\n  <line x1=\"550\" y1=\"400\" x2=\"800\" y2=\"400\" stroke=\"#f1f5f9\" stroke-width=\"4\" stroke-dasharray=\"20 20\" opacity=\"0.5\"/>\n\n  <!-- Stop Lines -->\n  <rect x=\"255\" y=\"240\" width=\"135\" height=\"8\" fill=\"#f1f5f9\" opacity=\"0.8\"/> <!-- N Stop -->\n  <rect x=\"410\" y=\"552\" width=\"135\" height=\"8\" fill=\"#f1f5f9\" opacity=\"0.8\"/> <!-- S Stop -->\n  <rect x=\"240\" y=\"410\" width=\"8\" height=\"135\" fill=\"#f1f5f9\" opacity=\"0.8\"/> <!-- W Stop -->\n  <rect x=\"552\" y=\"255\" width=\"8\" height=\"135\" fill=\"#f1f5f9\" opacity=\"0.8\"/> <!-- E Stop -->\n\n  <!-- Traffic Light Poles -->\n  <!-- North (Rotated 180 to face oncoming traffic) -->\n  ${drawPole(220, 220, 135, P.NS, 'NORTH')}\n  \n  <!-- South -->\n  ${drawPole(580, 580, -45, P.NS, 'SOUTH')}\n\n  <!-- West -->\n  ${drawPole(220, 580, 45, P.EW, 'WEST')}\n\n  <!-- East -->\n  ${drawPole(580, 220, 225, P.EW, 'EAST')}\n\n  <!-- Center Info Overlay -->\n  <g transform=\"translate(400, 400)\">\n    <circle r=\"40\" fill=\"#0f172a\" stroke=\"#4ecdc4\" stroke-width=\"2\" opacity=\"0.9\"/>\n    <text y=\"5\" text-anchor=\"middle\" fill=\"#fff\" font-family=\"monospace\" font-size=\"24\" font-weight=\"bold\">${phase}</text>\n  </g>\n  \n  <!-- Phase Label -->\n  <text x=\"400\" y=\"780\" text-anchor=\"middle\" fill=\"#94a3b8\" font-size=\"20\" letter-spacing=\"2\">${pName}</text>\n</svg>`;\n\nmsg.topic = 'intersection';\nmsg.payload = svg;\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
-        "initialize": "// Initial state: all red\nconst svg = `<svg viewBox=\"0 0 300 300\" style=\"width:100%;max-width:300px;margin:auto;display:block;\"><rect width=\"300\" height=\"300\" fill=\"#1a1a2e\" rx=\"10\"/><text x=\"150\" y=\"155\" text-anchor=\"middle\" fill=\"#666\" font-size=\"14\">Waiting for state...</text></svg>`;\nnode.send({payload: svg});",
+        "initialize": "// Initial state\nconst svg = `<svg viewBox=\"0 0 320 320\" style=\"width:100%;max-width:320px;margin:auto;display:block;\">\n<rect width=\"320\" height=\"320\" fill=\"#0f141e\" rx=\"18\"/>\n<text x=\"160\" y=\"170\" text-anchor=\"middle\" fill=\"#8b96a3\" font-size=\"13\">Waiting for state...</text>\n</svg>`;\nnode.send({ topic: 'intersection', payload: svg });",
         "finalize": "",
         "libs": [],
         "x": 390,
         "y": 440,
-        "wires": [["ui.intersection"]]
+        "wires": [
+            [
+                "func.dashboard-store"
+            ]
+        ]
     },
     {
-        "id": "ui.intersection",
+        "id": "ui-group.dashboard",
+        "type": "ui_group",
+        "name": "Traffic Control Center",
+        "tab": "ui-tab.main",
+        "order": 1,
+        "disp": false,
+        "width": "24",
+        "collapse": false
+    },
+    {
+        "id": "func.dashboard-store",
+        "type": "function",
+        "z": "flow.traffic-dashboard",
+        "name": "Dashboard Store",
+        "func": "let dash = flow.get('dashboard') || {\n    status: { online: null, ts_ms: null },\n    state: { mode: null, phase: null, phase_name: null, uptime_s: null, since_ms: null, ts_ms: null },\n    telemetry: { rssi_dbm: null, heap_free_kb: null, uptime_s: null, ts_ms: null },\n    ack_log: [],\n    intersection_svg: '',\n    last_ack: null,\n    display: {}\n};\nif (msg.topic === 'status') {\n    dash.status.online = (msg.payload && msg.payload.online !== undefined) ? !!msg.payload.online : null;\n    dash.status.ts_ms = (msg.payload && msg.payload.ts_ms !== undefined) ? msg.payload.ts_ms : null;\n}\nif (msg.topic === 'state') {\n    dash.state = Object.assign(dash.state, msg.payload || {});\n}\nif (msg.topic === 'telemetry') {\n    dash.telemetry = Object.assign(dash.telemetry, msg.payload || {});\n}\nif (msg.topic === 'ack_log') {\n    dash.ack_log = Array.isArray(msg.payload) ? msg.payload : [];\n}\nif (msg.topic === 'intersection') {\n    dash.intersection_svg = msg.payload || '';\n}\ndash.last_ack = (dash.ack_log && dash.ack_log.length) ? dash.ack_log[0] : null;\nconst statusText = (dash.status.online === null) ? 'WAITING' : (dash.status.online ? 'ONLINE' : 'OFFLINE');\nconst statusClass = (dash.status.online === null) ? 'tl-pill--idle' : (dash.status.online ? 'tl-pill--ok' : 'tl-pill--bad');\nconst statusTime = dash.status.ts_ms ? new Date(dash.status.ts_ms).toLocaleTimeString() : '--';\nconst phaseText = (dash.state.phase !== null && dash.state.phase !== undefined) ? `${dash.state.phase}: ${dash.state.phase_name || 'UNKNOWN'}` : '--';\nconst uptimeText = (dash.state.uptime_s !== null && dash.state.uptime_s !== undefined) ? `${dash.state.uptime_s}s` : '--';\nconst sinceText = (dash.state.since_ms !== null && dash.state.since_ms !== undefined) ? `${dash.state.since_ms}ms` : '--';\nconst stateTime = dash.state.ts_ms ? new Date(dash.state.ts_ms).toLocaleTimeString() : '--';\nconst rssiText = (dash.telemetry.rssi_dbm !== null && dash.telemetry.rssi_dbm !== undefined) ? `${dash.telemetry.rssi_dbm} dBm` : '--';\nconst heapText = (dash.telemetry.heap_free_kb !== null && dash.telemetry.heap_free_kb !== undefined) ? `${dash.telemetry.heap_free_kb} KB` : '--';\ndash.display = {\n    status_text: statusText,\n    status_class: statusClass,\n    status_time: statusTime,\n    mode: dash.state.mode || '--',\n    phase: phaseText,\n    uptime: uptimeText,\n    since: sinceText,\n    state_time: stateTime,\n    rssi: rssiText,\n    heap: heapText\n};\nflow.set('dashboard', dash);\nmsg.payload = dash;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 360,
+        "wires": [
+            [
+                "ui.tpl.dashboard"
+            ]
+        ]
+    },
+    {
+        "id": "func.build-ui-cmd",
+        "type": "function",
+        "z": "flow.traffic-dashboard",
+        "name": "Build UI Command",
+        "func": "const data = msg.payload || {};\nlet type = data.type;\nif (!type) {\n    if (msg.topic === 'ui/set_mode') type = 'SET_MODE';\n    if (msg.topic === 'ui/set_phase') type = 'SET_PHASE';\n}\nif (type !== 'SET_MODE' && type !== 'SET_PHASE') {\n    return null;\n}\nconst uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n});\nif (type === 'SET_MODE') {\n    const mode = (data.mode || '').toString().toUpperCase() || 'AUTO';\n    msg.payload = JSON.stringify({ cmd_id: uuid, type: 'SET_MODE', mode: mode, ts_ms: Date.now() });\n}\nif (type === 'SET_PHASE') {\n    const phase = (data.phase !== undefined && data.phase !== null) ? Number(data.phase) : 0;\n    msg.payload = JSON.stringify({ cmd_id: uuid, type: 'SET_PHASE', phase: phase, ts_ms: Date.now() });\n}\nmsg.qos = 1;\nmsg.retain = false;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 170,
+        "wires": [
+            [
+                "mqtt.cmd.out",
+                "debug.cmd"
+            ]
+        ]
+    },
+    {
+        "id": "ui.tpl.dashboard",
         "type": "ui_template",
         "z": "flow.traffic-dashboard",
-        "group": "ui-group.intersection",
-        "name": "Intersection SVG",
+        "group": "ui-group.dashboard",
+        "name": "Traffic Dashboard UI",
         "order": 1,
-        "width": "6",
-        "height": "8",
-        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "width": "24",
+        "height": "16",
+        "format": "<style>\n  @import url(\"https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap\");\n\n  /* Reset & Scoped Variables */\n  .tl-app {\n    --bg-dark: #0b1120;\n    --bg-card: #1e293b;\n    --bg-card-hover: #334155;\n    --text-primary: #f1f5f9;\n    --text-muted: #94a3b8;\n    --accent: #38bdf8;\n    --success: #22c55e;\n    --warning: #eab308;\n    --danger: #ef4444;\n    --border: #334155;\n\n    font-family: \"Inter\", sans-serif;\n    color: var(--text-primary);\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    min-height: 800px; /* Force height */\n    overflow: hidden;\n  }\n\n  /* Header */\n  .tl-header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: 16px 24px;\n    background: #0f172a;\n    border-bottom: 1px solid var(--border);\n  }\n  .tl-brand h1 {\n    margin: 0;\n    font-size: 20px;\n    font-weight: 800;\n    letter-spacing: -0.5px;\n    color: white;\n  }\n  .tl-brand small {\n    color: var(--text-muted);\n    font-size: 12px;\n    font-family: \"JetBrains Mono\", monospace;\n  }\n  .tl-status-badge {\n    padding: 6px 12px;\n    border-radius: 99px;\n    background: rgba(34, 197, 94, 0.1);\n    color: var(--success);\n    font-size: 12px;\n    font-weight: 600;\n    display: flex;\n    align-items: center;\n    gap: 8px;\n  }\n  .tl-status-badge.offline {\n    background: rgba(239, 68, 68, 0.1);\n    color: var(--danger);\n  }\n  .tl-dot {\n    width: 8px;\n    height: 8px;\n    border-radius: 50%;\n    background: currentColor;\n    box-shadow: 0 0 8px currentColor;\n  }\n\n  /* Main Grid Layout */\n  .tl-grid {\n    display: grid;\n    grid-template-columns: 1fr 380px;\n    gap: 24px;\n    padding: 24px;\n    flex: 1;\n    overflow-y: auto;\n  }\n\n  /* Cards */\n  .tl-card {\n    background: var(--bg-card);\n    border: 1px solid var(--border);\n    border-radius: 16px;\n    padding: 20px;\n    display: flex;\n    flex-direction: column;\n  }\n  .tl-viz-card {\n    grid-row: span 2;\n    padding: 0;\n    overflow: hidden;\n    position: relative;\n    background: #0f172a;\n    border-color: #1e293b;\n  }\n\n  /* Right Sidebar Stack */\n  .tl-sidebar {\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n  }\n\n  /* Stats Row (Overlay on Viz or separate?) -> Separate in sidebar for now */\n  .tl-stats-row {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 12px;\n  }\n  .tl-stat {\n    background: #0f172a;\n    padding: 12px;\n    border-radius: 12px;\n    border: 1px solid var(--border);\n  }\n  .tl-stat-label {\n    font-size: 11px;\n    color: var(--text-muted);\n    text-transform: uppercase;\n    letter-spacing: 0.5px;\n    margin-bottom: 4px;\n  }\n  .tl-stat-val {\n    font-size: 18px;\n    font-weight: 700;\n    font-family: \"JetBrains Mono\", monospace;\n  }\n\n  /* Controls */\n  .tl-ctrl-group {\n    margin-bottom: 24px;\n  }\n  .tl-ctrl-title {\n    font-size: 12px;\n    font-weight: 700;\n    color: var(--text-muted);\n    text-transform: uppercase;\n    margin-bottom: 12px;\n    display: block;\n  }\n  .tl-btn-grid {\n    display: grid;\n    grid-template-columns: repeat(2, 1fr);\n    gap: 8px;\n  }\n  .tl-btn {\n    background: #0f172a;\n    border: 1px solid var(--border);\n    color: var(--text-primary);\n    padding: 12px;\n    border-radius: 8px;\n    font-size: 13px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: all 0.2s;\n    text-align: center;\n  }\n  .tl-btn:hover {\n    background: var(--bg-card-hover);\n    border-color: var(--accent);\n    color: white;\n    transform: translateY(-1px);\n  }\n  .tl-btn.active {\n    background: var(--accent);\n    color: #0f172a;\n    border-color: var(--accent);\n  }\n  .tl-btn.red:hover {\n    border-color: var(--danger);\n  }\n  .tl-btn.green:hover {\n    border-color: var(--success);\n  }\n  .tl-btn.yellow:hover {\n    border-color: var(--warning);\n  }\n\n  /* Log Table */\n  .tl-log-wrap {\n    flex: 1;\n    overflow: auto;\n    min-height: 200px;\n  }\n  table.tl-log {\n    width: 100%;\n    border-collapse: collapse;\n    font-size: 12px;\n    font-family: \"JetBrains Mono\", monospace;\n  }\n  table.tl-log th {\n    text-align: left;\n    color: var(--text-muted);\n    padding: 8px;\n    position: sticky;\n    top: 0;\n    background: var(--bg-card);\n    border-bottom: 1px solid var(--border);\n  }\n  table.tl-log td {\n    padding: 8px;\n    border-bottom: 1px solid #334155;\n  }\n  .tag {\n    padding: 2px 6px;\n    border-radius: 4px;\n    font-size: 10px;\n    font-weight: 700;\n  }\n  .tag.ok {\n    background: rgba(34, 197, 94, 0.2);\n    color: var(--success);\n  }\n  .tag.err {\n    background: rgba(239, 68, 68, 0.2);\n    color: var(--danger);\n  }\n\n  /* Responsive */\n  @media (max-width: 1000px) {\n    .tl-grid {\n      grid-template-columns: 1fr;\n    }\n    .tl-viz-card {\n      min-height: 400px;\n    }\n  }\n</style>\n\n<div class=\"tl-app\">\n  <!-- Header -->\n  <header class=\"tl-header\">\n    <div class=\"tl-brand\">\n      <h1>TRAFFIC CONTROL</h1>\n      <small>ID: city/demo/intersection/001</small>\n    </div>\n    <div class=\"tl-status-badge\" ng-class=\"{offline: !dash.status.online}\">\n      <div class=\"tl-dot\"></div>\n      {{ dash.status.online ? 'ONLINE' : 'OFFLINE' }}\n      <span style=\"opacity: 0.5; margin-left: 8px\"\n        >{{ dash.display.status_time }}</span\n      >\n    </div>\n  </header>\n\n  <div class=\"tl-grid\">\n    <!-- Center Visualization -->\n    <div class=\"tl-card tl-viz-card\">\n      <div\n        style=\"\n          width: 100%;\n          height: 100%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n        \"\n        ng-bind-html=\"dash.intersection_svg\"\n      >\n        <!-- SVG injected here -->\n      </div>\n      <!-- Overlay Stats -->\n      <div\n        style=\"\n          position: absolute;\n          top: 20px;\n          left: 20px;\n          display: flex;\n          gap: 12px;\n        \"\n      >\n        <div class=\"tl-stat\">\n          <div class=\"tl-stat-label\">Phase</div>\n          <div class=\"tl-stat-val\">{{ dash.display.phase }}</div>\n        </div>\n        <div class=\"tl-stat\">\n          <div class=\"tl-stat-label\">Mode</div>\n          <div class=\"tl-stat-val\" style=\"color: var(--accent)\">\n            {{ dash.display.mode }}\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Right Controls -->\n    <div class=\"tl-sidebar\">\n      <div class=\"tl-card\">\n        <span class=\"tl-ctrl-title\">System Status</span>\n        <div class=\"tl-stats-row\">\n          <div class=\"tl-stat\">\n            <div class=\"tl-stat-label\">Uptime</div>\n            <div class=\"tl-stat-val\">{{ dash.display.uptime }}</div>\n          </div>\n          <div class=\"tl-stat\">\n            <div class=\"tl-stat-label\">RSSI</div>\n            <div class=\"tl-stat-val\">{{ dash.display.rssi }}</div>\n          </div>\n          <div class=\"tl-stat\">\n            <div class=\"tl-stat-label\">Heap</div>\n            <div class=\"tl-stat-val\">{{ dash.display.heap }}</div>\n          </div>\n          <div class=\"tl-stat\">\n            <div class=\"tl-stat-label\">Latency</div>\n            <div class=\"tl-stat-val\">32ms</div>\n            <!-- Mock -->\n          </div>\n        </div>\n      </div>\n\n      <div class=\"tl-card\">\n        <span class=\"tl-ctrl-title\">Mode Control</span>\n        <div class=\"tl-btn-grid\">\n          <div\n            class=\"tl-btn\"\n            ng-click=\"sendMode('AUTO')\"\n            ng-class=\"{active: dash.display.mode=='AUTO'}\"\n          >\n            AUTO\n          </div>\n          <div\n            class=\"tl-btn\"\n            ng-click=\"sendMode('MANUAL')\"\n            ng-class=\"{active: dash.display.mode=='MANUAL'}\"\n          >\n            MANUAL\n          </div>\n          <div\n            class=\"tl-btn yellow\"\n            ng-click=\"sendMode('BLINK')\"\n            ng-class=\"{active: dash.display.mode=='BLINK'}\"\n          >\n            BLINK\n          </div>\n          <div\n            class=\"tl-btn red\"\n            ng-click=\"sendMode('OFF')\"\n            ng-class=\"{active: dash.display.mode=='OFF'}\"\n          >\n            OFF\n          </div>\n        </div>\n\n        <span class=\"tl-ctrl-title\" style=\"margin-top: 20px\"\n          >Phase Control (Manual)</span\n        >\n        <div class=\"tl-btn-grid\" style=\"grid-template-columns: 1fr 1fr 1fr\">\n          <div class=\"tl-btn green\" ng-click=\"sendPhase(0)\">NS Green</div>\n          <div class=\"tl-btn yellow\" ng-click=\"sendPhase(1)\">Yellow</div>\n          <div class=\"tl-btn red\" ng-click=\"sendPhase(2)\">Red</div>\n          <div class=\"tl-btn green\" ng-click=\"sendPhase(3)\">EW Green</div>\n          <div class=\"tl-btn yellow\" ng-click=\"sendPhase(4)\">Yellow</div>\n          <div class=\"tl-btn red\" ng-click=\"sendPhase(5)\">Red</div>\n        </div>\n      </div>\n\n      <div class=\"tl-card tl-log-wrap\">\n        <span class=\"tl-ctrl-title\">Command Log</span>\n        <table class=\"tl-log\">\n          <thead>\n            <tr>\n              <th>Time</th>\n              <th>CMD</th>\n              <th>Status</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr ng-repeat=\"row in dash.ack_log\">\n              <td>{{ row.t }}</td>\n              <td>{{ row.id }}</td>\n              <td>\n                <span class=\"tag\" ng-class=\"row.ok ? 'ok':'err'\"\n                  >{{ row.ok?'OK':'ERR' }}</span\n                >\n              </td>\n            </tr>\n            <tr ng-if=\"!dash.ack_log.length\">\n              <td colspan=\"3\" style=\"text-align: center; opacity: 0.5\">\n                No logs\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    </div>\n  </div>\n</div>\n\n<script>\n  (function (scope) {\n    scope.dash = scope.dash || {\n      status: { online: false },\n      display: {\n        mode: \"--\",\n        phase: \"--\",\n        uptime: \"--\",\n        rssi: \"--\",\n        heap: \"--\",\n      },\n      ack_log: [],\n      intersection_svg: \"\",\n    };\n    scope.sendMode = function (mode) {\n      scope.send({ topic: \"ui/set_mode\", payload: { mode: mode } });\n    };\n    scope.sendPhase = function (phase) {\n      scope.send({ topic: \"ui/set_phase\", payload: { phase: phase } });\n    };\n    scope.$watch(\"msg\", function (msg) {\n      if (msg && msg.payload) scope.dash = msg.payload;\n    });\n  })(scope);\n</script>\n",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 590,
-        "y": 440,
-        "wires": [[]]
+        "x": 780,
+        "y": 360,
+        "wires": [
+            [
+                "func.build-ui-cmd"
+            ]
+        ]
     }
 ]
