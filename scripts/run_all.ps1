@@ -55,7 +55,6 @@ if (-not $SkipDocker) {
     try {
         docker compose up -d 2>&1 | Tee-Object -FilePath "$ResultsDir\docker_up.log"
         Start-Sleep -Seconds 5
-        $health = docker compose ps --format json 2>$null
         Log "Docker containers started."
     }
     finally {
