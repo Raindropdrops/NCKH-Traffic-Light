@@ -189,3 +189,68 @@ Published every 5 seconds.
 | Broker    | `localhost:1883` (MQTT) / `localhost:9001` (WebSocket) |
 
 > For production: create separate users with restricted ACLs.
+
+---
+
+## Timestamp Contract
+
+Every message containing `ts_ms` follows a specific convention depending on the source:
+
+| Source               | `ts_ms` Convention               | `edge_recv_ts_ms` Convention     | NTP Available? |
+| -------------------- | -------------------------------- | -------------------------------- | -------------- |
+| **Firmware (ESP32)** | Monotonic uptime (ms since boot) | Monotonic uptime (ms since boot) | ❌ No          |
+| **Mock ESP32**       | Epoch ms (`time.time() * 1000`)  | Epoch ms (`time.time() * 1000`)  | ✅ Yes         |
+| **Dashboard**        | Epoch ms (`Date.now()`)          | — (consumer, not producer)       | ✅ Yes         |
+
+### Which Field to Use For What
+
+| Purpose                   | Field                                  | Formula                                    | Notes                                                                        |
+| ------------------------- | -------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------- |
+| **RTT measurement**       | `cmd.ts_ms` (sender) + receive time    | `RTT = now() - cmd.ts_ms`                  | Measured on the **sender side** (dashboard). Does NOT use `edge_recv_ts_ms`. |
+| **Edge processing delay** | `ack.edge_recv_ts_ms` - `cmd.ts_ms`    | Only valid if **both** use same clock base | ⚠️ Invalid in mixed mode (firmware uptime vs dashboard epoch)                |
+| **Display / logging**     | `state.ts_ms`, `telemetry.ts_ms`       | Use as-is for ordering                     | Monotonic ordering guaranteed per source                                     |
+| **Uptime tracking**       | `state.uptime_s`, `telemetry.uptime_s` | Seconds since boot                         | Always monotonic, regardless of NTP                                          |
+
+### Key Rules
+
+1. **RTT is always measured on the sender side** (`now() - cmd.ts_ms`), not from `edge_recv_ts_ms`.
+2. **Do NOT subtract `edge_recv_ts_ms` from `cmd.ts_ms`** in mixed mode — different clock bases.
+3. The `edge_recv_ts_ms` field is primarily for **diagnostics** (verifying the edge device received the command).
+
+---
+
+## Mixed Mode Deployment (Mock + Firmware)
+
+When running both mock ESP32 and real firmware simultaneously for testing:
+
+### Preconditions
+
+- Both devices connect to the **same Mosquitto broker**.
+- Each device must use a **different intersection ID** (e.g., `001` for firmware, `002` for mock).
+- Dashboard must subscribe to the correct intersection's topics.
+
+### Configuration
+
+```
+# Firmware (sdkconfig / menuconfig)
+MQTT_CITY_ID = "demo"
+MQTT_INTERSECTION_ID = "001"     # ← unique per device
+
+# Mock ESP32 (mock_esp32.py --intersection 002)
+INTERSECTION_ID = "002"          # ← different from firmware
+```
+
+### Timestamp Behavior
+
+| Scenario                         | `ts_ms` Comparison     |                     RTT Valid? |
+| -------------------------------- | ---------------------- | -----------------------------: |
+| Dashboard → Mock → Dashboard     | Epoch ↔ Epoch          |                         ✅ Yes |
+| Dashboard → Firmware → Dashboard | Epoch → Uptime → Epoch | ✅ RTT only (via sender clock) |
+| Mock vs Firmware timestamps      | Epoch vs Uptime        |              ❌ Not comparable |
+
+### Recommendations
+
+1. **Do not mix intersection IDs** — each device gets its own topic subtree.
+2. **Run smoke tests per intersection** — `smoke_test.py --intersection 001`.
+3. **Benchmark reports are per-device** — timestamps are only comparable within the same device.
+4. **Dashboard can monitor multiple intersections** — subscribe to `city/demo/intersection/+/state`.

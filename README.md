@@ -170,8 +170,10 @@ pio device monitor
 
 ### 7. Access Dashboard
 
-- **Dark Dashboard (standalone):** <http://localhost:1880/index.html>
-- **Node-RED Editor:** <http://localhost:1880>
+| Dashboard                     | URL                                | Vai trò                                                                         |
+| ----------------------------- | ---------------------------------- | ------------------------------------------------------------------------------- |
+| **Dark Dashboard** (mặc định) | <http://localhost:1880/index.html> | Giao diện giám sát chính: SVG intersection, control buttons, telemetry, ACK log |
+| **Node-RED Editor**           | <http://localhost:1880>            | Chỉnh sửa flow, import/export, debug MQTT messages                              |
 
 ---
 
@@ -226,19 +228,21 @@ python smoke_test.py --host 192.168.x.x
 
 ### Step 5: Open Dashboard & Control (1 min)
 
-1. Open <http://localhost:1880/ui>
+1. Open <http://localhost:1880/index.html> _(Dark Dashboard)_
 2. Verify: Status = ONLINE, Mode = AUTO
 3. Click MANUAL → Phase buttons work
 4. Click AUTO → Return to auto cycle
 
+> 💡 Nếu cần debug MQTT messages, dùng Node-RED Editor tại <http://localhost:1880>
+
 ### ✅ Success Criteria
 
-| Check             | Expected         |
-| ----------------- | ---------------- |
-| Docker containers | 2 running        |
-| ESP32 serial      | "MQTT connected" |
-| smoke_test.py     | Exit code 0      |
-| Dashboard         | Status = ONLINE  |
+| Check             | Expected                       |
+| ----------------- | ------------------------------ |
+| Docker containers | 2 running (healthy)            |
+| ESP32 serial      | "MQTT connected"               |
+| smoke_test.py     | Exit code 0                    |
+| Dark Dashboard    | Status = ONLINE, phase cycling |
 
 ---
 

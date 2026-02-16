@@ -113,7 +113,7 @@ elseif ($usedHealthcheck) {
 }
 else {
     Log "Healthcheck status unavailable (branch=fallback). Probing broker with mosquitto_sub via docker exec..."
-    $probeOutput = docker exec mosquitto mosquitto_sub -h localhost -t '$SYS/broker/version' -C 1 -W 3 2>&1
+    $probeOutput = docker exec mosquitto mosquitto_sub -h localhost -u demo -P demo_pass -t '$SYS/broker/version' -C 1 -W 3 2>&1
     if ($LASTEXITCODE -eq 0) {
         Log "Mosquitto fallback probe succeeded (branch=fallback, method=mosquitto_sub, topic=`$SYS/broker/version)."
     }
@@ -171,10 +171,18 @@ catch {
 Log ""
 Log ">>> Step 4: Running RTT benchmark (count=$BenchCount)..."
 try {
-    $benchResult = & python "$ProjectRoot\logger\tools\run_benchmark_report.py" `
+    $benchRawOutput = & python "$ProjectRoot\logger\tools\run_benchmark_report.py" `
         --host $Host_ --count $BenchCount 2>&1
-    $benchResult | Out-File -FilePath "$ResultsDir\benchmark.log" -Encoding utf8
-    $benchResult | ForEach-Object { Log "  $_" }
+    $benchRawOutput | Out-File -FilePath "$ResultsDir\benchmark.log" -Encoding utf8
+    $benchRawOutput | ForEach-Object { Log "  $_" }
+    
+    # Parse benchmark output for result directory
+    $benchOutDir = $null
+    $benchRawOutput | ForEach-Object {
+        if ($_ -match '(results[\\/]bench_[\w-]+)') {
+            $benchOutDir = Join-Path $ProjectRoot $Matches[1]
+        }
+    }
     
     if ($LASTEXITCODE -eq 0) {
         Log "BENCHMARK: PASS"
@@ -191,25 +199,61 @@ catch {
 # Step 5: Cleanup & Report
 # ──────────────────────────────────────────
 Log ""
-Log ">>> Step 5: Cleanup..."
+Log ">>> Step 5: Cleanup & collect artifacts..."
 if (-not $mockProcess.HasExited) {
     Stop-Process -Id $mockProcess.Id -Force -ErrorAction SilentlyContinue
     Log "Mock ESP32 stopped (PID $($mockProcess.Id))."
 }
 
-# Copy any generated benchmark CSVs/reports to results
+# Collect benchmark artifacts from bench_* directories
 $benchOutputDir = "$ProjectRoot\results"
-Get-ChildItem -Path $benchOutputDir -Filter "*.csv" -ErrorAction SilentlyContinue | 
-Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-10) } |
-ForEach-Object { 
-    Copy-Item $_.FullName "$ResultsDir\$($_.Name)" -ErrorAction SilentlyContinue
-    Log "  Copied: $($_.Name)"
+
+# If benchmark printed a specific outdir, use it; otherwise find latest bench_*
+if (-not $benchOutDir) {
+    $benchOutDir = Get-ChildItem -Path $benchOutputDir -Directory -Filter "bench_*" -ErrorAction SilentlyContinue |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
 }
-Get-ChildItem -Path $benchOutputDir -Filter "*.md" -ErrorAction SilentlyContinue | 
-Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-10) } |
-ForEach-Object { 
+
+if ($benchOutDir -and (Test-Path $benchOutDir)) {
+    Log "Collecting benchmark artifacts from: $benchOutDir"
+    $artifactsDir = "$ResultsDir\benchmark_artifacts"
+    New-Item -ItemType Directory -Force -Path $artifactsDir | Out-Null
+
+    # Copy summary.csv, report.md
+    @("summary.csv", "report.md") | ForEach-Object {
+        $src = Join-Path $benchOutDir $_
+        if (Test-Path $src) {
+            Copy-Item $src "$artifactsDir\$_" -ErrorAction SilentlyContinue
+            Log "  Copied: $_"
+        }
+    }
+
+    # Copy raw/ directory
+    $rawDir = Join-Path $benchOutDir "raw"
+    if (Test-Path $rawDir) {
+        Copy-Item $rawDir "$artifactsDir\raw" -Recurse -ErrorAction SilentlyContinue
+        $rawCount = (Get-ChildItem "$artifactsDir\raw" -File -ErrorAction SilentlyContinue).Count
+        Log "  Copied: raw/ ($rawCount files)"
+    }
+
+    # Copy plots/ directory
+    $plotsDir = Join-Path $benchOutDir "plots"
+    if (Test-Path $plotsDir) {
+        Copy-Item $plotsDir "$artifactsDir\plots" -Recurse -ErrorAction SilentlyContinue
+        $plotCount = (Get-ChildItem "$artifactsDir\plots" -File -ErrorAction SilentlyContinue).Count
+        Log "  Copied: plots/ ($plotCount files)"
+    }
+}
+else {
+    Log "NOTE: No benchmark output directory found (bench_* not created or benchmark skipped)."
+}
+
+# Also copy any loose recent CSV/MD from results/ root
+Get-ChildItem -Path $benchOutputDir -File -ErrorAction SilentlyContinue |
+Where-Object { $_.Extension -in '.csv', '.md' -and $_.LastWriteTime -gt (Get-Date).AddMinutes(-10) } |
+ForEach-Object {
     Copy-Item $_.FullName "$ResultsDir\$($_.Name)" -ErrorAction SilentlyContinue
-    Log "  Copied: $($_.Name)"
+    Log "  Copied (root): $($_.Name)"
 }
 
 Log ""
@@ -217,5 +261,8 @@ Log "==========================================="
 Log "  PIPELINE COMPLETE"
 Log "  Results: $ResultsDir"
 Log "  Files:"
-Get-ChildItem -Path $ResultsDir | ForEach-Object { Log "    - $($_.Name)" }
+Get-ChildItem -Path $ResultsDir -Recurse -File | ForEach-Object {
+    $rel = $_.FullName.Replace($ResultsDir, '').TrimStart('\', '/') 
+    Log "    - $rel"
+}
 Log "==========================================="
