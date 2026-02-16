@@ -3,11 +3,11 @@
 > IoT–MQTT Traffic Light Monitoring & Control System
 > **Đề tài NCKH** | Scope: ESP32 (Scope 1)
 
-| Status              | Detail                                                                      |
-| ------------------- | --------------------------------------------------------------------------- |
-| **Firmware**        | ESP-IDF 5.5 (primary) · Arduino/PlatformIO (legacy)                         |
-| **Validation**      | ✅ mock-validated · ⏳ hardware-pending                                     |
-| **SPEC Compliance** | 36 PASS · 7 PARTIAL · 0 FAIL ([matrix](docs/SPEC_IMPLEMENTATION_MATRIX.md)) |
+| Status              | Detail                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| **Firmware**        | ESP-IDF 5.5 (primary) · Arduino/PlatformIO (legacy)                                        |
+| **Validation**      | ✅ mock-validated · ⏳ hardware-pending                                                    |
+| **SPEC Compliance** | 36 PASS · 7 PARTIAL · 0 FAIL — _sourced from_ [matrix](docs/SPEC_IMPLEMENTATION_MATRIX.md) |
 
 ## 🛤️ Firmware Tracks
 
@@ -278,19 +278,27 @@ traffic-mqtt-demo/
 │   └── src/main.cpp
 ├── logger/
 │   ├── tools/
-│   │   ├── bench_rtt.py
-│   │   └── analyze_results.py
+│   │   ├── mock_esp32.py             # Mock ESP32 traffic light controller
+│   │   ├── smoke_test.py             # Automated MQTT smoke test
+│   │   ├── run_benchmark_report.py   # RTT benchmark + report generator
+│   │   ├── run_experiments.py        # Batch experiment runner
+│   │   └── analyze_results.py        # Result analysis utilities
 │   └── requirements.txt
+├── scripts/
+│   └── run_all.ps1                   # Full test pipeline (PowerShell)
 ├── node-red/
 │   └── flows.json
 ├── docs/
-│   ├── API.md
-│   ├── WIRING.md
+│   ├── API.md                        # MQTT topics, payloads, error codes
+│   ├── SPEC_IMPLEMENTATION_MATRIX.md # SPEC compliance audit (45 items)
+│   ├── ARCHITECTURE_OVERVIEW.md      # System architecture & data flow
+│   ├── WIRING.md                     # Hardware wiring guide
 │   ├── USER_MANUAL.md
-│   └── DEPLOYMENT.md
+│   ├── DEPLOYMENT.md
+│   └── RELEASE_CHECKS.md             # Pre-release checklist
 ├── docker-compose.yml
 ├── .env.example
-├── SPEC.md                   # 🔒 Locked specification
+├── SPEC.md                           # 🔒 Locked specification
 ├── BACKLOG.md
 ├── QA_CHECKLIST.md
 └── README.md

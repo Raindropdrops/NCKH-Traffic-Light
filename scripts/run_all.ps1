@@ -54,6 +54,11 @@ Log ""
 # Ensure Python subprocess output is UTF-8 (Windows default cp1252 chokes on emoji)
 $env:PYTHONIOENCODING = "utf-8"
 
+# ── Status trackers ──
+$smokePass = $false
+$benchPass = $false
+$artifactCount = 0
+
 # ──────────────────────────────────────────
 # Step 1: Docker Services
 # ──────────────────────────────────────────
@@ -177,6 +182,7 @@ try {
     
     if ($LASTEXITCODE -eq 0) {
         Log "SMOKE TEST: PASS"
+        $smokePass = $true
     }
     else {
         Log "SMOKE TEST: FAIL (exit code $LASTEXITCODE)"
@@ -209,6 +215,7 @@ try {
     
     if ($LASTEXITCODE -eq 0) {
         Log "BENCHMARK: PASS"
+        $benchPass = $true
     }
     else {
         Log "BENCHMARK: FAIL (exit code $LASTEXITCODE)"
@@ -284,8 +291,29 @@ Log "==========================================="
 Log "  PIPELINE COMPLETE"
 Log "  Results: $ResultsDir"
 Log "  Files:"
-Get-ChildItem -Path $ResultsDir -Recurse -File | ForEach-Object {
-    $rel = $_.FullName.Replace($ResultsDir, '').TrimStart('\', '/') 
+$allFiles = Get-ChildItem -Path $ResultsDir -Recurse -File
+$artifactCount = $allFiles.Count
+foreach ($f in $allFiles) {
+    $rel = $f.FullName.Replace($ResultsDir, '').TrimStart('\', '/') 
     Log "    - $rel"
 }
 Log "==========================================="
+
+# ── Final Summary ──
+Log ""
+Log "==========================================="
+Log "  SUMMARY"
+Log "==========================================="
+Log "  Smoke Test     : $(if ($smokePass) { 'PASS ✅' } else { 'FAIL ❌' })"
+Log "  RTT Benchmark  : $(if ($benchPass) { 'PASS ✅' } else { 'FAIL ❌' })"
+Log "  Artifacts      : $artifactCount files collected"
+Log "==========================================="
+
+if ($smokePass -and $benchPass) {
+    Log "  EXIT CODE: 0 (all critical steps passed)"
+    exit 0
+}
+else {
+    Log "  EXIT CODE: 1 (one or more critical steps failed)"
+    exit 1
+}
