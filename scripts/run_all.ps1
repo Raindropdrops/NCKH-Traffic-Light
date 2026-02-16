@@ -66,19 +66,64 @@ else {
     Log ">>> Step 1: SKIPPED (--SkipDocker)"
 }
 
-# Wait for Mosquitto to be healthy
-Log "Waiting for Mosquitto health check..."
+# Wait for Mosquitto readiness
+Log "Waiting for Mosquitto readiness..."
 $maxWait = 30
+$serviceName = "mosquitto"
+$status = $null
+$usedHealthcheck = $false
+
+# Prefer service status from docker compose ps to avoid depending on container_name.
 for ($i = 0; $i -lt $maxWait; $i++) {
-    $status = docker inspect --format='{{.State.Health.Status}}' traffic-mosquitto 2>$null
-    if ($status -eq "healthy") { break }
+    $serviceStatus = docker compose ps $serviceName --format json 2>$null
+    if ($serviceStatus) {
+        try {
+            $serviceObj = $serviceStatus | ConvertFrom-Json
+            if ($serviceObj -is [System.Array]) {
+                $serviceObj = $serviceObj | Select-Object -First 1
+            }
+
+            if ($null -ne $serviceObj) {
+                $statusField = "$($serviceObj.Status)"
+                if ($statusField -match '\(healthy\)') {
+                    $status = "healthy"
+                    $usedHealthcheck = $true
+                    break
+                }
+                if ($statusField -match '\(unhealthy\)') {
+                    $status = "unhealthy"
+                    $usedHealthcheck = $true
+                }
+                elseif ($statusField -match '^Up') {
+                    $status = "no-healthcheck"
+                }
+            }
+        }
+        catch {
+            # Ignore transient parse errors and keep polling.
+        }
+    }
     Start-Sleep -Seconds 1
 }
-if ($status -ne "healthy") {
-    Log "WARNING: Mosquitto not healthy after ${maxWait}s (status=$status), continuing anyway..."
+
+if ($usedHealthcheck -and $status -eq "healthy") {
+    Log "Mosquitto is healthy (branch=healthcheck, source=docker compose ps)."
+}
+elseif ($usedHealthcheck) {
+    Log "WARNING: Mosquitto healthcheck did not become healthy after ${maxWait}s (status=$status, branch=healthcheck, source=docker compose ps)."
 }
 else {
-    Log "Mosquitto is healthy."
+    Log "Healthcheck status unavailable (branch=fallback). Probing broker with mosquitto_sub via docker exec..."
+    $probeOutput = docker exec mosquitto mosquitto_sub -h localhost -t '$SYS/broker/version' -C 1 -W 3 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Log "Mosquitto fallback probe succeeded (branch=fallback, method=mosquitto_sub, topic=`$SYS/broker/version)."
+    }
+    else {
+        Log "WARNING: Mosquitto fallback probe failed (branch=fallback, method=mosquitto_sub, exit=$LASTEXITCODE)."
+        if ($probeOutput) {
+            ($probeOutput | Out-String).Trim().Split([Environment]::NewLine) | ForEach-Object { Log "  $_" }
+        }
+    }
 }
 
 # ──────────────────────────────────────────
