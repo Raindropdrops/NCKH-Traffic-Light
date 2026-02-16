@@ -226,6 +226,16 @@ python smoke_test.py --host 192.168.x.x
 # 🎉 ALL TESTS PASSED
 ```
 
+### Step 4b: Full Pipeline (optional, 1 min)
+
+```powershell
+# Run full test pipeline (mock ESP32 + smoke + benchmark)
+.\scripts\run_all.ps1
+
+# Multi-intersection example
+.\scripts\run_all.ps1 -City demo -Intersection 002 -BenchCount 5
+```
+
 ### Step 5: Open Dashboard & Control (1 min)
 
 1. Open <http://localhost:1880/index.html> _(Dark Dashboard)_

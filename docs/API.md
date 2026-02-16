@@ -254,3 +254,13 @@ INTERSECTION_ID = "002"          # ← different from firmware
 2. **Run smoke tests per intersection** — `smoke_test.py --intersection 001`.
 3. **Benchmark reports are per-device** — timestamps are only comparable within the same device.
 4. **Dashboard can monitor multiple intersections** — subscribe to `city/demo/intersection/+/state`.
+
+### Benchmark Per Intersection
+
+```powershell
+# Benchmark intersection 001 (default)
+python logger/tools/run_benchmark_report.py --host 127.0.0.1 --count 10
+
+# Benchmark intersection 002
+python logger/tools/run_benchmark_report.py --host 127.0.0.1 --count 10 --city demo --intersection 002
+```

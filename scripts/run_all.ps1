@@ -12,11 +12,14 @@
     .\scripts\run_all.ps1
     .\scripts\run_all.ps1 -SkipDocker   # If Docker is already running
     .\scripts\run_all.ps1 -BenchCount 5  # Fewer benchmark messages
+    .\scripts\run_all.ps1 -City demo -Intersection 002  # Multi-intersection
 #>
 param(
     [switch]$SkipDocker,
     [int]$BenchCount = 10,
-    [string]$Host_ = "127.0.0.1"
+    [string]$Host_ = "127.0.0.1",
+    [string]$City = "demo",
+    [string]$Intersection = "001"
 )
 
 $ErrorActionPreference = "Stop"
@@ -44,6 +47,8 @@ Log "=== NCKH Traffic Light Test Pipeline ==="
 Log "Project root: $ProjectRoot"
 Log "Results dir : $ResultsDir"
 Log "Timestamp   : $Timestamp"
+Log "City        : $City"
+Log "Intersection: $Intersection"
 Log ""
 
 # Ensure Python subprocess output is UTF-8 (Windows default cp1252 chokes on emoji)
@@ -146,7 +151,7 @@ Log ""
 Log ">>> Step 2: Launching mock ESP32 (background)..."
 $mockScript = "$ProjectRoot\logger\tools\mock_esp32.py"
 $mockProcess = Start-Process -FilePath "python" `
-    -ArgumentList "`"$mockScript`"", "--host", $Host_ `
+    -ArgumentList "`"$mockScript`"", "--host", $Host_, "--city", $City, "--intersection", $Intersection `
     -PassThru -NoNewWindow -RedirectStandardOutput "$ResultsDir\mock_esp32.log" `
     -RedirectStandardError "$ResultsDir\mock_esp32_err.log"
 Log "Mock ESP32 PID: $($mockProcess.Id)"
@@ -166,7 +171,7 @@ Log ""
 Log ">>> Step 3: Running smoke test..."
 try {
     $smokeScript = "$ProjectRoot\logger\tools\smoke_test.py"
-    $smokeResult = & python $smokeScript --host $Host_ 2>&1
+    $smokeResult = & python $smokeScript --host $Host_ --city $City --intersection $Intersection 2>&1
     $smokeResult | Out-File -FilePath "$ResultsDir\smoke_test.log" -Encoding utf8
     $smokeResult | ForEach-Object { Log "  $_" }
     
@@ -191,7 +196,7 @@ $benchOutDir = $null
 try {
     $benchScript = "$ProjectRoot\logger\tools\run_benchmark_report.py"
     $benchRawOutput = & python $benchScript `
-        --host $Host_ --count $BenchCount 2>&1
+        --host $Host_ --count $BenchCount --city $City --intersection $Intersection 2>&1
     $benchRawOutput | Out-File -FilePath "$ResultsDir\benchmark.log" -Encoding utf8
     $benchRawOutput | ForEach-Object { Log "  $_" }
     

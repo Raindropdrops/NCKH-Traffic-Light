@@ -628,11 +628,14 @@ Examples:
     parser.add_argument('--interval_ms', type=int, default=200, help='Interval between commands (ms)')
     parser.add_argument('--cases', default='0,256,512,900', help='Comma-separated pad_bytes values (latency cases)')
     parser.add_argument('--oversize', type=int, default=1200, help='Oversize pad_bytes for edge-case (<=0 to skip)')
+    parser.add_argument('--city', default='demo', help='City ID for MQTT topic prefix')
+    parser.add_argument('--intersection', default='001', help='Intersection ID for MQTT topic prefix')
     parser.add_argument('--outdir', default=None, help='Output directory')
     
     args = parser.parse_args()
     configure_console_output()
-    
+
+
     # Parse cases
     try:
         pad_bytes_list = [int(x.strip()) for x in args.cases.split(',')]
@@ -656,6 +659,7 @@ Examples:
     print("🚀 RTT BENCHMARK REPORT GENERATOR")
     print("=" * 70)
     print(f"  Host: {args.host}:{args.port}")
+    print(f"  City: {args.city}, Intersection: {args.intersection}")
     print(f"  Cases: {pad_bytes_list}")
     print(f"  Count: {args.count}, Interval: {args.interval_ms}ms")
     print(f"  Output: {outdir}")
@@ -686,7 +690,8 @@ Examples:
         ))
     
     # Run benchmarks
-    benchmark = RTTBenchmark(args.host, args.port, args.user, args.password)
+    benchmark = RTTBenchmark(args.host, args.port, args.user, args.password,
+                             city=args.city, intersection=args.intersection)
     results = []
     
     for case in cases:
