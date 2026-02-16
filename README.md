@@ -3,13 +3,19 @@
 > IoT–MQTT Traffic Light Monitoring & Control System
 > **Đề tài NCKH** | Scope: ESP32 (Scope 1)
 
+| Status              | Detail                                                                      |
+| ------------------- | --------------------------------------------------------------------------- |
+| **Firmware**        | ESP-IDF 5.5 (primary) · Arduino/PlatformIO (legacy)                         |
+| **Validation**      | ✅ mock-validated · ⏳ hardware-pending                                     |
+| **SPEC Compliance** | 36 PASS · 7 PARTIAL · 0 FAIL ([matrix](docs/SPEC_IMPLEMENTATION_MATRIX.md)) |
+
 ## 📋 Requirements
 
-| Tool | Version | Install |
-|------|---------|---------|
-| **Docker Desktop** | 4.x+ | [Download](https://www.docker.com/products/docker-desktop) |
-| **PlatformIO** | 6.x+ | [VS Code Extension](https://platformio.org/install/ide?install=vscode) |
-| **Python** | 3.11+ | [Download](https://www.python.org/downloads/) |
+| Tool                          | Version | Install                                                                        |
+| ----------------------------- | ------- | ------------------------------------------------------------------------------ |
+| **Docker Desktop**            | 4.x+    | [Download](https://www.docker.com/products/docker-desktop)                     |
+| **Python**                    | 3.11+   | [Download](https://www.python.org/downloads/)                                  |
+| **ESP-IDF** _(firmware only)_ | 5.5     | [Docs](https://docs.espressif.com/projects/esp-idf/en/v5.5/esp32/get-started/) |
 
 ## 🚀 Quick Start
 
@@ -52,10 +58,10 @@ docker compose logs mosquitto
 
 **Ports:**
 
-| Service | Port | URL |
-|---------|------|-----|
-| MQTT Broker | 1883 | `mqtt://localhost:1883` |
-| Node-RED | 1880 | <http://localhost:1880> |
+| Service            | Port    | URL                        |
+| ------------------ | ------- | -------------------------- |
+| MQTT Broker        | 1883    | `mqtt://localhost:1883`    |
+| Node-RED           | 1880    | <http://localhost:1880>    |
 | Node-RED Dashboard | 1880/ui | <http://localhost:1880/ui> |
 
 ### 3. Kiểm Tra Broker (Smoke Test)
@@ -76,7 +82,7 @@ docker exec mosquitto mosquitto_pub -h localhost -u demo -P demo_pass -t "city/d
 # Test state topic
 docker exec mosquitto mosquitto_pub -h localhost -u demo -P demo_pass -t "city/demo/intersection/001/state" -m '{"mode":"AUTO","phase":0}'
 
-# Test cmd topic  
+# Test cmd topic
 docker exec mosquitto mosquitto_pub -h localhost -u demo -P demo_pass -t "city/demo/intersection/001/cmd" -m '{"cmd_id":"test-001","type":"SET_MODE","mode":"MANUAL"}'
 
 # Test status topic (retained)
@@ -115,7 +121,7 @@ cd esp32
 
 # Edit src/main.cpp:
 # - Set WIFI_SSID
-# - Set WIFI_PASS  
+# - Set WIFI_PASS
 # - Set MQTT_BROKER to your Windows IP
 # - Set MQTT_USER = "demo"
 # - Set MQTT_PASS = "demo_pass"
@@ -143,7 +149,8 @@ pio device monitor
 
 ### 7. Access Dashboard
 
-Open <http://localhost:1880/ui>
+- **Dark Dashboard (standalone):** <http://localhost:1880/index.html>
+- **Node-RED Editor:** <http://localhost:1880>
 
 ---
 
@@ -206,12 +213,12 @@ python smoke_test.py --host 192.168.x.x
 
 ### ✅ Success Criteria
 
-| Check | Expected |
-|-------|----------|
-| Docker containers | 2 running |
-| ESP32 serial | "MQTT connected" |
-| smoke_test.py | Exit code 0 |
-| Dashboard | Status = ONLINE |
+| Check             | Expected         |
+| ----------------- | ---------------- |
+| Docker containers | 2 running        |
+| ESP32 serial      | "MQTT connected" |
+| smoke_test.py     | Exit code 0      |
+| Dashboard         | Status = ONLINE  |
 
 ---
 
@@ -263,14 +270,14 @@ traffic-mqtt-demo/
 
 **ACL Rules (xem `docker/mosquitto/aclfile`):**
 
-| User | Topic Pattern | Permission |
-|------|---------------|------------|
-| demo | `city/+/intersection/+/state` | read/write |
+| User | Topic Pattern                     | Permission |
+| ---- | --------------------------------- | ---------- |
+| demo | `city/+/intersection/+/state`     | read/write |
 | demo | `city/+/intersection/+/telemetry` | read/write |
-| demo | `city/+/intersection/+/cmd` | read/write |
-| demo | `city/+/intersection/+/ack` | read/write |
-| demo | `city/+/intersection/+/status` | read/write |
-| demo | `$SYS/#` | read |
+| demo | `city/+/intersection/+/cmd`       | read/write |
+| demo | `city/+/intersection/+/ack`       | read/write |
+| demo | `city/+/intersection/+/status`    | read/write |
+| demo | `$SYS/#`                          | read       |
 
 ---
 
@@ -310,15 +317,36 @@ type docker\mosquitto\pwfile
 
 ---
 
+## 🔬 One-Command Test Pipeline
+
+Run the full mock test suite (no hardware needed):
+
+```powershell
+.\scripts\run_all.ps1              # Full pipeline
+.\scripts\run_all.ps1 -SkipDocker  # If Docker already running
+```
+
+This will:
+
+1. Start Docker services
+2. Launch mock ESP32
+3. Run smoke test (4 scenarios)
+4. Run RTT benchmark
+5. Save timestamped results to `results/run_YYYYMMDD_HHmmss/`
+
+---
+
 ## 📚 Documentation
 
-| Document | Description |
-|----------|-------------|
-| [SPEC.md](SPEC.md) | 🔒 Locked technical specification |
-| [BACKLOG.md](BACKLOG.md) | Work breakdown structure (WP0-WP6) |
-| [QA_CHECKLIST.md](QA_CHECKLIST.md) | End-to-end smoke test checklist |
-| [docs/API.md](docs/API.md) | MQTT API documentation |
-| [docs/WIRING.md](docs/WIRING.md) | Hardware wiring guide |
+| Document                                                                 | Description                        |
+| ------------------------------------------------------------------------ | ---------------------------------- |
+| [SPEC.md](SPEC.md)                                                       | 🔒 Locked technical specification  |
+| [docs/API.md](docs/API.md)                                               | MQTT topics, payloads, error codes |
+| [docs/SPEC_IMPLEMENTATION_MATRIX.md](docs/SPEC_IMPLEMENTATION_MATRIX.md) | SPEC compliance audit (45 items)   |
+| [docs/ARCHITECTURE_OVERVIEW.md](docs/ARCHITECTURE_OVERVIEW.md)           | System architecture & data flow    |
+| [QA_CHECKLIST.md](QA_CHECKLIST.md)                                       | End-to-end smoke test checklist    |
+| [BACKLOG.md](BACKLOG.md)                                                 | Work breakdown structure (WP0-WP6) |
+| [docs/WIRING.md](docs/WIRING.md)                                         | Hardware wiring guide              |
 
 ---
 
