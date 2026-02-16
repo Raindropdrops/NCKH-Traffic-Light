@@ -186,6 +186,7 @@ catch {
 # ──────────────────────────────────────────
 Log ""
 Log ">>> Step 4: Running RTT benchmark (count=$BenchCount)..."
+# Note: $benchOutDir is consumed in Step 5 below (PSScriptAnalyzer can't track across try/catch)
 $benchOutDir = $null
 try {
     $benchScript = "$ProjectRoot\logger\tools\run_benchmark_report.py"
