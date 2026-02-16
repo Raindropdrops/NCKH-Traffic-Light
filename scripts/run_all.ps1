@@ -46,6 +46,9 @@ Log "Results dir : $ResultsDir"
 Log "Timestamp   : $Timestamp"
 Log ""
 
+# Ensure Python subprocess output is UTF-8 (Windows default cp1252 chokes on emoji)
+$env:PYTHONIOENCODING = "utf-8"
+
 # ──────────────────────────────────────────
 # Step 1: Docker Services
 # ──────────────────────────────────────────
@@ -53,7 +56,18 @@ if (-not $SkipDocker) {
     Log ">>> Step 1: Starting Docker services..."
     Push-Location $ProjectRoot
     try {
-        docker compose up -d 2>&1 | Tee-Object -FilePath "$ResultsDir\docker_up.log"
+        # docker compose writes progress to stderr — suppress PS terminating errors
+        $ErrorActionPreference = "Continue"
+        docker compose up -d 2>&1 | Out-File -FilePath "$ResultsDir\docker_up.log" -Encoding utf8
+        $dockerExit = $LASTEXITCODE
+        $ErrorActionPreference = "Stop"
+
+        if ($dockerExit -ne 0) {
+            Log "ERROR: docker compose up failed (exit code $dockerExit). See docker_up.log"
+            Get-Content "$ResultsDir\docker_up.log" | ForEach-Object { Log "  $_" }
+            exit 1
+        }
+
         Start-Sleep -Seconds 5
         Log "Docker containers started."
     }
@@ -130,8 +144,9 @@ else {
 # ──────────────────────────────────────────
 Log ""
 Log ">>> Step 2: Launching mock ESP32 (background)..."
+$mockScript = "$ProjectRoot\logger\tools\mock_esp32.py"
 $mockProcess = Start-Process -FilePath "python" `
-    -ArgumentList "$ProjectRoot\logger\tools\mock_esp32.py --host $Host_" `
+    -ArgumentList "`"$mockScript`"", "--host", $Host_ `
     -PassThru -NoNewWindow -RedirectStandardOutput "$ResultsDir\mock_esp32.log" `
     -RedirectStandardError "$ResultsDir\mock_esp32_err.log"
 Log "Mock ESP32 PID: $($mockProcess.Id)"
@@ -150,7 +165,8 @@ Log "Mock ESP32 running."
 Log ""
 Log ">>> Step 3: Running smoke test..."
 try {
-    $smokeResult = & python "$ProjectRoot\logger\tools\smoke_test.py" --host $Host_ 2>&1
+    $smokeScript = "$ProjectRoot\logger\tools\smoke_test.py"
+    $smokeResult = & python $smokeScript --host $Host_ 2>&1
     $smokeResult | Out-File -FilePath "$ResultsDir\smoke_test.log" -Encoding utf8
     $smokeResult | ForEach-Object { Log "  $_" }
     
@@ -170,16 +186,17 @@ catch {
 # ──────────────────────────────────────────
 Log ""
 Log ">>> Step 4: Running RTT benchmark (count=$BenchCount)..."
+$benchOutDir = $null
 try {
-    $benchRawOutput = & python "$ProjectRoot\logger\tools\run_benchmark_report.py" `
+    $benchScript = "$ProjectRoot\logger\tools\run_benchmark_report.py"
+    $benchRawOutput = & python $benchScript `
         --host $Host_ --count $BenchCount 2>&1
     $benchRawOutput | Out-File -FilePath "$ResultsDir\benchmark.log" -Encoding utf8
     $benchRawOutput | ForEach-Object { Log "  $_" }
     
     # Parse benchmark output for result directory
-    $benchOutDir = $null
-    $benchRawOutput | ForEach-Object {
-        if ($_ -match '(results[\\/]bench_[\w-]+)') {
+    foreach ($line in $benchRawOutput) {
+        if ($line -match '(results[\\/]bench_[\w-]+)') {
             $benchOutDir = Join-Path $ProjectRoot $Matches[1]
         }
     }
