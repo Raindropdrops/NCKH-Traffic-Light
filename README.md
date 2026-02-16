@@ -9,6 +9,11 @@
 | **Validation**      | ✅ mock-validated · ⏳ hardware-pending                                     |
 | **SPEC Compliance** | 36 PASS · 7 PARTIAL · 0 FAIL ([matrix](docs/SPEC_IMPLEMENTATION_MATRIX.md)) |
 
+## 🛤️ Firmware Tracks
+
+- **Primary:** `esp32_idf/` (ESP-IDF)
+- **Legacy:** `esp32/` (PlatformIO/Arduino)
+
 ## 📋 Requirements
 
 | Tool                          | Version | Install                                                                        |
@@ -18,6 +23,8 @@
 | **ESP-IDF** _(firmware only)_ | 5.5     | [Docs](https://docs.espressif.com/projects/esp-idf/en/v5.5/esp32/get-started/) |
 
 ## 🚀 Quick Start
+
+> Mặc định README dùng **primary track** (`esp32_idf/`, ESP-IDF). Nếu bạn cần track cũ, xem [Legacy instructions](#52-flash-esp32-platformio-legacy).
 
 ### 1. Tạo Password File (pwfile)
 
@@ -112,9 +119,23 @@ docker exec mosquitto mosquitto_pub -h localhost -u demo -P wrong_pass -t "city/
 ipconfig | findstr /i "IPv4"
 ```
 
-📝 **Note:** Use this IP as `MQTT_BROKER` in `esp32/src/main.cpp`
+📝 **Note:** Use this IP as MQTT broker host in firmware config (`esp32_idf/` for primary, `esp32/` for legacy).
 
 ### 5. Flash ESP32
+
+#### 5.1 Flash ESP32 (ESP-IDF)
+
+```powershell
+cd esp32_idf
+
+# Configure firmware (WiFi/MQTT)
+idf.py menuconfig
+
+# Build + flash + monitor
+idf.py -p COMx flash monitor
+```
+
+#### 5.2 Flash ESP32 (PlatformIO legacy)
 
 ```powershell
 cd esp32
@@ -171,19 +192,18 @@ docker compose up -d
 docker compose ps  # Verify: 2 containers running
 ```
 
-### Step 2: Flash ESP32 (5 min)
+### Step 2: Flash ESP32 (Primary track, 5 min)
 
 ```powershell
-cd esp32
+cd esp32_idf
 
-# Edit src/main.cpp:
-# - WIFI_SSID = "your_wifi"
-# - WIFI_PASS = "your_password"
-# - MQTT_HOST = "192.168.x.x"  # Your Windows IP
+# Configure WiFi + MQTT host (192.168.x.x) in menuconfig
+idf.py menuconfig
 
-pio run --target upload
-pio device monitor  # Should see: "Connected to MQTT"
+idf.py -p COMx flash monitor  # Should see: "Connected to MQTT"
 ```
+
+Legacy track: xem [Step 2 (PlatformIO legacy)](#52-flash-esp32-platformio-legacy).
 
 ### Step 3: Import Node-RED Flow (2 min)
 
@@ -235,7 +255,11 @@ traffic-mqtt-demo/
 │   │   └── log/              # Logs
 │   └── nodered/
 │       └── data/             # Node-RED data
-├── esp32/
+├── esp32_idf/
+│   ├── CMakeLists.txt
+│   └── main/
+│       └── app_main.c
+├── esp32/                     # Legacy PlatformIO/Arduino track
 │   ├── platformio.ini
 │   └── src/main.cpp
 ├── logger/
