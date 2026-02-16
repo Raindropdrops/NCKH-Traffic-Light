@@ -9,6 +9,8 @@
 | **Validation**      | ✅ mock-validated · ⏳ hardware-pending                                                    |
 | **SPEC Compliance** | 36 PASS · 7 PARTIAL · 0 FAIL — _sourced from_ [matrix](docs/SPEC_IMPLEMENTATION_MATRIX.md) |
 
+> Pre-release gate: README SPEC Compliance line must match matrix summary numbers (currently 36 PASS · 7 PARTIAL · 0 FAIL).
+
 ## 🛤️ Firmware Tracks
 
 - **Primary:** `esp32_idf/` (ESP-IDF)

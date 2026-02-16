@@ -9,7 +9,7 @@
 | #   | Step                   | Command                                                                                                  | ✅  |
 | --- | ---------------------- | -------------------------------------------------------------------------------------------------------- | --- |
 | 1   | Bật Docker Desktop     | Click icon, chờ whale xanh                                                                               | ⬜  |
-| 2   | Mở PowerShell tại repo | `cd "D:\Nam 2(D)\NCKH\traffic-mqtt-demo"`                                                                | ⬜  |
+| 2   | Mở PowerShell tại repo | `cd "D:\Nam 2(D)\NCKH\traffic-mqtt-demo"`                                                               | ⬜  |
 | 3   | Start containers       | `docker compose up -d`                                                                                   | ⬜  |
 | 4   | Verify containers      | `docker compose ps` → 2 containers running                                                               | ⬜  |
 | 5   | Verify MQTT port       | `Test-NetConnection localhost -Port 1883`                                                                | ⬜  |

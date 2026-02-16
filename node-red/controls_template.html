@@ -1,0 +1,166 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap');
+
+.tl-ctrl-panel {
+    font-family: 'Inter', sans-serif;
+    color: #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+.tl-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tl-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.tl-title { font-size: 14px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Status Badge */
+.tl-status-badge {
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.tl-status-badge.offline { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.tl-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }
+
+/* Stats Grid */
+.tl-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tl-stat-box { background: #0f172a; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
+.tl-stat-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.tl-stat-val { font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+/* Buttons */
+.tl-btn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.tl-btn {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: #f1f5f9;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.tl-btn:hover { background: #334155; border-color: #38bdf8; color: white; transform: translateY(-1px); }
+.tl-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+.tl-btn.green { border-color: #22c55e; color: #86efac; }
+.tl-btn.green:hover, .tl-btn.green.active { background: #22c55e; color: #0f172a; }
+.tl-btn.yellow { border-color: #eab308; color: #fde047; }
+.tl-btn.yellow:hover, .tl-btn.yellow.active { background: #eab308; color: #0f172a; }
+.tl-btn.red { border-color: #ef4444; color: #fca5a5; }
+.tl-btn.red:hover, .tl-btn.red.active { background: #ef4444; color: #0f172a; }
+
+/* Log Table */
+.tl-log-table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+.tl-log-table th { text-align: left; color: #94a3b8; padding: 6px; border-bottom: 1px solid #334155; }
+.tl-log-table td { padding: 6px; border-bottom: 1px solid #334155; color: #cbd5e1; }
+.tag { padding: 2px 4px; border-radius: 3px; font-weight: 700; font-size: 9px; }
+.tag.ok { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.tag.err { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+</style>
+
+<div class="tl-ctrl-panel">
+    <!-- Header / Status -->
+    <div class="tl-card">
+        <div class="tl-header-row">
+            <div class="tl-title">Intersection 001</div>
+            <div class="tl-status-badge" ng-class="{offline: !dash.status.online}">
+                <div class="tl-dot"></div>
+                {{ dash.status.online ? 'ONLINE' : 'OFF' }}
+            </div>
+        </div>
+        <div class="tl-stats-grid">
+            <div class="tl-stat-box">
+                <span class="tl-stat-label">Mode</span>
+                <span class="tl-stat-val" style="color: #38bdf8">{{ dash.display.mode }}</span>
+            </div>
+            <div class="tl-stat-box">
+                <span class="tl-stat-label">Phase</span>
+                <span class="tl-stat-val">{{ dash.display.phase }}</span>
+            </div>
+             <div class="tl-stat-box">
+                <span class="tl-stat-label">Uptime</span>
+                <span class="tl-stat-val">{{ dash.display.uptime }}</span>
+            </div>
+            <div class="tl-stat-box">
+                <span class="tl-stat-label">Last Seen</span>
+                <span class="tl-stat-val">{{ dash.display.status_time }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="tl-card">
+        <div class="tl-title" style="margin-bottom:10px">Mode Control</div>
+        <div class="tl-btn-grid" style="margin-bottom:16px">
+            <div class="tl-btn" ng-click="sendMode('AUTO')" ng-class="{active: dash.display.mode=='AUTO'}">AUTO</div>
+            <div class="tl-btn" ng-click="sendMode('MANUAL')" ng-class="{active: dash.display.mode=='MANUAL'}">MANUAL</div>
+            <div class="tl-btn yellow" ng-click="sendMode('BLINK')" ng-class="{active: dash.display.mode=='BLINK'}">BLINK</div>
+            <div class="tl-btn red" ng-click="sendMode('OFF')" ng-class="{active: dash.display.mode=='OFF'}">OFF</div>
+        </div>
+
+        <div class="tl-title" style="margin-bottom:10px">Manual Phase</div>
+        <div class="tl-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="tl-btn green" ng-click="sendPhase(0)">NS Green</div>
+            <div class="tl-btn yellow" ng-click="sendPhase(1)">Yel</div>
+            <div class="tl-btn red" ng-click="sendPhase(2)">Red</div>
+            <div class="tl-btn green" ng-click="sendPhase(3)">EW Green</div>
+            <div class="tl-btn yellow" ng-click="sendPhase(4)">Yel</div>
+            <div class="tl-btn red" ng-click="sendPhase(5)">Red</div>
+        </div>
+    </div>
+
+    <!-- Logs -->
+    <div class="tl-card" style="flex:1; overflow:auto; min-height:150px;">
+        <div class="tl-title" style="margin-bottom:8px">Command Log</div>
+        <table class="tl-log-table">
+            <thead><tr><th>Time</th><th>CMD</th><th>RTT</th></tr></thead>
+            <tbody>
+                <tr ng-repeat="row in dash.ack_log | limitTo:10">
+                    <td>{{ row.t.split(' ')[0] }}</td> <!-- Simplified time -->
+                    <td><span class="tag" ng-class="row.ok ? 'ok':'err'">{{ row.type || 'CMD' }}</span></td>
+                    <td>{{ row.rtt ? row.rtt + 'ms' : '-' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+(function(scope) {
+  scope.dash = scope.dash || {
+    status: { online: false },
+    display: { mode: '--', phase: '--', uptime: '--', rssi: '--', heap: '--' },
+    ack_log: []
+  };
+  scope.sendMode = function(mode) { scope.send({ topic: 'ui/set_mode', payload: { mode: mode } }); };
+  scope.sendPhase = function(phase) { scope.send({ topic: 'ui/set_phase', payload: { phase: phase } }); };
+  scope.$watch('msg', function(msg) {
+    if (msg && msg.payload && !msg.topic) { // Pass-through updates
+         scope.dash = msg.payload;
+    }
+    // Handle chart data pass-through? No, chart data goes to chart nodes.
+    // This template receives the "Dashboard Object" from func.dashboard-store
+  });
+})(scope);
+</script>
