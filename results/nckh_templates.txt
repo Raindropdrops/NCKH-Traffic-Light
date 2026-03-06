@@ -1,0 +1,546 @@
+
+
+===== 1-PL1-Hướng-dẫn-báo-cáo-tổng-kết-mẫu-bia-2025.docx =====
+BÁO CÁO TỔNG KẾT CÔNG TRÌNH/ĐỀ TÀI KHOA HỌC VÀ CÔNG NGHỆ
+ 
+I. Báo cáo tổng kết công trình/đề tài nghiên cứu khoa học của giảng viên trẻ/sinh viên
+1. Báo cáo tổng kết công trình/đề tài là cơ sở để hội đồng đánh giá kết quả thực hiện công trình/đề tài khoa học và công nghệ của giảng viên trẻ/sinh viên. Báo cáo tổng kết phải phản ánh đầy đủ nội dung, kết quả thực hiện công trình/đề tài và phải được đóng thành quyển.
+2. Hình thức của báo cáo tổng kết công trình/đề tài
+- Khổ giấy A4 (210 X 297 mm); đóng bìa mica.
+- Số trang tối đa là 80 trang 
+(không tính mục lục, tài liệu tham khảo và phụ lục); 
+phông chữ Times New Roman, cỡ chữ 13; paragraph 1,3 - 1,5 line; lề trái 3 cm; lề trên, lề dưới, lề phải 2 cm.
+- Số thứ tự của trang ở chính giữa trang, phía trên.
+- Tài liệu tham khảo và phụ lục 
+(nếu có):
+ Tối đa là 40 trang; tên các tác giả nước ngoài nêu trong báo cáo tổng kết phải viết theo đúng ngôn ngữ trong tài liệu nguyên bản được trích dẫn.
+- Không gạch dưới các từ, câu trong báo cáo tổng kết; không viết lời cám ơn và không được ký tên.
+- Ngôn ngữ sử dụng trong báo cáo tổng kết: Tiếng Việt, tiếng Anh hoặc ngôn ngữ khác thì yêu cầu phải có bản dịch ra Tiếng Việt.
+II.
+ Cấu trúc báo cáo tổng kết
+ (từ năm học 2021, bỏ mục “thông tin nghiên cứu của đề tài)
+1. Bìa báo cáo (mẫu 01)
+2. Mục lục;
+3. Danh mục bảng biểu;
+4. Danh mục những từ viết tắt (xếp theo thứ tự bảng chữ cái);
+5. Mở đầu;
+6. Tổng quan tình hình nghiên cứu thuộc lĩnh vực công trình/đề tài;
+7. Lý do lựa chọn công trình/đề tài;
+8. Mục tiêu, nội dung, phương pháp nghiên cứu của công trình/đề tài;
+9. Đối tượng và phạm vi nghiên cứu.
+10. Kết quả nghiên cứu và thảo luận: Trình bày thành các chương 1, 2, 3,...; nêu các kết quả nghiên cứu đạt được và đánh giá về các kết quả này.
+11. Kết luận và kiến nghị:
+a) Phần kết luận: Kết luận về các nội dung nghiên cứu đã thực hiện. Đánh giá những đóng góp mới của công trình/đề tài;
+b) Phần kiến nghị: Các đề xuất được rút ra từ kết quả nghiên cứu. Đề xuất về các nghiên cứu tiếp theo; các biện pháp cần thiết để có thể ứng dụng kết quả nghiên cứu vào thực tiễn đời sống và sản xuất; các kiến nghị về cơ chế, chính sách.
+12. Tài liệu tham khảo: Tài liệu tham khảo là danh mục sách, báo, tài liệu các loại được sử dụng để tham khảo trong quá trình nghiên cứu, sắp xếp các nguồn tài liệu và các sách xuất bản đã tham khảo để tiến hành đề tài, thông thường được trình bày theo thứ tự: họ và tên tác giả, nhan đề, các yếu tố về xuất bản. Các văn bản được xếp theo trình tự: văn bản pháp qui; sách, báo, tạp chí; bài viết của các tác giả...; trong mỗi loại được xếp theo thứ tự bảng chữ cái.
+13. Phụ lục (nếu có) bao gồm các bảng biểu, sơ đồ, hình vẽ, bảng liệt kê các tư liệu... để minh họa cho báo cáo tổng kết công trình/đề tài.
+Mẫu 
+01
+. Trang bìa báo cáo tổng kết đề tài
+TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI
+BÁO CÁO TỔNG KẾT
+ĐỀ TÀI
+ 
+NGHIÊN CỨU KHOA HỌC
+ CỦA SINH VIÊN
+NĂM
+ 
+HỌC 
+202
+4
+-202
+5
+ 
+<TÊN ĐỀ TÀI>
+Sinh viên thực hiện
+<họ và tên sinh viên>
+Lớp: <tên lớp>
+Khoa:
+<tên Khoa>
+(
+in đậm S
+inh viên chịu trách nhiệm chính thực hiện
+ đề tài
+)
+Người hướng dẫn:
+ <Chức danh khoa học, học vị, họ 
+và 
+tên của 
+n
+gười
+ hướng dẫn
+>
+HÀ NỘ
+I/TPHCM, 20
+2
+5
+
+===== 3-PL3-Mẫu-Slide-NCKH-sinh-vien-nam-2025.docx =====
+NCKH SINH VIÊN CẤP TR
+Ư
+ỜNG NĂM 2025
+NCKH SINH VIÊN CẤP TR
+Ư
+ỜNG NĂM 2025
+
+===== 4-PL4-Phiếu-nhận-xét-đề-tài-NCKHSV-2025.docx =====
+BỘ GIÁO DỤC VÀ ĐÀO TẠO
+TRƯỜNG ĐẠI HỌC GTVT
+__________
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+_______________________
+ 
+ngày ...tháng
+   
+ 
+năm
+ 202
+5
+PHIẾU NHẬN XÉT 
+ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CỦA SINH VIÊN NĂM 202
+5
+1
+. Họ và tên 
+ủ
+y viên phản biện
+:
+2
+. Tên đề tài:
+3
+. Mã số (số thứ tự):
+4
+. Tác giả:
+a
+. Tác giả thực hiện chính:
+b
+. Đồng tác giả:
+5
+. Nội dung nhận xét: 
+a
+. Tổng quan tình hình nghiên cứu và luận giải sự cần thiết của vấn đề nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+b
+. Nội dung nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+c
+. Phương pháp nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+d
+. Kết quả nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+e
+. Hình thức trình bày báo cáo tổng kết đề tài:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+f
+. Có công bố khoa học từ kết quả nghiên cứu của đề tài, cụ thể:
+-
+ Bài báo được đăng trên các tạp chí khoa học trong nước được tính điểm của Hội đồng Giáo sư Nhà nước hoặc đăng trong kỷ yếu hội thảo, hội nghị quốc gia, quốc tế có phản biện:
+-
+ Bài báo được đăng trên các tạp chí quốc tế uy tín:
+-
+ Sáng chế, giải pháp hữu ích, bản quyền tác giả, bản quyền tác phẩm,... đã được chứng nhận:
+6
+. Kết luận của thành viên hội đồng
+:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+THÀNH VIÊN HỘI ĐỒNG
+(Ký, ghi rõ họ tên)
+
+===== 5-PL5-Phiếu-đánh-giá-đề-tài-NCKHSV-2025.docx =====
+BỘ GIÁO DỤC VÀ ĐÀO TẠO
+TRƯỜNG ĐẠI HỌC GTVT
+__________
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+_______________________
+ 
+ngày ...tháng
+   
+năm
+ 202
+5
+PHIẾU ĐÁNH 
+GIÁ
+ 
+ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CỦA SINH VIÊN
+ NĂM
+ 202
+5
+1
+. Họ và tên thành viên hội đồng:
+2
+. Nhiệm vụ trong Hội đồng
+:
+3
+. Tên 
+đề tài
+:
+4
+. 
+Mã số 
+(số thứ tự)
+:
+5
+. Tác giả:
+a
+. Tác giả thực hiện chính:
+b
+. Đồng tác giả:
+6
+. Đánh giá của thành viên hội đồng: 
+TT
+Tiêu chí đánh giá
+Điểm tối đa
+Điểm chấm
+1
+Tổng quan tình hình nghiên cứu và luận giải sự cần thiết của vấn đề nghiên cứu
+10
+2
+Nội dung nghiên cứu
+20
+3
+Phương pháp nghiên cứu
+15
+4
+Kết quả nghiên cứu
+40
+5
+Hình thức trình bày báo cáo tổng kết đề tài
+05
+6
+Có sản phẩm công bố khoa học và công nghệ từ kết quả của đề tài 
+(chọn 01 trong các sản phẩm, trong trường hợp có nhiều sản phẩm thì chọn sản phẩm công bố có điểm tối đa cao nhất)
+-
+Bài báo được đăng trên các tạp chí khoa học trong nước được tính điểm của Hội đồng Giáo sư Nhà nước hoặc đăng trong kỷ yếu hội thảo, hội nghị quốc gia, quốc tế
+5
+-
+Bài báo được đăng trên các tạp chí quốc tế uy tín
+10
+-
+Sáng chế, giải pháp hữu ích, bản quyền tác giả, bản quyền tác phẩm,... đã được chứng nhận
+10
+Tổng (1+2+3+4+5+6)
+100
+Ghi chú
+:
+a
+) Mỗi thành viên hội đồng đánh giá công trình theo thang điểm 100 (điểm đánh giá là số nguyên).
+b
+) Khung điểm xét giải: Công trình đạt từ 70 điểm trở lên được đề nghị xét tặng Giải thưởng.
+c
+)
+ Điểm của thành viên hội đồng chênh lệch >20 điểm so với điểm trung bình ban đầu coi là điểm không hợp lệ và không được tính vào tổng số điểm hợp lệ.
+d)
+ Xếp loại: điểm 100 ≥ 
+Xuất sắc
+  ≥ 90
+ 
+điểm; 90
+ điểm > 
+Tốt
+ ≥ 80 điểm; 80 điểm > 
+Khá
+ ≥ 70 điểm; 70 điểm > 
+Đạt
+ ≥ 50 điểm; 50 điểm > 
+Không đạt
+ ≥ 0 điểm. 
+Chỉ đề tài ≥ 85 điểm mới được xét tham dự giải cấp cao hơn.
+7
+.
+ Ý kiến và kiến nghị khác:
+.......................................................................................................................................
+.......................................................................................................................................
+.......................................................................................................................................
+.......................................................................................................................................
+THÀNH VIÊN HỘI ĐỒNG
+(Ký, ghi rõ họ tên)
+
+===== 6-PL6-Bài-báo-đề-tài-giải-nhất-_toi-da-6-trang-A4_-năm-2025.docx =====
+(mẫu Tóm tắt đề tài đạt giải Nhất
+, tối đa 
+6
+ trang A4
+)
+<
+TÊN 
+BÀI BÁO BẰNG 
+TIẾNG VIỆT
+>
+Gi
+ảng
+ viên hướng dẫn: 
+<
+học hàm, học vị, họ tên GVHD>
+Sinh viên thực hiện:
+ 
+<họ tên sinh viên> 
+Lớp:
+ 
+<tên lớp>
+Tóm tắt: 
+Tóm tắt ý tưởng và nội dung bài báo phản ánh được đầy đủ các kết quả cơ bản của bài viết; từ 6 đến 10 dòng
+Từ khóa: 
+Từ khóa
+ viết cách nhau bởi dấu phẩy
+ĐẶT VẤN ĐỀ
+<
+T
+ình trạng nghiên cứu trong nước và thế giới, tính thời sự của vấn đề
+>
+CÁC NỘI DUNG CHÍNH
+<
+P
+hương pháp nghiên cứu, phương tiện nghiên cứu, nội dung nghiên cứu đã thực hiện
+, K
+ết quả nghiên cứu và bình luận
+>
+Hình
+ (Bảng)
+ 
+1
+.
+ 
+Tên hình
+ (bảng)
+KẾT LUẬN
+Tài liệu tham khảo
+Tên tác giả
+: 
+Tên tài liệu
+. 
+Tên nhà xuất bản
+, 
+Nơi xuất bản
+, 
+Năm xuất bản
+Tên tác giả
+: 
+Tên tài liệu
+. 
+Tên nhà xuất bản
+, 
+Nơi xuất bản
+, 
+Năm xuất bản
+
+===== 7-PL7-Mẫu-xác-nhận-ứng-dụng-kết-quả-đề-tài-nếu-có.docx =====
+Mẫu 05. Văn bản xác nhận ứng dụng công trình/đề tài (Kèm theo Thông tư số 45/2020/TT-BGDĐT ngày 11 tháng 11 năm 2020
+ 
+của Bộ trưởng Bộ Giáo dục và Đào tạo)
+ 
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+________________________
+     ngày        tháng       năm....
+ 
+ 
+VĂN BẢN XÁC NHẬN ỨNG DỤNG CÔNG TRÌNH/ĐỀ TÀI
+ 
+I.
+ PHẦN KÊ KHAI CỦA TÁC GIẢ
+1.
+ Thông tin chung về tác giả công trình/đề tài:
+Họ và tên:                                                                   Quốc tịch:
+Ngày, tháng, năm sinh:
+Số CMND/Hộ chiếu:                                      Ngày cấp:                            Nơi cấp:
+Nơi ở hiện nay:
+Địa chỉ liên hệ:
+Điện thoại:                                                                         Email:
+Nơi công tác/cơ sở giáo dục đại học:
+2. Công trình/đề tài khoa học công nghệ
+Tên công trình/đề tài:
+Lĩnh vực khoa học và công nghệ: 
+(Theo Điều 3 Quy chế này)
+Thời gian ứng dụng:
+3. Cơ quan chủ quản hoặc cơ quan có thẩm quyền giao nhiệm vụ khoa học và công nghệ cho tổ chức, cá nhân tạo ra công trình/đề tài
+Tên cơ quan chủ quản hoặc cơ quan có thẩm quyền:
+Địa chỉ liên hệ:
+Điện thoại:                                            Email:
+Lĩnh vực hoạt động chính:
+Họ và tên người đứng đầu cơ quan:
+4. Nội dung ứng dụng của công trình/đề tài:
+ 
+5. Hiệu quả ứng dụng của công trình/đề tài:
+Hiệu quả về khoa học công nghệ:
+Hiệu quả về kinh tế:
+Hiệu quả về xã hội:
+Hiệu quả về môi trường:
+Hiệu quả các lĩnh vực khác (nếu có):
+6.
+ Sản phẩm 
+công bố khoa học và công nghệ từ kết quả của công trình/đề tài 
+(ghi rõ họ tên tác giả, nhan đề và các yếu tố về xuất bản nếu có)
+ hoặc nhận xét, đánh giá của cơ sở đã áp dụng các kết quả nghiên cứu 
+(nếu có):
+ 
+Xác nhận của 
+Trường ĐH GTVT
+Tác giả/đại diện tác giả công
+ 
+trình/đề tài
+(Ký và ghi rõ họ tên)
+II. PHẦN XÁC NHẬN CỦA TỔ CHỨC ỨNG DỤNG CÔNG TRÌNH/ĐỀ TÀI
+1. Thông tin chung về tổ chức ứng dụng công trình/đề tài
+Tên tổ chức:
+Địa chỉ liên hệ:
+Điện thoại:                                           Email:
+Số Quyết định thành lập (nếu có):
+Lĩnh vực đăng ký hoạt động chính: đăng ký kinh doanh (nếu có):
+Họ và tên người đứng đầu tổ chức:
+2. Nội dung xác nhận
+Nội dung đã ứng dụng của công trình/đề tài
+Hiệu quả ứng dụng về khoa học và công nghệ
+Hiệu quả ứng dụng về kinh tế
+Hiệu quả ứng dụng về xã hội
+Hiệu quả ứng dụng về môi trường
+Hiệu quả ứng dụng lĩnh vực khác
+ 
+Tổ chức ứng dụng công trình/đề tài
+(Ký và ghi rõ họ tên, đóng dấu xác nhận)
+
+===== 8-Mẫu-seminar-cấp-khoa-dùng-giải-xuất-sắc-2025.docx =====
+BỘ GIÁO DỤC VÀ ĐÀO TẠO
+TRƯỜNG ĐẠI HỌC GTVT
+__________
+CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+Độc lập - Tự do - Hạnh phúc
+_______________________
+ 
+ngày ...tháng
+ …
+ 
+năm
+ 202..
+BIÊN BẢN 
+SEMINAR
+ CẤP 
+KHOA
+ĐỀ 
+TÀI 
+NCKHSV
+ 
+NĂM HỌC 20
+2
+4
+-202
+5
+Tên đề tài, mã số:
+ 
+Nghiên cứu và phát triển hệ thống p
+………………
+.
+M
+ã số
+ (nếu có)
+:
+ 
+-003
+Tác giả:
+a
+. Tác giả thực hiện chính:
+b
+. Đồng tác giả:
+Ngày
+ họp:
+ngày 
+….
+ tháng 
+…
+ năm 202
+..
+Địa điểm:
+  
+………………………………….
+Số t
+hành viên
+ 
+Khoa 
+tham dự/tổng số:
+ 
+…/…
+Khách mời dự:
+…………………………………..
+Nội dung buổi họp
+-
+Tác giả thực hiện………….
+ đề tài báo cáo kết quả thực hiện đề tài.
+- Các 
+thành viên tham dự 
+nhận xét và nêu câu hỏi.
+……………………………………………………..
+- 
+Nhóm tác giả
+ đề tài trả lời câu hỏi.
+……………………………………………………..
+- Trao đổi chung.
+……………………………………………………..
+- Thư ký 
+cuộc họp
+ ghi biên bản.
+- 
+Chủ tịch cuộc họp (l
+ãnh đạo Khoa
+)
+ công bố biên bản 
+họp
+ Kết luận
+:
+8
+.1. 
+Kết luận chung:
+ 
+a
+. Tổng quan tình hình nghiên cứu và luận giải sự cần thiết của vấn đề nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+b
+. Nội dung nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+c
+. Phương pháp nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+d
+. Kết quả nghiên cứu:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+e
+. Hình thức trình bày báo cáo tổng kết:
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+      
+8
+.2. Những nội dung cần sửa chữa, bổ sung, hoàn chỉnh hay làm rõ
+ (nếu có)
+:
+……………………………………………………..
+……………………………………………………..
+Lãnh đạo 
+Khoa
+Thư ký
+ cuộc họp
+ (ký, họ tên
+, đóng dấu
+)                            
+(ký, họ tên)
+……………………
+……………………….
