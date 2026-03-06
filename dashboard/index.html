@@ -407,16 +407,27 @@
         flex: 1;
         padding: 10px 12px;
         border-radius: 10px;
-        background: linear-gradient(
-          180deg,
-          rgba(17, 27, 43, 0.9),
-          rgba(12, 18, 30, 0.9)
-        );
+        background: #0f1726;
         color: var(--text);
         border: 1px solid var(--border);
         font-size: 13px;
         cursor: pointer;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%239aa7bd'%3E%3Cpath d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 32px;
+      }
+      .phase-select option {
+        background: #111b2b;
+        color: var(--text);
+        padding: 8px 12px;
+      }
+      .phase-select option:checked {
+        background: linear-gradient(0deg, #1e3a5f, #1e3a5f);
+        color: #7dd3fc;
       }
       .phase-select:focus {
         outline: none;
@@ -642,6 +653,91 @@
       .full-width {
         grid-column: 1/-1;
       }
+
+      /* RTT Chart */
+      .chart-wrap {
+        background: rgba(11, 17, 28, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .chart-wrap canvas {
+        width: 100%;
+        height: 160px;
+        display: block;
+      }
+      .chart-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      .chart-stat {
+        font-size: 11px;
+        color: var(--dim);
+      }
+      .chart-stat strong {
+        color: var(--accent);
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* QoS Panel */
+      .qos-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .qos-item {
+        background: rgba(16, 24, 38, 0.85);
+        border-radius: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        font-size: 11px;
+      }
+      .qos-topic {
+        color: var(--dim);
+        font-family: 'IBM Plex Sans', monospace;
+        margin-bottom: 4px;
+      }
+      .qos-level {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .qos-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .qos-0 { background: rgba(34, 211, 238, 0.15); color: #67e8f9; }
+      .qos-1 { background: rgba(34, 197, 94, 0.15); color: #86efac; }
+
+      /* LWT Log */
+      .lwt-list {
+        max-height: 160px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #334155 transparent;
+      }
+      .lwt-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(16, 24, 38, 0.85);
+        border: 1px solid var(--border);
+        margin-bottom: 4px;
+        font-size: 11px;
+        animation: slideIn 0.3s ease;
+      }
+      .lwt-online { color: #22c55e; }
+      .lwt-offline { color: #ef4444; }
+      .lwt-time { color: var(--dim); margin-left: auto; }
     </style>
   </head>
   <body>
@@ -843,6 +939,56 @@
             </div>
           </div>
         </div>
+
+        <!-- RTT Realtime Chart -->
+        <div class="card full-width">
+          <div class="card-title"><span class="icon">📈</span>RTT Realtime (cmd → ack)</div>
+          <div class="chart-wrap">
+            <canvas id="rttCanvas"></canvas>
+          </div>
+          <div class="chart-stats">
+            <div class="chart-stat">Mean: <strong id="rttMean">—</strong> ms</div>
+            <div class="chart-stat">Last: <strong id="rttLast">—</strong> ms</div>
+            <div class="chart-stat">Min: <strong id="rttMin">—</strong> ms</div>
+            <div class="chart-stat">Max: <strong id="rttMax">—</strong> ms</div>
+            <div class="chart-stat">Samples: <strong id="rttCount">0</strong></div>
+          </div>
+        </div>
+
+        <!-- QoS Indicator -->
+        <div class="card">
+          <div class="card-title"><span class="icon">🔒</span>MQTT QoS Levels</div>
+          <div class="qos-grid">
+            <div class="qos-item">
+              <div class="qos-topic">.../cmd</div>
+              <div class="qos-level"><span class="qos-badge qos-1">QoS 1</span> At-least-once</div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-topic">.../ack</div>
+              <div class="qos-level"><span class="qos-badge qos-1">QoS 1</span> At-least-once</div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-topic">.../status</div>
+              <div class="qos-level"><span class="qos-badge qos-1">QoS 1</span> Retained + LWT</div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-topic">.../state</div>
+              <div class="qos-level"><span class="qos-badge qos-0">QoS 0</span> Fire-and-forget</div>
+            </div>
+            <div class="qos-item" style="grid-column:1/-1">
+              <div class="qos-topic">.../telemetry</div>
+              <div class="qos-level"><span class="qos-badge qos-0">QoS 0</span> Fire-and-forget (mỗi 5s)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LWT Connection Log -->
+        <div class="card">
+          <div class="card-title"><span class="icon">🔌</span>Connection Log (LWT)</div>
+          <div class="lwt-list" id="lwtList">
+            <div style="text-align:center;color:var(--dim);padding:16px;font-size:12px">Đang chờ sự kiện kết nối...</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -862,6 +1008,15 @@
         "EW_YELLOW",
         "ALL_RED",
       ];
+
+      // RTT tracking
+      const rttData = [];
+      const MAX_RTT_POINTS = 60;
+      const pendingCmds = {}; // cmd_id -> send timestamp
+
+      // LWT tracking
+      const lwtEvents = [];
+      const MAX_LWT = 20;
       let client = null;
       let ackLog = [];
       let currentMode = "";
@@ -1083,6 +1238,7 @@
           ts_ms: Date.now(),
         });
         client.publish(BASE + "/cmd", cmd, { qos: 1, retain: false });
+        pendingCmds[JSON.parse(cmd).cmd_id] = Date.now();
         toast("📤 SET_MODE " + mode, "info");
       }
 
@@ -1099,6 +1255,7 @@
           ts_ms: Date.now(),
         });
         client.publish(BASE + "/cmd", cmd, { qos: 1, retain: false });
+        pendingCmds[JSON.parse(cmd).cmd_id] = Date.now();
         toast("📤 SET_PHASE " + p + " (" + PHASES[p] + ")", "info");
       }
 
@@ -1113,6 +1270,132 @@
             ? `${m}m ${sec}s`
             : `${sec}s`;
       }
+
+      // ---- RTT Chart Drawing ----
+      function drawRttChart() {
+        const canvas = document.getElementById('rttCanvas');
+        if (!canvas || rttData.length === 0) return;
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const W = rect.width, H = rect.height;
+        const pad = { t: 12, r: 12, b: 24, l: 40 };
+        const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+
+        ctx.clearRect(0, 0, W, H);
+
+        const maxY = Math.max(80, ...rttData.map(d => d.rtt)) * 1.15;
+        const minY = 0;
+
+        // Grid lines
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+          const y = pad.t + (cH / 4) * i;
+          ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+          ctx.fillStyle = '#6b7a8d';
+          ctx.font = '10px IBM Plex Sans, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText(Math.round(maxY - (maxY / 4) * i) + '', pad.l - 6, y + 3);
+        }
+
+        // Line
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.lineJoin = 'round';
+        rttData.forEach((d, i) => {
+          const x = pad.l + (i / (MAX_RTT_POINTS - 1)) * cW;
+          const y = pad.t + cH - ((d.rtt - minY) / (maxY - minY)) * cH;
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Fill under line
+        const lastIdx = rttData.length - 1;
+        const lastX = pad.l + (lastIdx / (MAX_RTT_POINTS - 1)) * cW;
+        ctx.lineTo(lastX, pad.t + cH);
+        ctx.lineTo(pad.l, pad.t + cH);
+        ctx.closePath();
+        const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + cH);
+        grad.addColorStop(0, 'rgba(56, 189, 248, 0.2)');
+        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Dots
+        rttData.forEach((d, i) => {
+          const x = pad.l + (i / (MAX_RTT_POINTS - 1)) * cW;
+          const y = pad.t + cH - ((d.rtt - minY) / (maxY - minY)) * cH;
+          ctx.beginPath();
+          ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#38bdf8';
+          ctx.fill();
+        });
+
+        // X label
+        ctx.fillStyle = '#6b7a8d';
+        ctx.font = '9px IBM Plex Sans, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('← Latest ' + rttData.length + ' commands →', W / 2, H - 2);
+      }
+
+      function updateRttStats() {
+        if (rttData.length === 0) return;
+        const rtts = rttData.map(d => d.rtt);
+        const mean = (rtts.reduce((a, b) => a + b, 0) / rtts.length).toFixed(1);
+        document.getElementById('rttMean').textContent = mean;
+        document.getElementById('rttLast').textContent = rtts[rtts.length - 1].toFixed(1);
+        document.getElementById('rttMin').textContent = Math.min(...rtts).toFixed(1);
+        document.getElementById('rttMax').textContent = Math.max(...rtts).toFixed(1);
+        document.getElementById('rttCount').textContent = rtts.length;
+      }
+
+      function recordRtt(cmdId) {
+        const sendTs = pendingCmds[cmdId];
+        if (!sendTs) return;
+        const rtt = Date.now() - sendTs;
+        delete pendingCmds[cmdId];
+        rttData.push({ rtt, ts: Date.now() });
+        if (rttData.length > MAX_RTT_POINTS) rttData.shift();
+        drawRttChart();
+        updateRttStats();
+      }
+
+      // ---- LWT Log ----
+      function addLwtEvent(online) {
+        const now = new Date().toLocaleTimeString();
+        lwtEvents.unshift({ online, time: now });
+        if (lwtEvents.length > MAX_LWT) lwtEvents.pop();
+        const list = document.getElementById('lwtList');
+        list.innerHTML = lwtEvents.map(e => `
+          <div class="lwt-item">
+            <span class="${e.online ? 'lwt-online' : 'lwt-offline'}">${e.online ? '🟢' : '🔴'}</span>
+            <span>${e.online ? 'ESP32 ONLINE' : 'ESP32 OFFLINE (LWT)'}</span>
+            <span class="lwt-time">${e.time}</span>
+          </div>
+        `).join('');
+      }
+
+      // Patch handleAck to record RTT
+      const _origHandleAck = handleAck;
+      handleAck = function(d) {
+        recordRtt(d.cmd_id);
+        _origHandleAck(d);
+      };
+
+      // Patch handleStatus to log LWT events
+      const _origHandleStatus = handleStatus;
+      handleStatus = function(d) {
+        addLwtEvent(d.online);
+        _origHandleStatus(d);
+      };
+
+      // Resize chart on window resize
+      window.addEventListener('resize', drawRttChart);
 
       connect();
     </script>
