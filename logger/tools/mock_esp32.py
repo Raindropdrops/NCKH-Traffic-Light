@@ -30,12 +30,14 @@ import paho.mqtt.client as mqtt
 
 class MockESP32:
     def __init__(self, host: str, port: int, user: str, password: str,
-                 city: str, intersection: str, ack_delay_ms: int = 0):
+                 city: str, intersection: str, ack_delay_ms: int = 0,
+                 speed: float = 1.0):
         self.host = host
         self.port = port
         self.user = user
         self.password = password
         self.ack_delay_ms = ack_delay_ms
+        self.speed = max(0.1, speed)  # speed multiplier for demo
         
         # Topics
         base = f"city/{city}/intersection/{intersection}"
@@ -53,9 +55,12 @@ class MockESP32:
         self.connected = False
         self.running = True
         self.blink_on = False
+        self.base_rssi = -55  # base RSSI, drifts realistically
+        self.base_heap = 215  # KB, decreases slowly
         
-        # AUTO cycle timing (ms)
-        self.phase_durations = [10000, 3000, 2000, 10000, 3000, 2000]  # NS_G, NS_Y, AR, EW_G, EW_Y, AR
+        # AUTO cycle timing (ms) — scaled by speed
+        base = [10000, 3000, 2000, 10000, 3000, 2000]  # NS_G, NS_Y, AR, EW_G, EW_Y, AR
+        self.phase_durations = [int(d / self.speed) for d in base]
         
         # Idempotency - cache last 32 cmd_ids
         self.cmd_id_cache = deque(maxlen=32)
@@ -208,12 +213,19 @@ class MockESP32:
         self.client.publish(self.topic_state, json.dumps(payload), qos=0)
     
     def _publish_telemetry(self):
-        """Publish simulated telemetry data."""
+        """Publish simulated telemetry — realistic drift over time."""
         import random
+        uptime = int(time.time() - self.start_time)
+        # RSSI: base ± 4 dBm jitter, drifts -1 dBm per 5 min
+        rssi = self.base_rssi + random.randint(-4, 4) - (uptime // 300)
+        rssi = max(-90, min(-30, rssi))
+        # Heap: starts ~215KB, decreases ~0.1KB/min (simulates minor leaks)
+        heap = self.base_heap - (uptime / 600) + random.uniform(-2, 2)
+        heap = max(120, round(heap, 1))
         payload = {
-            "rssi_dbm": random.randint(-70, -40),
-            "heap_free_kb": random.randint(180, 220),
-            "uptime_s": int(time.time() - self.start_time),
+            "rssi_dbm": rssi,
+            "heap_free_kb": heap,
+            "uptime_s": uptime,
             "ts_ms": int(time.time() * 1000)
         }
         self.client.publish(self.topic_telemetry, json.dumps(payload), qos=0)
@@ -223,8 +235,11 @@ class MockESP32:
         elapsed_ms = (time.time() - self.phase_start) * 1000
         duration = self.phase_durations[self.phase]
         if elapsed_ms >= duration:
+            old_phase = self.phase
             self.phase = (self.phase + 1) % 6
             self.phase_start = time.time()
+            names = ['NS_GREEN','NS_YELLOW','ALL_RED','EW_GREEN','EW_YELLOW','ALL_RED']
+            print(f"🔄 Phase {old_phase}→{self.phase}: {names[self.phase]}")
     
     def _state_loop(self):
         """Publish state every 1 second, telemetry every 5 seconds."""
@@ -257,6 +272,7 @@ class MockESP32:
         print("=" * 60)
         print(f"  Host:       {self.host}:{self.port}")
         print(f"  User:       {self.user}")
+        print(f"  Speed:      {self.speed}x")
         print(f"  Ack Delay:  {self.ack_delay_ms}ms")
         print("=" * 60)
         print(f"  Topics:")
@@ -324,7 +340,7 @@ def main():
         epilog="""
 Examples:
   python mock_esp32.py --host localhost
-  python mock_esp32.py --host 192.168.1.100 --user demo --password demo_pass
+  python mock_esp32.py --host localhost --speed 2    (2x faster for demo)
   python mock_esp32.py --host localhost --ack_delay_ms 50
         """
     )
@@ -337,6 +353,8 @@ Examples:
     parser.add_argument('--intersection', default='001', help='Intersection ID')
     parser.add_argument('--ack_delay_ms', type=int, default=0, 
                         help='Delay before sending ack (ms) for RTT testing')
+    parser.add_argument('--speed', type=float, default=1.0,
+                        help='Speed multiplier (2=2x faster cycle, good for demo)')
     
     args = parser.parse_args()
     
@@ -348,7 +366,8 @@ Examples:
         password=args.password,
         city=args.city,
         intersection=args.intersection,
-        ack_delay_ms=args.ack_delay_ms
+        ack_delay_ms=args.ack_delay_ms,
+        speed=args.speed
     )
     
     def signal_handler(sig, frame):
