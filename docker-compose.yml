@@ -28,17 +28,16 @@ services:
       retries: 3
 
   nodered:
-    build: ./docker/nodered
-    # image: nodered/node-red:latest
+    image: nodered/node-red:latest
     container_name: nodered
     hostname: nodered
     ports:
       - "1880:1880"
     volumes:
-      - ./node-red:/data
+      - ./docker/nodered/data:/data
+      - ./dashboard:/data/public
     environment:
       - TZ=Asia/Ho_Chi_Minh
-      - FLOWS=flows.json
     depends_on:
       mosquitto:
         condition: service_started

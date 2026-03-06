@@ -1,0 +1,6 @@
+cmd_id,t_send_ms,t_ack_recv_ms,rtt_ms,payload_size,actual_payload_bytes,mode,phase,note
+3fa13db4-3af6-43fe-9230-0bafdd54b365,1771229663600,,,1321,1321,AUTO,,Case 5
+6ef16021-3a37-441d-b631-57fc289eefb8,1771229663800,,,1321,1321,AUTO,,Case 5
+70c16ad5-445f-40fa-a13c-8d8e6f2e73d9,1771229664001,,,1321,1321,AUTO,,Case 5
+dca58b41-7e67-4c2e-9281-c9646a9fb22a,1771229664202,,,1321,1321,AUTO,,Case 5
+fa9190a4-5fb8-4396-8a05-8bcf9b1d49ea,1771229664402,,,1321,1321,AUTO,,Case 5

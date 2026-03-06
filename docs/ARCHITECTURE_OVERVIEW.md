@@ -41,7 +41,7 @@
 
 ---
 
-## 2. Luồng Dữ Liệu
+## 2. Lu(QoS 0)ồng Dữ Liệu
 
 ```
 ┌─────────────┐     cmd (QoS 1)      ┌─────────────┐     cmd (QoS 1)      ┌─────────────┐
@@ -54,7 +54,7 @@
       └────────────────────────────────────┼────────────────────────────────────┘
                                            │
       ┌────────────────────────────────────┼────────────────────────────────────┐
-      │                            state (QoS 0)                               │
+      │          state (QoS 0)             │         state               │
       ▼                                    ▼                                    │
 ┌─────────────┐                      ┌─────────────┐                            │
 │  Node-RED   │ ◄────────────────── │  Mosquitto  │ ◄──────────────────────────┘
@@ -112,13 +112,12 @@ city/demo/intersection/001/telemetry
 
 ## 4. What Runs Where
 
-| Component          | Runs On                           | Technology               | Port |
-| ------------------ | --------------------------------- | ------------------------ | ---- |
-| **Mosquitto**      | Docker (PC)                       | Eclipse Mosquitto 2.x    | 1883 |
-| **Node-RED**       | Docker (PC)                       | Node-RED + Dashboard     | 1880 |
-| **Python Tools**   | PC (native)                       | Python 3.11+             | -    |
-| **ESP32 Firmware** | ESP32 DevKit                      | ESP-IDF 5.5 (primary)    | -    |
-| **Dark Dashboard** | Browser (via Node-RED httpStatic) | HTML + MQTT.js WebSocket | 9001 |
+| Component          | Runs On      | Technology            | Port |
+| ------------------ | ------------ | --------------------- | ---- |
+| **Mosquitto**      | Docker (PC)  | Eclipse Mosquitto 2.x | 1883 |
+| **Node-RED**       | Docker (PC)  | Node-RED + Dashboard  | 1880 |
+| **Python Tools**   | PC (native)  | Python 3.11+          | -    |
+| **ESP32 Firmware** | ESP32 DevKit | Arduino/PlatformIO    | -    |
 
 ---
 
@@ -133,17 +132,11 @@ traffic-mqtt-demo/
 │   │   ├── aclfile             # Access control list
 │   │   └── pwfile              # Password file (generated)
 │   └── nodered/data/           # Node-RED persistent data
-├── esp32_idf/                    # ESP-IDF 5.5 firmware (PRIMARY)
-│   ├── CMakeLists.txt
-│   └── main/
-│       ├── app_main.c          # Entry point, publisher task
-│       ├── fsm_controller.c    # Traffic light FSM (6 phases)
-│       ├── mqtt_handler.c      # MQTT client, cmd/ack handling
-│       ├── gpio_lights.c       # LED GPIO driver
-│       ├── wifi_manager.c      # WiFi STA connection
-│       └── Kconfig.projbuild   # Menuconfig options
-├── dashboard/
-│   └── index.html              # Dark-themed standalone dashboard
+├── esp32/
+│   ├── platformio.ini          # PlatformIO build config
+│   └── src/
+│       ├── main.cpp            # Firmware main logic
+│       └── config.example.h    # WiFi/MQTT config template
 ├── logger/tools/
 │   ├── mock_esp32.py           # ESP32 simulator
 │   ├── smoke_test.py           # E2E smoke test
@@ -159,14 +152,13 @@ traffic-mqtt-demo/
 
 ## 6. Dependencies
 
-| Service        | Dependency  | Version                                     |
-| -------------- | ----------- | ------------------------------------------- |
-| Mosquitto      | Docker      | eclipse-mosquitto:2                         |
-| Node-RED       | Docker      | nodered/node-red:latest                     |
-| Python Tools   | Local       | Python 3.11+, paho-mqtt, pandas, matplotlib |
-| ESP32 Firmware | ESP-IDF 5.5 | esp_mqtt, cJSON (managed components)        |
-| Dashboard      | Browser     | HTML + mqtt.min.js (WebSocket)              |
+| Service      | Dependency | Version                                     |
+| ------------ | ---------- | ------------------------------------------- |
+| Mosquitto    | Docker     | eclipse-mosquitto:2                         |
+| Node-RED     | Docker     | nodered/node-red:latest                     |
+| Python Tools | Local      | Python 3.11+, paho-mqtt, pandas, matplotlib |
+| ESP32        | PlatformIO | Arduino framework, PubSubClient             |
 
 ---
 
-> 📚 Xem thêm: [SPEC.md](../SPEC.md) | [API.md](API.md) | [SPEC_IMPLEMENTATION_MATRIX.md](SPEC_IMPLEMENTATION_MATRIX.md)
+> 📚 Xem thêm: [SPEC.md](SPEC.md) | [RUNBOOK.md](RUNBOOK.md) | [NODE_RED_GUIDE.md](docs/NODE_RED_GUIDE.md)
