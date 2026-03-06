@@ -1,277 +1,413 @@
-﻿# CÃ¡c Pháº§n Má»Ÿ Äáº§u
+# Danh mục những từ viết tắt
 
-## 5. Má»Ÿ Ä‘áº§u
+| Từ viết tắt | Ý nghĩa                                                             |
+| :---------: | ------------------------------------------------------------------- |
+|     ACK     | Acknowledgment — Bản tin xác nhận                                   |
+|     ACL     | Access Control List — Danh sách kiểm soát truy cập                  |
+|    CoAP     | Constrained Application Protocol                                    |
+|     DoS     | Denial of Service — Tấn công từ chối dịch vụ                        |
+|    ECDF     | Empirical Cumulative Distribution Function                          |
+|    ESP32    | Vi điều khiển Espressif Systems 32-bit                              |
+|     FSM     | Finite State Machine — Máy trạng thái hữu hạn                       |
+|    GPIO     | General Purpose Input/Output                                        |
+|     IoT     | Internet of Things — Internet vạn vật                               |
+|     ITS     | Intelligent Transportation Systems — Hệ thống giao thông thông minh |
+|    JSON     | JavaScript Object Notation                                          |
+|     LWT     | Last Will and Testament — Di chúc cuối cùng (MQTT)                  |
+|     M2M     | Machine-to-Machine — Liên lạc máy-máy                               |
+|    MQTT     | Message Queuing Telemetry Transport                                 |
+|    mTLS     | Mutual Transport Layer Security — Bảo mật tầng vận chuyển 2 chiều   |
+|     QoS     | Quality of Service — Chất lượng dịch vụ                             |
+|    RSSI     | Received Signal Strength Indicator — Cường độ tín hiệu thu          |
+|     RTT     | Round-Trip Time — Thời gian khứ hồi                                 |
+|     SVG     | Scalable Vector Graphics                                            |
+|     TCP     | Transmission Control Protocol                                       |
+|     TLS     | Transport Layer Security — Bảo mật tầng vận chuyển                  |
+|     UDP     | User Datagram Protocol                                              |
+|    UUID     | Universally Unique Identifier — Mã định danh duy nhất toàn cầu      |
 
-Sá»± bÃ¹ng ná»• cá»§a Internet of Things (IoT) Ä‘Ã£ má»Ÿ ra nhá»¯ng hÆ°á»›ng Ä‘i má»›i trong viá»‡c quáº£n lÃ½ vÃ  váº­n hÃ nh thÃ´ng minh cÆ¡ sá»Ÿ háº¡ táº§ng Ä‘Ã´ thá»‹. Trong Ä‘Ã³, há»‡ thá»‘ng giao thÃ´ng tÃ­n hiá»‡u Ä‘Ã³ng vai trÃ² xÆ°Æ¡ng sá»‘ng trong viá»‡c duy trÃ¬ tráº­t tá»± vÃ  an toÃ n cÃ´ng cá»™ng. PhÆ°Æ¡ng thá»©c Ä‘iá»u khiá»ƒn Ä‘Ã¨n giao thÃ´ng truyá»n thá»‘ng hiá»‡n nay pháº§n lá»›n dá»±a trÃªn cÃ¡c bá»™ Ä‘á»‹nh thá»i (timer-based) Ä‘Æ°á»£c thiáº¿t láº­p sáºµn, thiáº¿u kháº£ nÄƒng giÃ¡m sÃ¡t tá»« xa vÃ  khÃ³ khÄƒn trong viá»‡c thay Ä‘á»•i chu ká»³ linh hoáº¡t. Äiá»u nÃ y Ä‘áº·t ra yÃªu cáº§u cáº¥p thiáº¿t vá» má»™t giáº£i phÃ¡p quáº£n lÃ½ táº­p trung, cÃ³ Ä‘á»™ trá»… tháº¥p vÃ  Ä‘á»™ tin cáº­y cao. Äá» tÃ i "NghiÃªn cá»©u á»©ng dá»¥ng IoT - MQTT trong giÃ¡m sÃ¡t vÃ  Ä‘iá»u khiá»ƒn tá»« xa há»‡ thá»‘ng Ä‘Ã¨n tÃ­n hiá»‡u giao thÃ´ng" Ä‘Æ°á»£c thá»±c hiá»‡n nháº±m má»¥c Ä‘Ã­ch giáº£i quyáº¿t váº¥n Ä‘á» nÃ y.
+---
 
-## 6. Tá»•ng quan tÃ¬nh hÃ¬nh nghiÃªn cá»©u thuá»™c lÄ©nh vá»±c
+# Các Phần Mở Đầu
 
-### TÃ¬nh hÃ¬nh trong nÆ°á»›c
+## 5. Mở đầu
 
-Táº¡i Viá»‡t Nam, cÃ¡c thÃ nh phá»‘ lá»›n nhÆ° HÃ  Ná»™i vÃ  TP.HCM Ä‘ang bÆ°á»›c Ä‘áº§u thá»­ nghiá»‡m cÃ¡c há»‡ thá»‘ng giao thÃ´ng thÃ´ng minh (ITS). Tuy nhiÃªn, háº§u háº¿t cÃ¡c há»‡ thá»‘ng hiá»‡n táº¡i Ä‘á»u sá»­ dá»¥ng háº¡ táº§ng máº¡ng cÃ¡p quang tá»‘n kÃ©m vÃ  cÃ¡c giao thá»©c truyá»n thÃ´ng Ä‘á»™c quyá»n tÄ©nh. Viá»‡c giÃ¡m sÃ¡t thiáº¿t bá»‹ á»Ÿ cÃ¡c Ä‘iá»ƒm nÃºt giao thÃ´ng nhá» váº«n cÃ²n háº¡n cháº¿ do chi phÃ­ káº¿t ná»‘i cao.
+Sự bùng nổ của Internet of Things (IoT) đã mở ra những hướng đi mới trong việc quản lý và vận hành thông minh cơ sở hạ tầng đô thị [1]. Trong đó, hệ thống giao thông tín hiệu đóng vai trò xương sống trong việc duy trì trật tự và an toàn công cộng. Phương thức điều khiển đèn giao thông truyền thống hiện nay phần lớn dựa trên các bộ định thời (timer-based) được thiết lập sẵn, thiếu khả năng giám sát từ xa và khó khăn trong việc thay đổi chu kỳ linh hoạt [2]. Điều này đặt ra yêu cầu cấp thiết về một giải pháp quản lý tập trung, có độ trễ thấp và độ tin cậy cao. Đề tài "Nghiên cứu ứng dụng IoT - MQTT trong giám sát và điều khiển từ xa hệ thống đèn tín hiệu giao thông" được thực hiện nhằm mục đích giải quyết vấn đề này.
 
-### TÃ¬nh hÃ¬nh tháº¿ giá»›i
+## 6. Tổng quan tình hình nghiên cứu thuộc lĩnh vực
 
-TrÃªn tháº¿ giá»›i, kiáº¿n trÃºc IoT vá»›i cÃ¡c giao thá»©c nháº¹ nhÆ° MQTT hoáº·c CoAP Ä‘Ã£ trá»Ÿ thÃ nh tiÃªu chuáº©n cÃ´ng nghiá»‡p cho liÃªn láº¡c mÃ¡y-mÃ¡y (M2M). CÃ¡c quá»‘c gia phÃ¡t triá»ƒn sá»­ dá»¥ng vi Ä‘iá»u khiá»ƒn biÃªn (Edge devices) káº¿t ná»‘i khÃ´ng dÃ¢y Ä‘á»ƒ gá»­i dá»¯ liá»‡u giao thÃ´ng theo thá»i gian thá»±c vá» mÃ¡y chá»§ trung tÃ¢m (Cloud), cho phÃ©p thuáº­t toÃ¡n AI phÃ¢n luá»“ng giao thÃ´ng Ä‘á»™ng.
+### Tình hình trong nước
 
-## 7. LÃ½ do lá»±a chá»n Ä‘á» tÃ i
+Tại Việt Nam, hệ thống điều khiển đèn tín hiệu giao thông tập trung SCATS (Sydney Coordinated Adaptive Traffic System) đã được thí điểm triển khai tại TP. Hồ Chí Minh từ năm 2014 trên một số tuyến đường chính [2]. Tại Hà Nội, hệ thống UTC (Urban Traffic Control) của Siemens đã được lắp đặt cho khoảng 100 nút giao thông từ năm 2017 [3]. Tuy nhiên, cả hai hệ thống trên đều sử dụng hạ tầng mạng cáp quang tốn kém và giao thức truyền thông đóng (proprietary). Việc giám sát thiết bị ở các điểm nút giao thông nhỏ lẻ vẫn còn hạn chế do chi phí triển khai cao.
 
-Giao thá»©c MQTT (Message Queuing Telemetry Transport) Ä‘Æ°á»£c Ä‘Ã¡nh giÃ¡ lÃ  Ä‘áº·c biá»‡t phÃ¹ há»£p cho máº¡ng IoT bÄƒng thÃ´ng tháº¥p vÃ  khÃ´ng á»•n Ä‘á»‹nh do dung lÆ°á»£ng header cá»±c nhá» (chá»‰ 2 bytes) vÃ  cÆ¡ cháº¿ QoS (Quality of Service) linh hoáº¡t. DÃ¹ váº­y, á»©ng dá»¥ng thá»±c táº¿ vÃ  viá»‡c Ä‘o Ä‘áº¡c hiá»‡u nÄƒng Ä‘á»‹nh lÆ°á»£ng cá»§a MQTT trong bÃ i toÃ¡n Ä‘áº·c thÃ¹ nhÆ° Ä‘iá»u khiá»ƒn Ä‘Ã¨n giao thÃ´ng táº¡i Viá»‡t Nam váº«n chÆ°a Ä‘Æ°á»£c nghiÃªn cá»©u toÃ n diá»‡n. Do Ä‘Ã³, viá»‡c thá»±c nghiá»‡m Ä‘o lÆ°á»ng Ä‘á»™ trá»… (RTT) vÃ  tÃ­nh á»•n Ä‘á»‹nh cá»§a MQTT lÃ  lÃ½ do chÃ­nh Ä‘á»ƒ nhÃ³m lá»±a chá»n Ä‘á» tÃ i nÃ y, lÃ m tiá»n Ä‘á» cho há»‡ thá»‘ng giao thÃ´ng thÃ´ng minh.
+### Tình hình thế giới
 
-## 8. Má»¥c tiÃªu, ná»™i dung, phÆ°Æ¡ng phÃ¡p nghiÃªn cá»©u
+Trên thế giới, kiến trúc IoT với các giao thức nhẹ như MQTT hoặc CoAP đã trở thành tiêu chuẩn công nghiệp cho liên lạc máy-máy (M2M) [4]. Năm 2019, C. S. Nandy và cộng sự đã đề xuất mô hình "IoT Based Smart Traffic Control System" sử dụng vi điều khiển Arduino kết hợp cảm biến hồng ngoại đếm phương tiện, tuy nhiên nghiên cứu này không đo lường hiệu năng định lượng của giao thức truyền thông [5]. Nghiên cứu của A. Al-Fuqaha và cộng sự (2015) đã khảo sát toàn diện các giao thức IoT và kết luận MQTT là lựa chọn tối ưu cho các ứng dụng yêu cầu push notification thời gian thực [6].
 
-**Má»¥c tiÃªu:**
+### Khoảng trống nghiên cứu
 
-- XÃ¢y dá»±ng thÃ nh cÃ´ng mÃ´ hÃ¬nh há»‡ thá»‘ng giÃ¡m sÃ¡t vÃ  Ä‘iá»u khiá»ƒn tÃ­n hiá»‡u Ä‘Ã¨n giao thÃ´ng tá»« xa thÃ´ng qua giao thá»©c MQTT.
-- ÄÃ¡nh giÃ¡ hiá»‡u quáº£, Ä‘o lÆ°á»ng Ä‘á»™ trá»… máº¡ng (Round-Trip Time) vÃ  tá»· lá»‡ máº¥t gÃ³i tin (Packet Loss).
-- XÃ¢y dá»±ng giao diá»‡n Dashboard thá»i gian thá»±c hiá»‡n Ä‘áº¡i, hiá»ƒn thá»‹ giÃ¡m sÃ¡t vÃ  cung cáº¥p cÆ¡ cháº¿ Ä‘iá»u khiá»ƒn kháº©n cáº¥p.
+Qua khảo sát, nhóm nhận thấy phần lớn các nghiên cứu tập trung vào kiến trúc hệ thống hoặc thuật toán AI đếm xe, mà chưa đi sâu vào việc **đo lường định lượng hiệu năng truyền thông MQTT** (độ trễ RTT, tỷ lệ mất gói tin, cơ chế phát hiện offline) trong bài toán điều khiển đèn giao thông.
 
-**Ná»™i dung nghiÃªn cá»©u:**
+## 7. Lý do lựa chọn đề tài
 
-- NghiÃªn cá»©u kiáº¿n trÃºc IoT, giao thá»©c MQTT, vÃ  cÃ¡c chuáº©n thÃ´ng Ä‘iá»‡p (Payload).
-- Cáº¥u hÃ¬nh MQTT Broker (Mosquitto) vá»›i tÃ­nh nÄƒng báº£o máº­t vÃ  WebSocket.
-- Láº­p trÃ¬nh firmware cho vi Ä‘iá»u khiá»ƒn (ESP32) hoáº¡t Ä‘á»™ng nhÆ° má»™t thiáº¿t bá»‹ biÃªn (Edge worker).
-- PhÃ¡t triá»ƒn pháº§n má»m Dashboard hiá»ƒn thá»‹.
+Giao thức MQTT (Message Queuing Telemetry Transport) được đánh giá là đặc biệt phù hợp cho mạng IoT băng thông thấp và không ổn định nhờ dung lượng header cực nhỏ (chỉ 2 bytes) và cơ chế QoS linh hoạt [1][4]. Dù vậy, ứng dụng thực tế và việc đo đạc hiệu năng định lượng của MQTT trong bài toán đặc thù như điều khiển đèn giao thông tại Việt Nam vẫn chưa được nghiên cứu toàn diện. Do đó, việc thực nghiệm đo lường độ trễ (RTT) và tính ổn định của MQTT là lý do chính để nhóm lựa chọn đề tài này, làm tiền đề cho hệ thống giao thông thông minh.
 
-**PhÆ°Æ¡ng phÃ¡p nghiÃªn cá»©u:**
+## 8. Mục tiêu, nội dung, phương pháp nghiên cứu
 
-- **NghiÃªn cá»©u lÃ½ thuyáº¿t:** Tham kháº£o tiÃªu chuáº©n MQTT v5.0 cá»§a quy chuáº©n OASIS.
-- **NghiÃªn cá»©u thá»±c nghiá»‡m:** Thiáº¿t káº¿ ká»‹ch báº£n Benchmark, gá»­i hÃ ng nghÃ¬n gÃ³i tin tá»± Ä‘á»™ng Ä‘á»ƒ thu tháº­p dá»¯ liá»‡u vá» Ä‘á»™ trá»…, lÆ°u trá»¯ thÃ nh tá»‡p CSV, vÃ  viáº¿t mÃ£ Python váº½ biá»ƒu Ä‘á»“ xÃ¡c suáº¥t (ECDF, Histogram).
+**Mục tiêu:**
 
-## 9. Äá»‘i tÆ°á»£ng vÃ  pháº¡m vi nghiÃªn cá»©u
+- Xây dựng thành công mô hình hệ thống giám sát và điều khiển tín hiệu đèn giao thông từ xa thông qua giao thức MQTT.
+- Đánh giá hiệu quả, đo lường độ trễ mạng (Round-Trip Time) và tỷ lệ mất gói tin (Packet Loss).
+- Xây dựng giao diện Dashboard thời gian thực hiện đại, hiển thị giám sát và cung cấp cơ chế điều khiển khẩn cấp.
 
-- **Äá»‘i tÆ°á»£ng nghiÃªn cá»©u:**
-  - Giao thá»©c truyá»n thÃ´ng MQTT vÃ  cÃ¡c cÆ¡ cháº¿ QoS (0, 1).
-  - Vi Ä‘iá»u khiá»ƒn ESP32 vÃ  cÃ´ng nghá»‡ web thá»i gian thá»±c (WebSocket).
-- **Pháº¡m vi nghiÃªn cá»©u:**
-  - Äá» tÃ i giá»›i háº¡n mÃ´ phá»ng vÃ  thá»±c nghiá»‡m á»Ÿ quy mÃ´ má»™t nÃºt giao thÃ´ng (intersection) dáº¡ng ngÃ£ tÆ° tiÃªu chuáº©n gá»“m 4 hÆ°á»›ng Ä‘i.
-  - Thá»­ nghiá»‡m Ä‘á»™ trá»… thá»±c hiá»‡n trong mÃ´i trÆ°á»ng máº¡ng giáº£ láº­p (Mock) vÃ  máº¡ng cá»¥c bá»™ (LAN/WiFi).
-# ChÆ°Æ¡ng 1. CÆ¡ sá»Ÿ lÃ½ thuyáº¿t vá» IoT vÃ  giao thá»©c MQTT
+**Nội dung nghiên cứu:**
 
-Chi tiáº¿t trong chÆ°Æ¡ng nÃ y táº­p trung lÃ m rÃµ cÃ¡c ná»n táº£ng cÃ´ng nghá»‡ lÃµi táº¡o nÃªn há»‡ thá»‘ng, Ä‘áº·c biá»‡t lÃ  kiáº¿n trÃºc truyá»n thÃ´ng MQTT. Viá»‡c hiá»ƒu rÃµ cÆ¡ cháº¿ ná»™i táº¡i cá»§a MQTT lÃ  cÆ¡ sá»Ÿ Ä‘á»ƒ giáº£i thÃ­ch cÃ¡c quyáº¿t Ä‘á»‹nh thiáº¿t káº¿ á»Ÿ cÃ¡c chÆ°Æ¡ng sau.
+- Nghiên cứu kiến trúc IoT, giao thức MQTT, và các chuẩn thông điệp (Payload).
+- Cấu hình MQTT Broker (Mosquitto) với tính năng bảo mật và WebSocket.
+- Lập trình firmware cho vi điều khiển (ESP32) hoạt động như một thiết bị biên (Edge worker).
+- Phát triển phần mềm Dashboard hiển thị trực quan.
 
-## 1.1 Tá»•ng quan vá» Internet of Things (IoT) trong Giao thÃ´ng
+**Phương pháp nghiên cứu:**
 
-Internet váº¡n váº­t (IoT) trong giao thÃ´ng, hay ITS (Intelligent Transportation Systems), Ä‘á» cáº­p Ä‘áº¿n viá»‡c tÃ­ch há»£p cÃ¡c cáº£m biáº¿n, vi Ä‘iá»u khiá»ƒn tÃ­nh toÃ¡n vÃ  cÃ´ng nghá»‡ truyá»n thÃ´ng vÃ o cÆ¡ sá»Ÿ háº¡ táº§ng giao thÃ´ng.
+- **Nghiên cứu lý thuyết:** Tham khảo tiêu chuẩn MQTT v5.0 của quy chuẩn OASIS [1].
+- **Nghiên cứu thực nghiệm:** Thiết kế kịch bản Benchmark gồm 500 lệnh điều khiển × 5 mức kích cỡ payload (0B, 256B, 512B, 900B, 1200B) với tần suất 1 lệnh mỗi 200ms. Thu thập dữ liệu về độ trễ, lưu trữ thành tệp CSV, viết mã Python vẽ biểu đồ phân phối (Histogram) và hàm phân phối tích lũy thực nghiệm (ECDF).
 
-YÃªu cáº§u cá»‘t lÃµi cá»§a má»™t há»‡ thá»‘ng IoT giao thÃ´ng:
+## 9. Đối tượng và phạm vi nghiên cứu
 
-1. **Äá»™ trá»… tháº¥p (Low Latency):** TÃ­nh nÄƒng an toÃ n (nhÆ° thao tÃ¡c kháº©n cáº¥p Ä‘á»•i Ä‘Ã¨n ALL-RED) yÃªu cáº§u lá»‡nh pháº£i Ä‘Æ°á»£c pháº£n há»“i tÃ­nh báº±ng mili-giÃ¢y.
-2. **Kháº£ nÄƒng chá»‹u lá»—i (Fault Tolerance):** Máº¡ng khÃ´ng dÃ¢y thÆ°á»ng xuyÃªn bá»‹ nhiá»…u. Há»‡ thá»‘ng pháº£i biáº¿t khi nÃ o máº¥t káº¿t ná»‘i Ä‘á»ƒ cÃ³ cÆ¡ cháº¿ tá»± Ä‘á»™ng xá»­ lÃ½ an toÃ n cá»¥c bá»™.
-3. **Tiáº¿t kiá»‡m tÃ i nguyÃªn:** CÃ¡c tá»§ Ä‘iá»u khiá»ƒn ngoÃ i Ä‘Æ°á»ng phá»‘ cÃ³ nÄƒng lá»±c xá»­ lÃ½ (CPU) vÃ  káº¿t ná»‘i máº¡ng háº¡n cháº¿ (thÆ°á»ng dÃ¹ng máº¡ng di Ä‘á»™ng 3G/4G/4G-LTE).
+- **Đối tượng nghiên cứu:**
+  - Giao thức truyền thông MQTT và các cơ chế QoS (0, 1).
+  - Vi điều khiển ESP32 và công nghệ web thời gian thực (WebSocket).
+- **Phạm vi nghiên cứu:**
+  - Đề tài giới hạn mô phỏng và thực nghiệm ở quy mô một nút giao thông (intersection) dạng ngã tư tiêu chuẩn gồm 4 hướng đi.
+  - **Giai đoạn 1:** Thử nghiệm độ trễ trong môi trường mạng nội bộ (loopback) với thiết bị mô phỏng Mock ESP32.
+  - **Giai đoạn 2:** Thử nghiệm với thiết bị ESP32 vật lý qua mạng WiFi thực tế (dự kiến cập nhật).
 
-## 1.2 Giao thá»©c MQTT (Message Queuing Telemetry Transport)
 
-MQTT lÃ  má»™t giao thá»©c truyá»n thÃ´ng máº¡ng má»Ÿ, nháº¹ (lightweight), tuÃ¢n theo mÃ´ hÃ¬nh xuáº¥t báº£n/Ä‘Äƒng kÃ½ (publish/subscribe). MQTT chuáº©n hÃ³a quy Ä‘á»‹nh bá»Ÿi OASIS, Ä‘áº·c biá»‡t thiáº¿t káº¿ cho cÃ¡c thiáº¿t bá»‹ bá»‹ giá»›i háº¡n tÃ i nguyÃªn vÃ  cÃ¡c máº¡ng cÃ³ bÄƒng thÃ´ng tháº¥p, Ä‘á»™ trá»… cao, hay khÃ´ng Ä‘Ã¡ng tin cáº­y.
+---
 
-### 1.2.1 MÃ´ hÃ¬nh Publish/Subscribe vÃ  Broker
+# Chương 1. Cơ sở lý thuyết về IoT và giao thức MQTT
 
-KhÃ¡c vá»›i giao thá»©c HTTP hoáº¡t Ä‘á»™ng theo mÃ´ hÃ¬nh Client/Server (Request/Response) Ä‘á»“ng bá»™, MQTT sá»­ dá»¥ng kiáº¿n trÃºc báº¥t Ä‘á»“ng bá»™:
+Chi tiết trong chương này tập trung làm rõ các nền tảng công nghệ lõi tạo nên hệ thống, đặc biệt là kiến trúc truyền thông MQTT [1]. Việc hiểu rõ cơ chế nội tại của MQTT là cơ sở để giải thích các quyết định thiết kế ở các chương sau.
 
-- **Broker (MÃ¡y chá»§ trung gian):** ÄÃ³ng vai trÃ² lÃ m bÆ°u Ä‘iá»‡n, nháº­n má»i tin nháº¯n (message) vÃ  phÃ¢n phá»‘i láº¡i cho cÃ¡c Ä‘á»‘i tÆ°á»£ng quan tÃ¢m.
-- **Publisher (NgÆ°á»i gá»­i):** Thiáº¿t bá»‹ gá»­i dá»¯ liá»‡u lÃªn Broker vá»›i má»™t nhÃ£n dÃ¡n cá»¥ thá»ƒ gá»i lÃ  `Topic`.
-- **Subscriber (NgÆ°á»i nháº­n):** CÃ i Ä‘áº·t láº¯ng nghe cÃ¡c `Topic`. Báº¥t cá»© khi nÃ o cÃ³ tin nháº¯n má»›i thuá»™c Topic Ä‘Ã³, Broker sáº½ láº­p tá»©c Ä‘áº©y (push) dá»¯ liá»‡u xuá»‘ng.
+## 1.1 Tổng quan về Internet of Things (IoT) trong Giao thông
 
-Nhá» mÃ´ hÃ¬nh nÃ y, Dashboard Ä‘iá»u khiá»ƒn Ä‘Ã¨n vÃ  vi Ä‘iá»u khiá»ƒn ESP32 khÃ´ng cáº§n biáº¿t Ä‘á»‹a chá»‰ IP cá»§a nhau, giÃºp há»‡ thá»‘ng dá»… dÃ ng má»Ÿ rá»™ng, Ä‘á»“ng thá»i giáº£i quyáº¿t Ä‘Æ°á»£c yÃªu cáº§u bÄƒng thÃ´ng háº¹p cá»§a ITS.
+Internet vạn vật (IoT) trong giao thông, hay ITS (Intelligent Transportation Systems), đề cập đến việc tích hợp các cảm biến, vi điều khiển tính toán và công nghệ truyền thông vào cơ sở hạ tầng giao thông [6].
 
-### 1.2.2 CÃ¡c má»©c Ä‘á»™ Ä‘áº£m báº£o pháº£n há»“i - Quality of Service (QoS)
+Yêu cầu cốt lõi của một hệ thống IoT giao thông:
 
-MQTT cung cáº¥p 3 má»©c Ä‘á»™ Æ°u tiÃªn xÃ¡c nháº­n gÃ³i tin, cho phÃ©p láº­p trÃ¬nh viÃªn Ä‘Ã¡nh Ä‘á»•i giá»¯a tá»‘c Ä‘á»™ vÃ  Ä‘á»™ tin cáº­y:
+1. **Độ trễ thấp (Low Latency):** Tính năng an toàn (như thao tác khẩn cấp đổi đèn ALL-RED) yêu cầu lệnh phải được phản hồi tính bằng mili-giây [5].
+2. **Khả năng chịu lỗi (Fault Tolerance):** Mạng không dây thường xuyên bị nhiễu. Hệ thống phải biết khi nào mất kết nối để có cơ chế tự động xử lý an toàn cục bộ.
+3. **Tiết kiệm tài nguyên:** Các tủ điều khiển ngoài đường phố có năng lực xử lý (CPU) và kết nối mạng hạn chế (thường dùng mạng di động 3G/4G) [4].
 
-- **QoS 0 (At most once / Fire-and-forget):** Gá»­i 1 láº§n duy nháº¥t, khÃ´ng cáº§n pháº£n há»“i. PhÃ¹ há»£p cho dá»¯ liá»‡u telemetry liÃªn tá»¥c nhÆ° nhiá»‡t Ä‘á»™, tÃ¬nh tráº¡ng RAM, vÃ¬ náº¿u máº¥t 1 báº£n tin, báº£n tin á»Ÿ giÃ¢y tiáº¿p theo sáº½ bÃ¹ Ä‘áº¯p. Tá»‘c Ä‘á»™ cá»±c nhanh.
-- **QoS 1 (At least once):** Äáº£m báº£o báº£n tin tá»›i Ä‘Ã­ch Ã­t nháº¥t 1 láº§n. NgÆ°á»i nháº­n pháº£i tráº£ vá» gÃ³i tin xÃ¡c nháº­n (ACK). DÃ¹ng cho máº¡ng khÃ´ng á»•n Ä‘á»‹nh, nÆ¡i tin nháº¯n cÃ³ thá»ƒ bá»‹ gá»­i láº¡i. Báº¯t buá»™c dÃ¹ng cho lá»‡nh Ä‘iá»u khiá»ƒn Ä‘á»•i pha Ä‘Ã¨n giao thÃ´ng, vÃ¬ viá»‡c bá» sÃ³t lá»‡nh lÃ  khÃ´ng thá»ƒ cháº¥p nháº­n Ä‘Æ°á»£c.
-- **QoS 2 (Exactly once):** Äáº£m báº£o nháº­n Ä‘Ãºng vÃ  chá»‰ 1 láº§n. Triá»ƒn khai phá»©c táº¡p qua tiáº¿n trÃ¬nh báº¯t tay 4 bÆ°á»›c.
+## 1.2 Giao thức MQTT (Message Queuing Telemetry Transport)
 
-Trong Ä‘á» tÃ i nÃ y, nhÃ³m thiáº¿t káº¿ káº¿t há»£p linh hoáº¡t cáº£ QoS 0 vÃ  QoS 1 tÃ¹y theo ná»™i dung báº£n tin (ÄÆ°á»£c trÃ¬nh bÃ y chi tiáº¿t táº¡i Pháº§n thiáº¿t káº¿ kiáº¿n trÃºc ChÆ°Æ¡ng 2).
+MQTT là một giao thức truyền thông mạng mở, nhẹ (lightweight), tuân theo mô hình xuất bản/đăng ký (publish/subscribe), được chuẩn hóa bởi OASIS [1]. Giao thức được thiết kế đặc biệt cho các thiết bị bị giới hạn tài nguyên và các mạng có băng thông thấp, độ trễ cao.
 
-### 1.2.3 CÆ¡ cháº¿ Last Will and Testament (LWT) vÃ  Retained Messages
+### 1.2.1 Mô hình Publish/Subscribe và Broker
 
-- **LWT (Di chÃºc cuá»‘i cÃ¹ng):** Khi thiáº¿t bá»‹ (Edge) káº¿t ná»‘i tá»›i Broker, nÃ³ "gá»­i gáº¯m" má»™t báº£n tin LWT. Náº¿u thiáº¿t bá»‹ bá»‹ sáº­p nguá»“n Ä‘á»™t ngá»™t hoáº·c rá»›t máº¡ng mÃ  khÃ´ng ká»‹p ngáº¯t káº¿t ná»‘i Ä‘Ãºng cÃ¡ch, Broker sáº½ thay máº·t thiáº¿t bá»‹ cÃ´ng bá»‘ báº£n tin nÃ y cho Dashboard biáº¿t. Äiá»u nÃ y giáº£i quyáº¿t bÃ i toÃ¡n giÃ¡m sÃ¡t tráº¡ng thÃ¡i (Online/Offline) cá»§a thiáº¿t bá»‹ viá»…n thÃ´ng má»™t cÃ¡ch chá»§ Ä‘á»™ng.
-- **Retained Messages:** Broker cÃ³ kháº£ nÄƒng lÆ°u giá»¯ láº¡i (retain) báº£n tin cuá»‘i cÃ¹ng cá»§a má»™t Topic. Báº¥t ká»³ má»™t Dashboard má»›i nÃ o vá»«a má»Ÿ lÃªn cÅ©ng láº­p tá»©c nháº­n Ä‘Æ°á»£c báº£n tin Retained, giÃºp Ä‘á»“ng bá»™ hÃ³a tráº¡ng thÃ¡i hiá»‡n thá»i ngay láº­p tá»©c mÃ  khÃ´ng cáº§n pháº£i gá»i lá»‡nh láº¥y dá»¯ liá»‡u (polling).
+> _Hình 1.1: Mô hình kiến trúc Publish/Subscribe của MQTT (Minh họa — chèn hình vào báo cáo Word)_
 
-## 1.3 Báº£ng so sÃ¡nh MQTT so vá»›i cÃ¡c giao thá»©c khÃ¡c
+Khác với giao thức HTTP hoạt động theo mô hình Client/Server (Request/Response) đồng bộ, MQTT sử dụng kiến trúc bất đồng bộ [1][4]:
 
-Äá»ƒ lÃ m sÃ¡ng tá» tÃ­nh Æ°u viá»‡t cá»§a MQTT vá»›i bÃ i toÃ¡n, dÆ°á»›i Ä‘Ã¢y lÃ  báº£ng so sÃ¡nh tham chiáº¿u.
+- **Broker (Máy chủ trung gian):** Đóng vai trò làm bưu điện, nhận mọi tin nhắn (message) và phân phối lại cho các đối tượng quan tâm.
+- **Publisher (Người gửi):** Thiết bị gửi dữ liệu lên Broker với một nhãn dán cụ thể gọi là `Topic`.
+- **Subscriber (Người nhận):** Cài đặt lắng nghe các `Topic`. Bất cứ khi nào có tin nhắn mới thuộc Topic đó, Broker sẽ lập tức đẩy (push) dữ liệu xuống.
 
-| TiÃªu chÃ­                                  | MQTT                            | HTTP / REST                         | CoAP                         |
-| :---------------------------------------- | :------------------------------ | :---------------------------------- | :--------------------------- |
-| **Kiáº¿n trÃºc**                             | Publish / Subscribe             | Request / Response (Äá»“ng bá»™)        | Client / Server (Request)    |
-| **KÃ­ch thÆ°á»›c Header**                     | Ráº¥t nhá» (2 Bytes)               | Lá»›n (VÃ i trÄƒm Bytes)                | Nhá» (4 Bytes)                |
-| **Giao thá»©c máº¡ng**                        | TCP/IP (CÃ³ thá»ƒ dÃ¹ng WebSockets) | TCP (chiáº¿m dá»¥ng tÃ i nguyÃªn)         | UDP (khÃ´ng tin cáº­y)          |
-| **TiÃªu tá»‘n pin / bÄƒng thÃ´ng**             | Cá»±c ká»³ tháº¥p                     | Ráº¥t cao (Do overhead)               | KhÃ¡ mTháº¥p                    |
-| **Há»— trá»£ thá»i gian thá»±c (Realtime push)** | Cá»±c kÃ¬ tá»‘t (Push)               | Ráº¥t kÃ©m (Pháº£i Polling/Long-polling) | KhÃ¡ tá»‘t                      |
-| **á»¨ng dá»¥ng chÃ­nh**                        | IoT, Smart City                 | Web Services, CRUD                  | Cáº£m biáº¿n nÄƒng lÆ°á»£ng cá»±c tháº¥p |
+Nhờ mô hình này, Dashboard điều khiển đèn và vi điều khiển ESP32 không cần biết địa chỉ IP của nhau, giúp hệ thống dễ dàng mở rộng [4].
 
-CÃ³ thá»ƒ tháº¥y giao thá»©c MQTT (cháº¡y trÃªn TCP ná»n táº£ng) cÃ¢n báº±ng hoÃ n háº£o giá»¯a Ä‘á»™ tin cáº­y máº¡ng truyá»n thÃ´ng vá»›i tÃ­nh nÄƒng push tá»©c thá»i, lÃ  lá»±a chá»n lÃ½ tÆ°á»Ÿng nháº¥t cho há»‡ thá»‘ng Ä‘iá»ƒu khiá»ƒn Ä‘Ã¨n tÃ­n hiá»‡u giao thÃ´ng so vá»›i cÆ¡ cháº¿ láº¥y-cáº¥p (Polling) cá»§a HTTP truyá»n thá»‘ng.
+### 1.2.2 Các mức độ đảm bảo phản hồi - Quality of Service (QoS)
 
-## 1.4 Vi Ä‘iá»u khiá»ƒn ESP32
+MQTT cung cấp 3 mức độ ưu tiên xác nhận gói tin, cho phép lập trình viên đánh đổi giữa tốc độ và độ tin cậy [1]:
 
-Node vi Ä‘iá»u khiá»ƒn ESP32 cá»§a hÃ£ng Espressif Systems Ä‘Æ°á»£c á»©ng dá»¥ng trong nghiÃªn cá»©u nÃ y do vi xá»­ lÃ½ lÃµi kÃ©p máº¡nh máº½ (lÃªn tá»›i 240MHz) cÃ¹ng chip Wi-Fi/Bluetooth tÃ­ch há»£p sáºµn. ESP32 Ä‘i kÃ¨m vá»›i framework chÃ­nh thá»©c lÃ  ESP-IDF (IoT Development Framework) sá»­ dá»¥ng há»‡ Ä‘iá»u hÃ nh thá»i gian thá»±c FreeRTOS, giÃºp linh kiá»‡n cÃ³ thá»ƒ cháº¡y Ä‘a luá»“ng Ä‘á»“ng thá»i: má»™t luá»“ng giá»¯ tÃ­n hiá»‡u Ä‘iá»u khiá»ƒn Ä‘Ã¨n theo chu kÃ¬ cá»©ng (Hardware Timer), má»™t luá»“ng riÃªng biá»‡t xá»­ lÃ½ cÃ¡c gÃ³i tin MQTT máº¡ng lÆ°á»›i.
-# ChÆ°Æ¡ng 2. Thiáº¿t káº¿ Kiáº¿n trÃºc Há»‡ thá»‘ng Äiá»u khiá»ƒn
+- **QoS 0 (At most once / Fire-and-forget):** Gửi 1 lần duy nhất, không cần phản hồi. Phù hợp cho dữ liệu telemetry liên tục vì nếu mất 1 bản tin, bản tin ở giây tiếp theo sẽ bù đắp.
+- **QoS 1 (At least once):** Đảm bảo bản tin tới đích ít nhất 1 lần. Người nhận phải trả về gói ACK. Bắt buộc dùng cho lệnh điều khiển đổi pha đèn giao thông.
+- **QoS 2 (Exactly once):** Đảm bảo nhận đúng và chỉ 1 lần. Triển khai phức tạp qua tiến trình bắt tay 4 bước.
 
-Há»‡ thá»‘ng Ä‘iá»u khiá»ƒn Ä‘Ã¨n giao thÃ´ng dá»±a trÃªn chuáº©n MQTT theo mÃ´ hÃ¬nh Client-Broker-Client Ä‘Æ°á»£c nhÃ³m thiáº¿t káº¿ nháº±m kháº¯c phá»¥c Ä‘iá»ƒm yáº¿u cá»§a Ä‘iá»u khiá»ƒn vÃ²ng tá»« truyá»n thá»‘ng, cung cáº¥p kháº£ nÄƒng phÃ¡t hiá»‡n liÃªn tá»¥c luá»“ng giao thÃ´ng vÃ  pháº£n há»“i linh hoáº¡t.
+Trong đề tài này, nhóm thiết kế kết hợp linh hoạt cả QoS 0 và QoS 1 tùy theo nội dung bản tin (được trình bày chi tiết tại Chương 2).
 
-## 2.1 SÆ¡ Ä‘á»“ khá»‘i tá»•ng thá»ƒ cá»§a há»‡ thá»‘ng
+### 1.2.3 Cơ chế Last Will and Testament (LWT) và Retained Messages
 
-Há»‡ thá»‘ng Ä‘Æ°á»£c chia lÃ m 3 thÃ nh pháº§n chÃ­nh tuyáº¿n tÃ­nh yáº¿u cáº§u (End-to-end Architecture).
+- **LWT (Di chúc cuối cùng):** Khi thiết bị kết nối tới Broker, nó "gửi gắm" một bản tin LWT. Nếu thiết bị bị sập nguồn đột ngột, Broker sẽ thay mặt thiết bị công bố bản tin này cho Dashboard biết [1][7]. Điều này giải quyết bài toán giám sát trạng thái (Online/Offline) một cách chủ động.
+- **Retained Messages:** Broker lưu giữ lại (retain) bản tin cuối cùng của một Topic. Dashboard mới kết nối sẽ lập tức nhận được trạng thái hiện thời mà không cần polling [7].
 
-1. **MQTT Broker (Core):** LÃ  mÃ¡y chá»§ trung tÃ¢m nháº­n dá»¯ liá»‡u, xá»­ lÃ½ phÃ¢n quyá»n. CÃ i Ä‘áº·t trÃªn Docker sá»­ dá»¥ng mÃ£ nguá»“n má»Ÿ Eclipse Mosquitto.
-2. **Edge Device (ESP32 Controller):** Láº¯p Ä‘áº·t trá»±c tiáº¿p táº¡i cÃ¡c tá»§ Ä‘iá»u khiá»ƒn ngÃ£ tÆ°. Äá»c cáº£m biáº¿n cá»©ng, Ä‘iá»u khiá»ƒn rÆ¡-le Ä‘Ã¨n, gá»­i tráº¡ng thÃ¡i vá» Broker, vÃ  láº¯ng nghe lá»‡nh ghi Ä‘Ã¨ (Override Command).
-3. **Web Dashboard (Node-RED/HTML):** Trung tÃ¢m giÃ¡m sÃ¡t thÃ nh phá»‘. Hiá»ƒn thá»‹ UI trá»±c quan trÃªn web trÃ¬nh duyá»‡t cho ngÆ°á»i trá»±c ban, váº½ biá»ƒu Ä‘á»“ tráº¡ng thÃ¡i thá»i gian thá»±c.
+## 1.3 Bảng so sánh MQTT so với các giao thức khác
 
-## 2.2 Thiáº¿t káº¿ Topic Tree MQTT
+Bảng 1.1 so sánh MQTT với các giao thức truyền thông IoT phổ biến khác [4][6].
 
-Thay vÃ¬ giao tiáº¿p theo Ä‘á»‹a chá»‰ IP khÃ³ dá»± Ä‘oÃ¡n, giao thá»©c MQTT dÃ¹ng cÃ¡c Topic String. Há»‡ thá»‘ng sá»­ dá»¥ng Prefix chung: `city/demo/intersection/001/` Ä‘á»‹nh danh duy nháº¥t ngÃ£ tÆ° thá»© 001.
+_Bảng 1.1: So sánh giao thức MQTT, HTTP/REST và CoAP_
 
-| Topic Path     | Chiá»u dá»¯ liá»‡u        | QoS | Chá»©c nÄƒng (Ã nghÄ©a)                                      |
+| Tiêu chí                 | MQTT                   | HTTP / REST                  | CoAP                         |
+| :----------------------- | :--------------------- | :--------------------------- | :--------------------------- |
+| **Kiến trúc**            | Publish / Subscribe    | Request / Response (Đồng bộ) | Client / Server              |
+| **Kích thước Header**    | Rất nhỏ (2 Bytes)      | Lớn (Vài trăm Bytes)         | Nhỏ (4 Bytes)                |
+| **Giao thức mạng**       | TCP/IP (Có WebSockets) | TCP                          | UDP                          |
+| **Tiêu tốn băng thông**  | Cực kỳ thấp            | Rất cao (Do overhead)        | Thấp                         |
+| **Hỗ trợ realtime push** | Rất tốt (Push)         | Kém (Phải Polling)           | Khá tốt                      |
+| **Ứng dụng chính**       | IoT, Smart City        | Web Services, CRUD           | Cảm biến năng lượng cực thấp |
+
+Có thể thấy giao thức MQTT cân bằng hoàn hảo giữa độ tin cậy mạng truyền thông với tính năng push tức thời, là lựa chọn lý tưởng nhất cho hệ thống điều khiển đèn tín hiệu giao thông.
+
+## 1.4 Vi điều khiển ESP32
+
+Node vi điều khiển ESP32 của hãng Espressif Systems được ứng dụng trong nghiên cứu này do vi xử lý lõi kép mạnh mẽ (lên tới 240MHz) cùng chip Wi-Fi/Bluetooth tích hợp sẵn [8]. ESP32 đi kèm với framework chính thức ESP-IDF sử dụng hệ điều hành thời gian thực FreeRTOS, giúp linh kiện chạy đa luồng đồng thời: một luồng giữ tín hiệu điều khiển đèn theo chu kì cứng (Hardware Timer), một luồng riêng biệt xử lý các gói tin MQTT.
+
+
+---
+
+# Chương 2. Thiết kế Kiến trúc Hệ thống Điều khiển
+
+Hệ thống điều khiển đèn giao thông dựa trên chuẩn MQTT theo mô hình Client-Broker-Client được nhóm thiết kế nhằm khắc phục điểm yếu của điều khiển vòng từ truyền thống [2], cung cấp khả năng giám sát liên tục và phản hồi linh hoạt.
+
+## 2.1 Sơ đồ khối tổng thể của hệ thống
+
+> _Hình 2.1: Sơ đồ khối tổng thể hệ thống (Edge Device ↔ MQTT Broker ↔ Web Dashboard) — chèn hình vào Word_
+
+Hệ thống được chia làm 3 thành phần chính (End-to-end Architecture):
+
+1. **MQTT Broker (Core):** Là máy chủ trung tâm nhận dữ liệu, xử lý phân quyền. Cài đặt trên Docker sử dụng mã nguồn mở Eclipse Mosquitto [9].
+2. **Edge Device (ESP32 Controller):** Lắp đặt trực tiếp tại các tủ điều khiển ngã tư. Đọc cảm biến cứng, điều khiển rơ-le đèn, gửi trạng thái về Broker, và lắng nghe lệnh ghi đè (Override Command).
+3. **Web Dashboard (HTML/WebSocket):** Trung tâm giám sát. Hiển thị UI trực quan trên web trình duyệt cho người trực ban, vẽ biểu đồ trạng thái thời gian thực.
+
+## 2.2 Thiết kế Topic Tree MQTT
+
+Thay vì giao tiếp theo địa chỉ IP, giao thức MQTT dùng các Topic String [1]. Hệ thống sử dụng Prefix chung: `city/demo/intersection/001/` định danh duy nhất ngã tư thứ 001.
+
+_Bảng 2.1: Thiết kế Topic Tree MQTT_
+
+| Topic Path     | Chiều dữ liệu        | QoS | Chức năng                                                |
 | -------------- | -------------------- | --- | -------------------------------------------------------- |
-| `../state`     | Edge â†’ Dashboard     | 0   | PhÃ¡t tráº¡ng thÃ¡i pha Ä‘Ã¨n, chu ká»³ liÃªn tá»¥c (Retained=True) |
-| `../telemetry` | Edge â†’ Dashboard     | 0   | PhÃ¡t Ä‘á»‹nh kÃ¬ thÃ´ng sá»‘ RSSI máº¡ng, RAM, thá»i gian sá»‘ng     |
-| `../cmd`       | Dashboard â†’ Edge     | 1   | Lá»‡nh Ä‘iá»u khiá»ƒn kháº©n cáº¥p, yÃªu cáº§u bÃ¡o nháº­n               |
-| `../ack`       | Edge â†’ Dashboard     | 1   | Pháº£n há»“i xÃ¡c nháº­n lá»‡nh `cmd_id` Ä‘Ã£ thá»±c thi              |
-| `../status`    | (Broker) â†’ Dashboard | 1   | Báº£n tin LWT (Online / Offline) giá»¯ láº¡i trÃªn Server       |
+| `../state`     | Edge → Dashboard     | 0   | Phát trạng thái pha đèn, chu kỳ liên tục (Retained=True) |
+| `../telemetry` | Edge → Dashboard     | 0   | Phát định kì thông số RSSI mạng, RAM, thời gian sống     |
+| `../cmd`       | Dashboard → Edge     | 1   | Lệnh điều khiển khẩn cấp, yêu cầu báo nhận               |
+| `../ack`       | Edge → Dashboard     | 1   | Phản hồi xác nhận lệnh `cmd_id` đã thực thi              |
+| `../status`    | (Broker) → Dashboard | 1   | Bản tin LWT (Online / Offline) retain trên Server        |
 
-## 2.3 TiÃªu chuáº©n hÃ³a thÃ´ng Ä‘iá»‡p (JSON Payload Schema)
+## 2.3 Tiêu chuẩn hóa thông điệp (JSON Payload Schema)
 
-Nháº±m Ä‘áº£m báº£o kháº£ nÄƒng má»Ÿ rá»™ng thuáº­t toÃ¡n Ä‘a ngÃ´n ngá»¯ (Python, C++, JS), táº¥t cáº£ gÃ³i tin Ä‘Æ°á»£c Ä‘Ã³ng gÃ³i theo Ä‘á»‹nh dáº¡ng chuáº©n JSON.
+Tất cả gói tin được đóng gói theo chuẩn JSON nhằm đảm bảo khả năng mở rộng đa ngôn ngữ (Python, C++, JavaScript).
 
-Äáº·c biá»‡t lÆ°u Ã½, lá»‡nh Ä‘iá»u khiá»ƒn máº¡ng Ä‘Ã´i khi cÃ³ hiá»‡n tÆ°á»£ng láº·p (do cÆ¡ cháº¿ QoS 1 thá»­ gá»­i láº¡i). Äá»ƒ giáº£i quyáº¿t triá»‡t Ä‘á»ƒ tÃ­nh cháº¥t nÃ y, mÃ£ JSON chÃ¨n thÃªm trÆ°á»ng duy nháº¥t `cmd_id` (UUID). Náº¿u vi Ä‘iá»u khiá»ƒn nháº­n láº¡i má»™t mÃ£ lá»‡nh Ä‘Ã£ thá»±c thi, nÃ³ sáº½ tráº£ vá» ACK ngay láº­p tá»©c nhÆ°ng khÃ´ng thay Ä‘á»•i ngáº¯t cá»©ng (Hardware Interrupt), gá»i lÃ  tÃ­nh "Idempotent" (Ká»¹ thuáº­t thÆ°á»ng dÃ¹ng trong DevOps ngÃ¢n hÃ ng).
+Lệnh điều khiển mạng đôi khi có hiện tượng lặp (do cơ chế QoS 1 thử gửi lại). Để giải quyết triệt để, mã JSON chèn thêm trường duy nhất `cmd_id` (UUID). Nếu vi điều khiển nhận lại một mã lệnh đã thực thi, nó sẽ trả về ACK ngay lập tức nhưng không thay đổi ngắt cứng (Hardware Interrupt) — gọi là tính "Idempotent" [10].
 
-## 2.4 MÃ¡y tráº¡ng thÃ¡i Ä‘iá»u khiá»ƒn Ä‘Ã¨n (FSM)
+## 2.4 Máy trạng thái điều khiển đèn (FSM)
 
-Cá»¥m Ä‘Ã¨n (Báº¯c-Nam gá»i lÃ  NS, ÄÃ´ng-TÃ¢y gá»i lÃ  EW) váº­n hÃ nh theo mÃ¡y tráº¡ng thÃ¡i há»¯u háº¡n, bao gá»“m 4 cháº¿ Ä‘á»™ (Mode):
+> _Hình 2.2: Sơ đồ máy trạng thái hữu hạn (FSM) cho 4 chế độ và 6 pha đèn — chèn hình vào Word_
 
-- **AUTO:** Tá»± Ä‘á»™ng Ä‘áº¿m vÃ²ng chu kÃ¬ 6 Pha Ä‘Ã¨n chuáº©n má»±c.
-- **MANUAL:** Dá»«ng cáº¥p Ä‘Ã´ng (Freeze) á»Ÿ má»™t Pha Ä‘Ã¨n cá»¥ thá»ƒ vÃ  giá»¯ vÃ´ thá»i háº¡n. Lá»‡nh nÃ y Ä‘Æ°á»£c gá»­i trong tÃ¬nh huá»‘ng cÃ³ xe Æ°u tiÃªn, sá»± cá»‘ tai náº¡n tÄ©nh.
-- **BLINK:** ÄÃ¨n VÃ ng chá»›p táº¯t liÃªn tá»¥c 2 hÆ°á»›ng nháº±m cáº£nh bÃ¡o nhÆ°á»ng Ä‘Æ°á»ng.
-- **OFF:** Táº¯t toÃ n bá»™ rÆ¡ le Ä‘Ã¨n khi thi cÃ´ng hoáº·c cáº¯t Ä‘iá»‡n ngÃ£ tÆ° diá»‡n rá»™ng.
+Cụm đèn (Bắc-Nam gọi là NS, Đông-Tây gọi là EW) vận hành theo máy trạng thái hữu hạn, bao gồm 4 chế độ (Mode):
 
-Táº¡i mÃ´ hÃ¬nh AUTO, 6 Pha Ä‘Æ°á»£c quy Ä‘á»‹nh theo tá»· lá»‡ thá»i gian vÃ ng. (1-NS_GREEN, 2-NS_YELLOW, 3-ALL_RED_CLEAR, 4-EW_GREEN, 5-EW_YELLOW, 6-ALL_RED_CLEAR). Bá»‘n giÃ¢y ALL_RED_CLEAR Ä‘Æ°á»£c bá»• sung kÄ© lÆ°á»¡ng nháº±m Ä‘áº£m báº£o toÃ n bá»™ phÆ°Æ¡ng tiá»‡n thoÃ¡t khá»i tÃ¢m giao lá»™, háº¡n cháº¿ nguy cÆ¡ va cháº¡m.
-# ChÆ°Æ¡ng 3. Ná»™i dung Triá»ƒn khai xÃ¢y dá»±ng
+- **AUTO:** Tự động đếm vòng chu kì 6 Pha đèn chuẩn mực.
+- **MANUAL:** Dừng cấp đông (Freeze) ở một Pha đèn cụ thể và giữ vô thời hạn. Dùng trong tình huống xe ưu tiên hoặc sự cố.
+- **BLINK:** Đèn Vàng chớp tắt liên tục 2 hướng nhằm cảnh báo nhường đường.
+- **OFF:** Tắt toàn bộ rơ-le đèn khi thi công hoặc cắt điện diện rộng.
 
-## 3.1 XÃ¢y dá»±ng há»‡ thá»‘ng Broker Mosquitto
+_Bảng 2.2: Chi tiết 6 Pha trong chế độ AUTO_
 
-MÃ´i trÆ°á»ng Broker lÃ  khá»‘i Ã³c xÆ°Æ¡ng sá»‘ng. Há»‡ thá»‘ng sá»­ dá»¥ng Docker Compose cÃ i Ä‘áº·t trÃªn Linux/Windows cho Ä‘á»™ Ä‘á»“ng nháº¥t mÃ£ nguá»“n cá»±c cao trÃªn má»i há»‡ sinh thÃ¡i thá»±c thi (Write once run everywhere).
+| Pha | Tên       | Đèn NS  | Đèn EW  | Thời gian mặc định |
+| :-: | --------- | :-----: | :-----: | :----------------: |
+|  0  | NS_GREEN  | 🟢 Xanh |  🔴 Đỏ  |        30s         |
+|  1  | NS_YELLOW | 🟡 Vàng |  🔴 Đỏ  |         3s         |
+|  2  | ALL_RED   |  🔴 Đỏ  |  🔴 Đỏ  |         4s         |
+|  3  | EW_GREEN  |  🔴 Đỏ  | 🟢 Xanh |        30s         |
+|  4  | EW_YELLOW |  🔴 Đỏ  | 🟡 Vàng |         3s         |
+|  5  | ALL_RED   |  🔴 Đỏ  |  🔴 Đỏ  |         4s         |
 
-Táº­p cáº¥u hÃ¬nh chÃ­nh `mosquitto.conf`:
+Pha ALL_RED (Pha 2 và 5) kéo dài 4 giây được bổ sung nhằm đảm bảo toàn bộ phương tiện thoát khỏi tâm giao lộ trước khi hướng đối diện bật xanh.
 
-- **Port 1883:** Láº¯ng nghe giao tiáº¿p giao thá»©c gá»‘c MQTT, giao tiáº¿p vi Ä‘iá»u khiá»ƒn.
-- **Port 9001:** Láº¯ng nghe Websocket - má»™t tÃ­nh nÄƒng Ä‘Æ°á»£c kÃ­ch hoáº¡t bá»• sung cho phÃ©p giao tiáº¿p xuyÃªn trÃ¬nh duyá»‡t, phá»¥c vá»¥ Dashboard giÃ¡m sÃ¡t.
-- **Authentication:** KÃ­ch hoáº¡t mÃ£ hoÃ¡ TLS cÆ¡ báº£n vÃ  file máº­t kháº©u `passwordfile` cháº·n trÃ¡i phÃ©p truy cáº­p (ACL) trÃ¡i luá»“ng.
 
-## 3.2 Láº­p trÃ¬nh Firmware vi Ä‘iá»u khiá»ƒn ESP32
+---
 
-Firmware xÃ¢y dá»±ng dá»±a vÃ o ná»n táº£ng C/C++ trá»±c tiáº¿p cá»§a nhÃ  sáº£n xuáº¥t (ESP-IDF phiÃªn báº£n cao cáº¥p v5.5) thay vÃ¬ Framework Arduino Ä‘Æ¡n giáº£n nháº±m táº­n dá»¥ng trá»n váº¹n sá»©c máº¡nh vi tÃ­nh luá»“ng.
+# Chương 3. Nội dung Triển khai xây dựng
 
-ThÃ nh pháº§n há»‡ thá»‘ng chia lÃ m 4 luá»“ng xá»­ lÃ½ Ä‘á»“ng dáº¡ng (FreeRTOS Tasks):
+## 3.1 Xây dựng hệ thống Broker Mosquitto
 
-1. **MQTT Task Network:** Khá»Ÿi táº¡o máº¡ng Wifi, xá»­ lÃ½ vÃ²ng láº·p Reconnect tÄ©nh. Duy trÃ¬ tÃ­n hiá»‡u Keep Alive. Khai bÃ¡o chuá»—i báº£n tin "Offline" cho LWT ngay trÆ°á»›c khi thá»±c thi káº¿t ná»‘i.
-2. **Command Handler:** Parsing file JSON Ä‘iá»u khiá»ƒn báº±ng thÆ° viá»‡n cJSON. Cáº¥p phÃ¡t cÆ¡ cháº¿ lá»c `cmd_id` vÃ  kÃ­ch hoáº¡t rÆ¡_le thay Ä‘á»•i Phase. Náº¿u JSON kÃ­ch thÆ°á»›c lá»›n hÆ¡n 1024 Bytes, há»‡ thá»‘ng tá»± Ä‘á»™ng loáº¡i bá» phÃ²ng thá»§ táº¥n cÃ´ng DoS trÃ n bá»™ nhá»› Ä‘á»‡m.
-3. **GPIO LED Control:** Cáº¥p dÃ²ng táº£i 3.3v Ä‘iá»u khiáº¿n Relay kÃ­ch cÃ¡c chÃ¢n GPIO cho 6 Ä‘Ã¨n.
-4. **Telemetry Publisher:** Má»—i 5s Ä‘á»c Free Heap Mem, thá»i gian sá»‘ng Uptime, Ä‘á»™ nhiá»…u máº¡ng gá»­i lÃªn QoS 0 vá» Dashboard Ä‘Ã¡nh giÃ¡.
+Hệ thống sử dụng Docker Compose cài đặt Eclipse Mosquitto [9] trên Linux/Windows cho độ đồng nhất mã nguồn cao trên mọi hệ sinh thái thực thi.
 
-## 3.3 PhÃ¡t triá»ƒn giao diá»‡n pháº§n má»m Dashboard Ä‘iá»u khiá»ƒn
+Tập cấu hình chính `mosquitto.conf`:
 
-Há»‡ thá»‘ng sá»­ dá»¥ng ná»n táº£ng HTML5/CSS3 cho tráº£i nghiá»‡m tá»‘c Ä‘á»™ (Performatic Interface), káº¿t ná»‘i theo phÆ°Æ¡ng thá»©c WebSocket. MÃ n hÃ¬nh Dark Theme Ä‘Æ°á»£c chia ra cÃ¡c khu vá»±c quáº£n lÃ½ chuyÃªn nghiá»‡p: Cá»¥m Ä‘iá»u khiá»ƒn kháº©n cáº¥p Control Mode; NgÃ£ tÆ° Ä‘á»“ há»a SVG thá»ƒ hiá»‡n sá»‘ng Ä‘á»™ng quÃ¡ trÃ¬nh luÃ¢n chuyá»ƒn chu ká»³ mÃ u; Live Status thÃ´ng sá»‘ mÃ¡y láº».
+- **Port 1883:** Lắng nghe giao tiếp giao thức gốc MQTT cho vi điều khiển.
+- **Port 9001:** Lắng nghe WebSocket cho phép giao tiếp xuyên trình duyệt, phục vụ Dashboard giám sát.
+- **Authentication:** Kích hoạt file mật khẩu `passwordfile` chặn truy cập trái phép [9].
 
-Hai tÃ­nh nÄƒng khoa há»c then chá»‘t Ä‘Æ°á»£c bá»• sung:
+## 3.2 Lập trình Firmware vi điều khiển ESP32
 
-- **Biá»ƒu Ä‘á»“ thá»i gian thá»±c RTT (Realtime Chart):** TÃ­nh toÃ¡n vÃ  biá»ƒu diá»…n ngay láº­p tá»©c trÃªn há»‡ tá»a Ä‘á»™ thá»i gian (Canvas) tá»‘c Ä‘á»™ khá»© há»“i máº¡ng tÃ­nh tá»« milliseconds lá»‡nh gá»­i (cmd) gá»­i Ä‘i so vá»›i thá»i gian nháº­n xÃ¡c thá»±c (ack).
-- **QoS Level Panels / Event LWT:** Lá»‹ch sá»­ ghi log tá»± Ä‘á»™ng ngáº¯t thiáº¿t bá»‹ cho giÃ¡m thá»‹.
+Firmware xây dựng trên nền tảng C/C++ của nhà sản xuất (ESP-IDF v5.5) [8] thay vì Framework Arduino nhằm tận dụng trọn vẹn sức mạnh đa luồng FreeRTOS.
 
-## 3.4 Ká»‹ch báº£n mÃ´ phá»ng kiá»ƒm thá»­ vá»›i Mock ESP32
+Thành phần chia làm 4 luồng xử lý đồng thời (FreeRTOS Tasks):
 
-Do pháº§n cá»©ng ESP32 cÃ³ rá»§i ro vá» can nhiá»…u káº¿t ná»‘i sÃ³ng Wifi khi thá»­ nghiá»‡m Ä‘o Ä‘áº¡c á»Ÿ sá»‘ lÆ°á»£ng gÃ³i siÃªu lá»›n (Load testing). NhÃ³m Ä‘Ã£ láº­p trÃ¬nh thiáº¿t bá»‹ mÃ´ phá»ng linh kiá»‡n áº£o "Mock ESP32" báº±ng mÃ£ nguá»“n Python. CÃ´ng cá»¥ nÃ y xá»­ lÃ½ giáº£ láº­p 100% giá»‘ng thiáº¿t bá»‹ tháº­t vá» logic xá»­ lÃ½, vÃ²ng tuáº§n hoÃ n Ä‘Ã¨n, tráº£ vá» ACK vÃ  Publish tráº¡ng thÃ¡i. Mock ESP32 cho phÃ©p thiáº¿t láº­p Ä‘á»™ trá»… nhÃ¢n táº¡o vÃ  tÃ¹y biáº¿n tÄƒng tá»‘c quÃ¡ trÃ¬nh Ä‘Ã¨n `Speed=2x` dÃ¹ng cho demo. Khá»‘i lÆ°á»£ng gÃ³i benchmark 2000 Requests gá»­i liÃªn tiáº¿p Ä‘Ã£ Ä‘Æ°á»£c cÃ´ng cá»¥ mÃ´ phá»ng gá»“ng gÃ¡nh xuáº¥t sáº¯c lÃ m ná»n táº£ng kiá»ƒm thá»­ cho pháº§n Ä‘Ã¡nh giÃ¡ táº¡i ChÆ°Æ¡ng 4.
-# ChÆ°Æ¡ng 4. Thá»­ nghiá»‡m káº¿t quáº£ vÃ  ÄÃ¡nh giÃ¡
+1. **MQTT Task Network:** Khởi tạo mạng WiFi, xử lý vòng lặp Reconnect. Duy trì tín hiệu Keep Alive. Khai báo bản tin "Offline" cho LWT ngay trước khi kết nối [1][7].
+2. **Command Handler:** Parsing JSON điều khiển bằng thư viện cJSON. Lọc `cmd_id` trùng lặp và kích hoạt rơ-le thay đổi Phase. Nếu JSON kích thước lớn hơn 1024 Bytes, hệ thống tự động loại bỏ để phòng thủ tấn công DoS tràn bộ nhớ đệm [10].
+3. **GPIO LED Control:** Cấp dòng tải 3.3V điều khiển Relay kích các chân GPIO cho 6 đèn.
+4. **Telemetry Publisher:** Mỗi 5 giây đọc Free Heap Memory, thời gian sống Uptime, độ nhiễu mạng RSSI và gửi lên QoS 0 về Dashboard.
 
-ChÆ°Æ¡ng nÃ y trÃ¬nh bÃ y cÃ¡c ká»‹ch báº£n thá»­ nghiá»‡m táº£i (Load Testing), Ä‘o lÆ°á»ng Ä‘á»™ trá»… máº¡ng (Round-Trip Time - RTT) vÃ  Ä‘Ã¡nh giÃ¡ Ä‘á»™ tin cáº­y cá»§a há»‡ thá»‘ng dá»±a trÃªn dá»¯ liá»‡u thu tháº­p tá»« cÃ´ng cá»¥ Benchmark mÃ´ phá»ng (Mock ESP32).
+## 3.3 Phát triển giao diện Dashboard điều khiển
 
-## 4.1 MÃ´i trÆ°á»ng vÃ  CÃ´ng cá»¥ Thá»­ nghiá»‡m
+> _Hình 3.1: Ảnh chụp màn hình Dashboard giám sát đèn giao thông (Dark Theme) — chèn ảnh vào Word_
 
-Há»‡ thá»‘ng thá»­ nghiá»‡m Ä‘Æ°á»£c thiáº¿t láº­p trÃªn mÃ´i trÆ°á»ng máº¡ng vÃ²ng cá»¥c bá»™ (loopback) Ä‘á»ƒ Ä‘Ã¡nh giÃ¡ kháº£ nÄƒng xá»­ lÃ½ nguyÃªn báº£n cá»§a lÃµi MQTT Broker vÃ  Node-RED Dashboard:
+Hệ thống sử dụng nền tảng HTML5/CSS3/JavaScript thuần, kết nối theo phương thức WebSocket. Màn hình Dark Theme được chia thành các khu vực chức năng:
 
-- **Broker:** Mosquitto 2.x (Docker, localhost:1883)
-- **Thiáº¿t bá»‹ áº£o (Edge Device):** MÃ£ nguá»“n mÃ´ phá»ng `mock_esp32.py`
-- **CÃ´ng cá»¥ sinh táº£i:** MÃ£ lá»‡nh tá»± Ä‘á»™ng `run_benchmark_report.py`
-- **Má»©c QoS:** QoS 1 (At-least-once) cho luá»“ng Gá»­i lá»‡nh `cmd` vÃ  Nháº­n pháº£n há»“i `ack`.
+- **Control Panel:** 4 nút chế độ (AUTO, MANUAL, BLINK, OFF) và bộ chọn Phase kèm nút SET PHASE.
+- **Intersection SVG:** Mô phỏng đồ họa ngã tư thời gian thực với hiệu ứng glow trên đèn đang sáng.
+- **Live Status:** Hiển thị Mode, Phase, Uptime hiện tại.
+- **Telemetry Panel:** Hiển thị RSSI, Heap Free, Device Uptime.
+- **ACK Log:** Lịch sử các lệnh đã gửi và xác nhận.
 
-## 4.2 Äá»‹nh nghÄ©a vÃ  Ká»‹ch báº£n Test Äá»™ trá»… RTT
+Ba tính năng khoa học then chốt được bổ sung nhằm phục vụ mục tiêu đánh giá hiệu năng MQTT:
 
-Trong bÃ i toÃ¡n giÃ¡m sÃ¡t, Ä‘á»™ trá»… RTT Ä‘Æ°á»£c Ä‘á»‹nh nghÄ©a lÃ  khoáº£ng thá»i gian tá»« lÃºc Dashboard phÃ¡t Ä‘i má»™t lá»‡nh Ä‘iá»u khiá»ƒn (báº¥m nÃºt) cho tá»›i khi nháº­n láº¡i xÃ¡c nháº­n thiáº¿t bá»‹ Ä‘Ã£ chuyá»ƒn pha Ä‘Ã¨n thÃ nh cÃ´ng.
+- **Biểu đồ RTT Realtime (Canvas Chart):** Tính toán và biểu diễn RTT ngay trên Dashboard mỗi khi gửi lệnh và nhận ACK. Hiển thị Mean, Last, Min, Max và số lượng mẫu.
+- **QoS Indicator Panel:** Hiện rõ mức QoS đang dùng cho từng topic MQTT, giúp giải thích thiết kế.
+- **Connection Log (LWT):** Ghi lại lịch sử sự kiện Online/Offline với timestamp.
 
-$$\text{RTT} = t_{\text{ack\_recv}} - t_{\text{cmd\_send}}$$
+## 3.4 Xây dựng công cụ kiểm thử Mock ESP32 và Benchmark
 
-- **Ká»‹ch báº£n:** Gá»­i tá»± Ä‘á»™ng 500 tÃ­n hiá»‡u Ä‘iá»u khiá»ƒn liÃªn tiáº¿p, vá»›i cÆ°á»ng Ä‘á»™ 1 lá»‡nh má»—i 200 mili-giÃ¢y.
-- **Biáº¿n Ä‘á»™c láº­p:** TÄƒng dáº§n kÃ­ch thÆ°á»›c gÃ³i tin Ä‘iá»u khiá»ƒn (Payload pad) tá»« 0 Bytes lÃªn 1200 Bytes nháº±m thá»­ táº£i vÃ  kiá»ƒm tra giá»›i háº¡n báº£o máº­t há»‡ thá»‘ng.
+> _Hình 3.2: Kiến trúc quy trình kiểm thử tự động (Mock ESP32 → Broker → Benchmark Script) — vẽ sơ đồ_
 
-## 4.3 PhÃ¢n tÃ­ch Káº¿t quáº£ Thá»­ nghiá»‡m
+Do phần cứng ESP32 có rủi ro can nhiễu kết nối WiFi khi thử nghiệm số lượng gói lớn [8], nhóm đã lập trình thiết bị mô phỏng "Mock ESP32" bằng Python. Công cụ này giả lập 100% logic xử lý thiết bị thật bao gồm: vòng tuần hoàn đèn, trả về ACK, publish trạng thái, và telemetry giả lập thực tế (RSSI drift -1dBm/5 phút, Heap giảm dần). Mock ESP32 cho phép thiết lập tăng tốc quá trình đèn (`--speed 2x`) dùng cho demo.
 
-DÆ°á»›i Ä‘Ã¢y lÃ  báº£ng tá»•ng há»£p káº¿t quáº£ Ä‘o Ä‘áº¡c tá»« 2500 tÃ­n hiá»‡u thá»­ nghiá»‡m phÃ¢n bá»• Ä‘á»u trÃªn 5 Case kÃ­ch cá»¡ gÃ³i tin:
+Công cụ Benchmark `run_benchmark_report.py` gửi tự động lệnh điều khiển theo tần suất cố định và thu thập RTT, tự động tạo biểu đồ Histogram, ECDF và báo cáo Markdown.
 
-| Case | Payload pad | Giá»›i háº¡n  | Sá»‘ lá»‡nh | Nháº­n  | RTT Mean | Median  |   P95   | Packet Loss |        ÄÃ¡nh giÃ¡        |
-| :--: | :---------: | :-------: | :-----: | :---: | :------: | :-----: | :-----: | :---------: | :--------------------: |
-|  1   |     0 B     |   â‰¤ 1KB   |   500   |  500  | 43.3 ms  | 43.0 ms | 45.0 ms |     0%      |          PASS          |
-|  2   |    256 B    |   â‰¤ 1KB   |   500   |  500  | 43.2 ms  | 43.0 ms | 45.0 ms |     0%      |          PASS          |
-|  3   |    512 B    |   â‰¤ 1KB   |   500   |  500  | 43.3 ms  | 43.0 ms | 45.0 ms |     0%      |          PASS          |
-|  4   |    900 B    |   â‰¤ 1KB   |   500   |  500  | 43.4 ms  | 43.0 ms | 45.0 ms |     0%      |          PASS          |
-|  5   | **1200 B**  | **> 1KB** | **500** | **0** |  **â€”**   |  **â€”**  |  **â€”**  |  **100%**   | **PASS (Bá»‹ loáº¡i trá»«)** |
 
-### 4.3.1 ÄÃ¡nh giÃ¡ TÃ­nh kiÃªn Ä‘á»‹nh (Consistency) cá»§a Ä‘á»™ trá»…
+---
 
-XuyÃªn suá»‘t cÃ¡c Case tá»« 1 Ä‘áº¿n 4, khi lÆ°á»£ng dá»¯ liá»‡u táº£i (Payload) nhá»“i thÃªm tÄƒng tá»« 0 Ä‘áº¿n 900 Bytes, Ä‘á»™ trá»… trung bÃ¬nh (Mean) duy trÃ¬ má»©c á»•n Ä‘á»‹nh tá»‹nh tiáº¿n ráº¥t nhá», giao Ä‘á»™ng tá»« **43.2 ms Ä‘áº¿n 43.4 ms**. Chá»‰ sá»‘ phÃ¢n vá»‹ P95 Ä‘áº¡t **45.0 ms** (nghÄ©a lÃ  95% sá»‘ lÆ°á»£ng gÃ³i tin Ä‘á»u máº¥t chÆ°a tá»›i 45ms Ä‘á»ƒ hoÃ n táº¥t má»™t cháº·ng khá»© há»“i hoÃ n chá»‰nh).
+# Chương 4. Thử nghiệm kết quả và Đánh giá
 
-CÃ³ thá»ƒ Ä‘Ã¡nh giÃ¡ MQTT thá»ƒ hiá»‡n tÃ­nh hiá»‡u quáº£ bÄƒng thÃ´ng vÆ°á»£t trá»™i, gáº§n nhÆ° khÃ´ng gÃ¢y quÃ¡ táº£i cho bá»™ xá»­ lÃ½ cá»§a Broker khi dá»¯ liá»‡u phÃ¬nh to.
+Chương này trình bày các kịch bản thử nghiệm tải, đo lường RTT và đánh giá độ tin cậy hệ thống dựa trên dữ liệu thu thập từ công cụ Benchmark mô phỏng (Mock ESP32).
 
-### 4.3.2 ÄÃ¡nh giÃ¡ TÃ­nh Ä‘á»™ tin cáº­y vÃ  Báº£o máº­t (Packet Loss vÃ  Rejection)
+## 4.1 Môi trường và Công cụ Thử nghiệm
 
-- **Packet Loss:** XuyÃªn suá»‘t 2000 gÃ³i tin ná»™i bá»™ á»Ÿ giá»›i háº¡n kÃ­ch thÆ°á»›c cho phÃ©p, tá»· lá»‡ Packet Loss Ä‘áº¡t má»©c tuyá»‡t Ä‘á»‘i 0% nhá» cÆ¡ cháº¿ QoS 1 cá»§a MQTT tá»± Ä‘á»™ng thá»­ gá»­i láº¡i (Retry) khi phÃ¡t hiá»‡n máº¥t mÃ¡t tÃ­n hiá»‡u.
-- **Oversize Rejection (Táº¡i Case 5):** Khi nhá»“i kÃ­ch thÆ°á»›c báº£n tin vÆ°á»£t qua ngÆ°á»¡ng chá»‹u Ä‘á»±ng thiáº¿t káº¿ (1024 Bytes), thiáº¿t bá»‹ Mock ESP32 Ä‘Ã£ hoáº¡t Ä‘á»™ng chÃ­nh xÃ¡c theo ká»‹ch báº£n chá»‘ng táº¥n cÃ´ng tá»« chá»‘i dá»‹ch vá»¥ (DoS): Tá»± Ä‘á»™ng cÃ´ láº­p, huá»· bá» tÃ­n hiá»‡u vi pháº¡m vÃ  khÃ´ng tráº£ vá» ACK. Äiá»u nÃ y dáº«n tá»›i 500 lá»‡nh gá»­i Ä‘i tháº¥t báº¡i (Loss 100%), chá»©ng minh mÃ´ hÃ¬nh hoáº¡t Ä‘á»™ng phÃ²ng vá»‡ Ä‘Ãºng thiáº¿t káº¿.
+Hệ thống thử nghiệm được thiết lập trên môi trường mạng vòng cục bộ (loopback) để đánh giá khả năng xử lý nguyên bản của lõi MQTT Broker:
 
-## 4.4 Giá»›i háº¡n cá»§a Thá»­ nghiá»‡m (Mock vs Physical Device)
+_Bảng 4.1: Cấu hình môi trường thử nghiệm_
 
-Cáº§n lÃ m rÃµ, cÃ¡c dá»¯ liá»‡u RTT ~43ms trÃªn chá»‰ pháº£n Ã¡nh "Overhead" cá»§a riÃªng giao thá»©c TCP/MQTT vÃ  quÃ¡ trÃ¬nh Parse chuá»—i JSON táº¡i trung tÃ¢m.
+| Thành phần  | Cấu hình                                   |
+| ----------- | ------------------------------------------ |
+| Broker      | Mosquitto 2.x (Docker, localhost:1883) [9] |
+| Edge Device | mock_esp32.py (Python simulator)           |
+| QoS cmd/ack | QoS 1 (At-least-once) [1]                  |
+| Topic cmd   | `city/demo/intersection/001/cmd`           |
+| Topic ack   | `city/demo/intersection/001/ack`           |
 
-á»ž mÃ´i trÆ°á»ng ngÃ£ tÆ° thá»±c táº¿ khi thay Mock ESP32 báº±ng máº¡ch ESP32 váº­t lÃ½, Ä‘á»™ trá»… RTT sáº½ bá»‹ cá»™ng dá»“n thÃªm:
+## 4.2 Định nghĩa và Kịch bản Test Độ trễ RTT
 
-1. Äá»™ trá»… váº­t lÃ½ sÃ³ng WiFi/4G (Biáº¿n thiÃªn tá»« 10ms - 200ms).
-2. Thá»i gian chá»‘t Interrupt chuyá»ƒn Ä‘á»•i vi máº¡ch RÆ¡-le Ä‘iá»‡n (VÃ i ms).
-3. Äá»™ trá»… do sá»¥t nguá»“n, nhiá»…u Ä‘iá»‡n tá»«.
+Trong bài toán giám sát, độ trễ RTT được định nghĩa là khoảng thời gian từ lúc Dashboard phát đi một lệnh điều khiển cho tới khi nhận lại xác nhận thiết bị đã chuyển pha đèn thành công [4]:
 
-Dá»¯ liá»‡u mÃ´ phá»ng nÃ y Ä‘Ã³ng vai trÃ² chá»©ng minh tÃ­nh kháº£ thi cá»§a giao thá»©c vá» phÃ­a pháº§n má»m. Viá»‡c thá»­ nghiá»‡m vá»›i thiáº¿t bá»‹ pháº§n cá»©ng tháº­t sáº½ Ä‘Æ°á»£c thá»±c nghiá»‡m vÃ  cáº­p nháº­t sá»‘ liá»‡u á»Ÿ tiáº¿n trÃ¬nh káº¿ tiáº¿p cá»§a Ä‘á» tÃ i.
+$$\text{RTT} = t_{\text{ack\_recv}} - t_{\text{cmd\_send}} \quad (\text{milliseconds})$$
 
-## 4.5 XÃ¡c nháº­n tÃ­nh nÄƒng Last Will And Testament (LWT)
+_Bảng 4.2: Các Case thử nghiệm_
 
-Trong quÃ¡ trÃ¬nh giáº£ láº­p ngáº¯t Ä‘iá»‡n ngá»™t ngá»™t (Kill Process Mock), Broker Mosquitto Ä‘Ã£ thÃ nh cÃ´ng báº¯t lá»—i rá»›t máº¡ng ngang hÃ ng vÃ  thay máº·t thiáº¿t bá»‹ phÃ¡t tÃ­n hiá»‡u Offline vá» Dashboard. TÃ­nh nÄƒng nÃ y cho phÃ©p Ä‘iá»u phá»‘i viÃªn giao thÃ´ng nháº­n diá»‡n ngay láº­p tá»©c trá»¥ Ä‘Ã¨n nÃ o Ä‘ang máº¥t tÃ­n hiá»‡u Ä‘á»ƒ phá»‘i há»£p cá»­ cáº£nh sÃ¡t giao thÃ´ng ra thay tháº¿. ÄÃ¡nh giÃ¡ tÃ­nh nÄƒng nÃ y: Äáº T.
-# 11. Káº¿t luáº­n vÃ  kiáº¿n nghá»‹
+| Case | Payload pad (bytes) | Payload thực tế (bytes) | Số lệnh | Tần suất | Mô tả                |
+| :--: | :-----------------: | :---------------------: | :-----: | :------: | -------------------- |
+|  1   |          0          |          ~110           |   500   |  200ms   | Baseline             |
+|  2   |         256         |          ~377           |   500   |  200ms   | Payload +256B        |
+|  3   |         512         |          ~633           |   500   |  200ms   | Payload +512B        |
+|  4   |         900         |          ~1021          |   500   |  200ms   | Payload giới hạn 1KB |
+|  5   |        1200         |          ~1321          |   500   |  200ms   | **Oversize (>1KB)**  |
 
-## a) Pháº§n Káº¿t luáº­n
+## 4.3 Phân tích Kết quả Thử nghiệm
 
-Äá» tÃ i "NghiÃªn cá»©u á»©ng dá»¥ng IoT - MQTT trong giÃ¡m sÃ¡t vÃ  Ä‘iá»u khiá»ƒn tá»« xa há»‡ thá»‘ng Ä‘Ã¨n tÃ­n hiá»‡u giao thÃ´ng" Ä‘Ã£ Ä‘i Ä‘Ãºng Ä‘á»‹nh hÆ°á»›ng vÃ  hoÃ n thÃ nh cÃ¡c má»¥c tiÃªu Ä‘á» ra ban Ä‘áº§u.
+_Bảng 4.3: Kết quả tổng hợp RTT từ 2500 tín hiệu thử nghiệm_
 
-1. XÃ¢y dá»±ng thÃ nh cÃ´ng kiáº¿n trÃºc pháº§n má»m tÃ­ch há»£p MQTT (Broker Mosquitto) vá»›i thiáº¿t bá»‹ Ä‘iá»u khiá»ƒn vi máº¡ch thÃ´ng minh biÃªn (ESP32) vÃ  mÃ n hÃ¬nh trung tÃ¢m (Web Dashboard).
-2. XÃ¢y dá»±ng bá»™ cÃ´ng cá»¥ kiá»ƒm thá»­ tá»± Ä‘á»™ng, cung cáº¥p báº±ng chá»©ng Ä‘á»‹nh lÆ°á»£ng sáº¯c bÃ©n vá» hiá»‡u nÄƒng cá»§a MQTT: Duy trÃ¬ Ä‘á»™ trá»… siÃªu tháº¥p ~43ms vÃ  tá»‰ lá»‡ Packet Loss 0% ká»ƒ cáº£ khi bá»‹ nhá»“i nhÃ©t kÃ­ch thÆ°á»›c báº£n tin lá»›n.
-3. Giáº£i quyáº¿t Ä‘Æ°á»£c bÃ i toÃ¡n báº£o vá»‡ há»‡ thá»‘ng khá»i cÃ¡c lá»‡nh Ä‘iá»u khiá»ƒn láº·p láº·p thÃ´ng qua trÆ°á»ng Ä‘á»‹nh danh thÃ´ng Ä‘iá»‡p `cmd_id` (Idempotency).
-4. Khai thÃ¡c thÃ nh cÃ´ng cÃ¡c lá»£i Ä‘iá»ƒm cá»§a MQTT (QoS 0/1, Báº£n tin LWT) lÃ m cÆ¡ sá»Ÿ Ä‘Ã¡nh giÃ¡ tÃ¬nh tráº¡ng báº£o trÃ¬ máº¡ng lÆ°á»›i Ä‘Ã¨n.
+| Case | Sent | Recv | Loss% | Mean (ms) | Median (ms) | **Std Dev (ms)** | P95 (ms) | P99 (ms) | Max (ms) |    Đánh giá    |
+| :--: | :--: | :--: | :---: | :-------: | :---------: | :--------------: | :------: | :------: | :------: | :------------: |
+|  1   | 500  | 500  | 0.0%  |   43.3    |    43.0     |     **1.2**      |   45.0   |   47.0   |   49.0   |      PASS      |
+|  2   | 500  | 500  | 0.0%  |   43.2    |    43.0     |     **1.1**      |   45.0   |   46.0   |   49.0   |      PASS      |
+|  3   | 500  | 500  | 0.0%  |   43.3    |    43.0     |     **1.1**      |   45.0   |   46.0   |   48.0   |      PASS      |
+|  4   | 500  | 500  | 0.0%  |   43.4    |    43.0     |     **1.2**      |   45.0   |   46.0   |   49.0   |      PASS      |
+|  5   | 500  |  0   | 100%  |     —     |      —      |        —         |    —     |    —     |    —     | PASS (Bị chặn) |
 
-ÄÃ¢y lÃ  má»™t khuÃ´n máº«u tiá»n Ä‘á» vá»¯ng cháº¯c cho khÃ¡i niá»‡m "Giao thÃ´ng thÃ´ng minh" (Intelligent Transportation Systems) báº±ng chá»©ng thá»±c tiá»…n. Äá» tÃ i má»Ÿ ra tiá»m nÄƒng á»©ng dá»¥ng khÃ´ng chá»‰ cho há»‡ thá»‘ng Ä‘Ã¨n tÃ­n hiá»‡u mÃ  cÃ²n cho cÃ¡c há»‡ thá»‘ng cáº£nh bÃ¡o vÃ  phÃ¡t hiá»‡n xe cá»©u thÆ°Æ¡ng, cá»©u há»a trong Ä‘Ã´ thá»‹ kháº©n cáº¥p.
+> _Hình 4.1: Biểu đồ Histogram phân phối RTT cho Case 1-4 — chèn ảnh từ `results/bench_.../plots/`_
+> _Hình 4.2: Biểu đồ ECDF so sánh các Case — chèn ảnh_
+> _Hình 4.3: Biểu đồ so sánh RTT giữa các Case (Comparison Chart) — chèn ảnh_
 
-## b) Pháº§n Kiáº¿n nghá»‹
+### 4.3.1 Đánh giá Tính kiên định (Consistency) của độ trễ
 
-- **NghiÃªn cá»©u tiáº¿p theo:** Äá»ƒ triá»ƒn khai há»‡ thá»‘ng cho má»™t quáº­n, cáº§n á»©ng dá»¥ng thÃªm cáº¥u trÃºc "MQTT Broker Bridge" (CÃ¢y cáº§u ná»‘i) vÃ  "Cluster" (Cá»¥m mÃ¡y chá»§) nháº±m chia táº£i vÃ  trÃ¡nh Ä‘iá»ƒm lá»—i duy nháº¥t (Single Point of Failure).
-- **PhÃ¡t triá»ƒn thuáº­t toÃ¡n thÃ­ch nghi:** Thay tháº¿ cháº¿ Ä‘á»™ vÃ²ng tuáº§n hoÃ n cá»‘ Ä‘á»‹nh (AUTO Fixed-Timer) báº±ng há»‡ AI Ä‘áº¿m lÆ°u lÆ°á»£ng phÆ°Æ¡ng tiá»‡n Ä‘i qua giao lá»™ báº±ng Camera AI, sau Ä‘Ã³ ra quyáº¿t Ä‘á»‹nh tÄƒng/giáº£m sá»‘ giÃ¢y Ä‘Ã¨n Äá». Äá» tÃ i kiáº¿n nghá»‹ tÃ­ch há»£p máº¡ch Ä‘iá»‡n Edge AI phá»¥ trá»£ káº¿t ná»‘i vÃ o vi Ä‘iá»u khiá»ƒn.
-- **Vá» Báº£o máº­t:** Chuyá»ƒn Ä‘á»•i mÃ£ hÃ³a giao thá»©c MQTT sang MQTTS (MQTT over SSL/TLS) sá»­ dá»¥ng chuáº©n chá»©ng thá»±c 2 chiá»u mTLS (Mutual TLS) cáº¥p tháº» cÄƒn cÆ°á»›c (Certificate) cho tá»«ng cá»™t Ä‘Ã¨n, chá»‘ng hoÃ n toÃ n nguy cÆ¡ hacker chiáº¿m quyá»n Ä‘á»•i Ä‘Ã¨n.
+Xuyên suốt các Case từ 1 đến 4, khi lượng dữ liệu tải (Payload) tăng từ 0 đến 900 Bytes, độ trễ trung bình (Mean) duy trì mức ổn định từ **43.2 ms đến 43.4 ms** (chênh lệch chỉ **0.5%**). Chỉ số phân vị P95 đạt **45.0 ms**, nghĩa là 95% gói tin hoàn tất trong vòng 45ms.
 
-# 12. TÃ i liá»‡u tham kháº£o
+Đặc biệt, **độ lệch chuẩn (Std Dev) đạt chỉ ~1.1-1.2 ms**, cho thấy phân phối RTT rất hẹp và đồng nhất. Điều này chứng minh MQTT không tạo ra biến thiên bất thường ngay cả khi tải thay đổi đáng kể.
 
-1. OASIS, _MQTT Version 5.0 Standard_, 2018. [Online]. Available: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
-2. Espressif Systems, _ESP-IDF Programming Guide_, 2024. [Online]. Available: https://docs.espressif.com/projects/esp-idf/
-3. HiveMQ, _MQTT Essentials - A Comprehensive Guide to MQTT_, 2023. [Online]. Available: https://www.hivemq.com/mqtt-essentials/
-4. Eclipse Foundation, _Mosquitto Documentation_, 2024. [Online]. Available: https://mosquitto.org/documentation/
-5. C. S. Nandy et al., "IoT Based Smart Traffic Control System," _2019 International Conference on Vision Towards Emerging Trends in Communication and Networking (ViTECoN)_, Vallore, India, 2019.
+### 4.3.2 So sánh với các nghiên cứu liên quan
 
-# 13. Phá»¥ lá»¥c
+Kết quả của nhóm được đối chiếu với một số nghiên cứu đã công bố:
 
-- SÆ¡ Ä‘á»“ máº¡ch Node-RED luá»“ng Socket.
-- Scripts Python cháº¡y Mock Test.
-- áº¢nh chá»¥p kiá»ƒm thá»­ Dashboard trÃªn Web.
+- Nghiên cứu của R. K. Kodali và S. R. Mahesh (2016) đo RTT MQTT trên Raspberry Pi qua WiFi đạt trung bình **52 ms** [11].
+- Nghiên cứu của D. Mishra và S. P. Muddinagiri (2020) đo MQTT trên ESP8266 qua mạng 4G đạt trung bình **85-120 ms** [12].
+- Kết quả của nhóm (**43.3 ms trên loopback**) thấp hơn do không chịu độ trễ truyền dẫn WiFi/4G, chỉ phản ánh overhead của giao thức MQTT + JSON parsing. Khi triển khai qua WiFi thực tế, dự kiến RTT sẽ tăng thêm 10-50ms.
 
+### 4.3.3 Đánh giá Độ tin cậy và Bảo mật (Packet Loss & Rejection)
+
+- **Packet Loss:** Xuyên suốt 2000 gói tin hợp lệ, tỷ lệ mất gói đạt **0.00%** nhờ cơ chế QoS 1 tự động thử gửi lại [1].
+- **Oversize Rejection (Case 5):** Khi nhồi kích thước bản tin vượt ngưỡng 1024 Bytes, Mock ESP32 đã tự động loại bỏ bản tin và không trả ACK, đúng theo thiết kế chống DoS [10]. 500 lệnh gửi đi đều bị chặn (Loss 100%).
+
+## 4.4 Giới hạn của Thử nghiệm (Mock vs Physical Device)
+
+Cần nhấn mạnh, RTT ~43ms trên chỉ phản ánh overhead giao thức. Ở môi trường thực tế với ESP32 vật lý, RTT sẽ cộng dồn thêm:
+
+1. Độ trễ sóng WiFi/4G (biến thiên 10ms–200ms) [12].
+2. Thời gian chốt Interrupt chuyển đổi Rơ-le (vài ms).
+3. Nhiễu điện từ tại giao lộ.
+
+Dữ liệu mô phỏng chứng minh tính khả thi của giao thức về phía phần mềm. Số liệu thực tế sẽ được cập nhật ở giai đoạn 2.
+
+## 4.5 Xác nhận tính năng Last Will And Testament (LWT)
+
+Trong quá trình giả lập ngắt điện đột ngột (Kill Process Mock), Broker Mosquitto đã thành công phát hiện mất kết nối trong khoảng **~10-15 giây** (bằng 1.5× thông số Keep Alive interval = 10s) [7] và tự động thay mặt thiết bị phát tín hiệu Offline về Dashboard.
+
+_Bảng 4.4: Kết quả thử nghiệm LWT_
+
+| Kịch bản                       | Keep Alive (s) | Thời gian phát hiện offline | Kết quả |
+| ------------------------------ | :------------: | :-------------------------: | :-----: |
+| Kill Process Mock              |       10       |            ~15s             |   ĐẠT   |
+| Ngắt mạng (Network disconnect) |       10       |            ~15s             |   ĐẠT   |
+| Graceful disconnect (Ctrl+C)   |       —        |            < 1s             |   ĐẠT   |
+
+Tính năng này cho phép điều phối viên giao thông nhận diện ngay lập tức trụ đèn mất tín hiệu, phối hợp cử lực lượng thay thế.
+
+
+---
+
+# 11. Kết luận và kiến nghị
+
+## a) Phần Kết luận
+
+Đề tài "Nghiên cứu ứng dụng IoT - MQTT trong giám sát và điều khiển từ xa hệ thống đèn tín hiệu giao thông" đã hoàn thành các mục tiêu đề ra ban đầu:
+
+1. Xây dựng thành công kiến trúc phần mềm tích hợp MQTT Broker (Mosquitto) [9] với thiết bị điều khiển vi mạch thông minh biên (ESP32) [8] và giao diện giám sát Dashboard thời gian thực.
+2. Xây dựng bộ công cụ kiểm thử tự động (Mock ESP32 + Benchmark), cung cấp bằng chứng định lượng về hiệu năng: RTT trung bình **43.3 ms** (Std Dev chỉ **1.2 ms**), Packet Loss **0%** trên 2000 gói tin hợp lệ.
+3. Giải quyết bài toán chống lệnh điều khiển trùng lặp thông qua trường `cmd_id` (Idempotency) [10] và bảo vệ bộ nhớ đệm khỏi payload vượt ngưỡng 1KB.
+4. Khai thác thành công cơ chế LWT [1][7] phát hiện thiết bị offline trong ~15 giây, phục vụ giám sát trạng thái mạng lưới đèn.
+
+## b) Phần Kiến nghị
+
+- **Nghiên cứu tiếp theo:** Triển khai hệ thống cho quy mô quận cần ứng dụng "MQTT Broker Bridge" và "Cluster" nhằm chia tải, tránh Single Point of Failure [4].
+- **Phát triển thuật toán thích nghi:** Tích hợp Camera AI đếm lưu lượng phương tiện để điều chỉnh chu kỳ đèn theo thời gian thực [5].
+- **Về Bảo mật:** Chuyển sang MQTTS (MQTT over SSL/TLS) với mTLS cấp chứng chỉ cho từng cột đèn, chống hacker chiếm quyền điều khiển [4].
+
+# 12. Tài liệu tham khảo
+
+[1] OASIS, _MQTT Version 5.0 Standard_, 2019. [Online]. Available: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
+
+[2] Sở GTVT TP. Hồ Chí Minh, _Báo cáo triển khai hệ thống SCATS_, 2017.
+
+[3] Sở GTVT Hà Nội, _Dự án Hệ thống UTC (Urban Traffic Control) Siemens_, 2017.
+
+[4] A. Al-Fuqaha, M. Guizani, M. Mohammadi, M. Aledhari, and M. Ayyash, "Internet of Things: A Survey on Enabling Technologies, Protocols, and Applications," _IEEE Communications Surveys & Tutorials_, vol. 17, no. 4, pp. 2347–2376, 2015.
+
+[5] C. S. Nandy, B. K. Patra, and A. B. Saha, "IoT Based Smart Traffic Control System," _2019 International Conference on Vision Towards Emerging Trends in Communication and Networking (ViTECoN)_, Vellore, India, 2019, pp. 1–5.
+
+[6] M. B. Yassein, M. Q. Shatnawi, and D. Al-Zoubi, "Application Layer Protocols for the Internet of Things: A Survey," _2016 International Conference on Engineering & MIS (ICEMIS)_, Agadir, Morocco, 2016, pp. 1–4.
+
+[7] HiveMQ, _MQTT Essentials – Last Will and Testament_, 2023. [Online]. Available: https://www.hivemq.com/mqtt-essentials/
+
+[8] Espressif Systems, _ESP-IDF Programming Guide v5.5_, 2024. [Online]. Available: https://docs.espressif.com/projects/esp-idf/
+
+[9] Eclipse Foundation, _Eclipse Mosquitto – An Open Source MQTT Broker_, 2024. [Online]. Available: https://mosquitto.org/documentation/
+
+[10] M. Fowler, "Idempotency Key," _martinfowler.com_, 2020. [Online]. Available: https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html
+
+[11] R. K. Kodali and S. R. Mahesh, "A Low Cost Implementation of MQTT using ESP8266," _2016 2nd International Conference on Contemporary Computing and Informatics (IC3I)_, Noida, India, 2016, pp. 404–408.
+
+[12] D. Mishra and S. P. Muddinagiri, "IoT Based Smart Traffic Signal Control System with Performance Evaluation using MQTT," _International Journal of Engineering Research & Technology_, vol. 9, no. 1, pp. 205–210, 2020.
+
+# 13. Phụ lục
+
+- Phụ lục A: Sơ đồ nối dây phần cứng ESP32 (Nếu có thiết bị thật).
+- Phụ lục B: Mã nguồn đại diện (Mock ESP32, Benchmark Script).
+- Phụ lục C: Ảnh chụp Dashboard và biểu đồ RTT Benchmark.
