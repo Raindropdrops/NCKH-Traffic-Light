@@ -1,57 +1,48 @@
-# Chương 1: Mở Đầu
+# Các Phần Mở Đầu
 
-## 1.1 Lý do chọn đề tài
+## 5. Mở đầu
 
-Hệ thống đèn tín hiệu giao thông là một thành phần quan trọng trong quản lý giao thông đô thị. Tuy nhiên, phần lớn hệ thống đèn giao thông hiện nay tại Việt Nam vẫn hoạt động theo cơ chế **chu kỳ cố định** (fixed-time), không có khả năng giám sát từ xa cũng như điều chỉnh linh hoạt theo tình hình giao thông thực tế. Điều này dẫn đến một số hạn chế:
+Sự bùng nổ của Internet of Things (IoT) đã mở ra những hướng đi mới trong việc quản lý và vận hành thông minh cơ sở hạ tầng đô thị. Trong đó, hệ thống giao thông tín hiệu đóng vai trò xương sống trong việc duy trì trật tự và an toàn công cộng. Phương thức điều khiển đèn giao thông truyền thống hiện nay phần lớn dựa trên các bộ định thời (timer-based) được thiết lập sẵn, thiếu khả năng giám sát từ xa và khó khăn trong việc thay đổi chu kỳ linh hoạt. Điều này đặt ra yêu cầu cấp thiết về một giải pháp quản lý tập trung, có độ trễ thấp và độ tin cậy cao. Đề tài "Nghiên cứu ứng dụng IoT - MQTT trong giám sát và điều khiển từ xa hệ thống đèn tín hiệu giao thông" được thực hiện nhằm mục đích giải quyết vấn đề này.
 
-- **Không giám sát được trạng thái hoạt động**: Khi đèn gặp sự cố (mất nguồn, hỏng bóng, lỗi bộ điều khiển), cơ quan quản lý không biết cho đến khi nhận được phản ánh từ người dân.
-- **Không điều chỉnh real-time**: Trong các tình huống khẩn cấp (tai nạn, cứu hộ), việc thay đổi chu kỳ đèn đòi hỏi nhân viên đến tận nơi.
-- **Thiếu dữ liệu vận hành**: Không có số liệu thống kê về thời gian hoạt động, tần suất lỗi, hay hiệu suất hệ thống.
+## 6. Tổng quan tình hình nghiên cứu thuộc lĩnh vực
 
-Trong bối cảnh **Internet of Things (IoT)** đang được ứng dụng rộng rãi vào các lĩnh vực đô thị thông minh (smart city), giao thức **MQTT (Message Queuing Telemetry Transport)** nổi lên như một giải pháp truyền thông nhẹ, hiệu quả, phù hợp cho các thiết bị IoT với tài nguyên hạn chế. MQTT hoạt động theo mô hình **Publish/Subscribe**, hỗ trợ nhiều mức chất lượng dịch vụ (QoS), và có cơ chế phát hiện thiết bị mất kết nối (Last Will and Testament – LWT).
+### Tình hình trong nước
 
-Xuất phát từ những vấn đề trên, nhóm nghiên cứu lựa chọn đề tài **"Nghiên cứu ứng dụng IoT – MQTT trong giám sát và điều khiển từ xa hệ thống đèn tín hiệu giao thông"** nhằm xây dựng một mô hình minh chứng (proof-of-concept) cho việc hiện đại hóa hệ thống đèn giao thông bằng công nghệ IoT.
+Tại Việt Nam, các thành phố lớn như Hà Nội và TP.HCM đang bước đầu thử nghiệm các hệ thống giao thông thông minh (ITS). Tuy nhiên, hầu hết các hệ thống hiện tại đều sử dụng hạ tầng mạng cáp quang tốn kém và các giao thức truyền thông độc quyền tĩnh. Việc giám sát thiết bị ở các điểm nút giao thông nhỏ vẫn còn hạn chế do chi phí kết nối cao.
 
-## 1.2 Mục tiêu nghiên cứu
+### Tình hình thế giới
 
-Đề tài hướng đến ba mục tiêu chính:
+Trên thế giới, kiến trúc IoT với các giao thức nhẹ như MQTT hoặc CoAP đã trở thành tiêu chuẩn công nghiệp cho liên lạc máy-máy (M2M). Các quốc gia phát triển sử dụng vi điều khiển biên (Edge devices) kết nối không dây để gửi dữ liệu giao thông theo thời gian thực về máy chủ trung tâm (Cloud), cho phép thuật toán AI phân luồng giao thông động.
 
-1. **Xây dựng hệ thống giám sát và điều khiển từ xa** đèn tín hiệu giao thông thông qua giao thức MQTT, sử dụng vi điều khiển ESP32 làm thiết bị biên (edge device).
+## 7. Lý do lựa chọn đề tài
 
-2. **Đánh giá hiệu quả và độ trễ truyền dữ liệu** trong môi trường IoT, thông qua phép đo Round-Trip Time (RTT) giữa dashboard điều khiển và thiết bị biên, với các kích thước payload khác nhau.
+Giao thức MQTT (Message Queuing Telemetry Transport) được đánh giá là đặc biệt phù hợp cho mạng IoT băng thông thấp và không ổn định do dung lượng header cực nhỏ (chỉ 2 bytes) và cơ chế QoS (Quality of Service) linh hoạt. Dù vậy, ứng dụng thực tế và việc đo đạc hiệu năng định lượng của MQTT trong bài toán đặc thù như điều khiển đèn giao thông tại Việt Nam vẫn chưa được nghiên cứu toàn diện. Do đó, việc thực nghiệm đo lường độ trễ (RTT) và tính ổn định của MQTT là lý do chính để nhóm lựa chọn đề tài này, làm tiền đề cho hệ thống giao thông thông minh.
 
-3. **Đề xuất giải pháp mở rộng** áp dụng vào quy mô đô thị thông minh, bao gồm kiến trúc multi-intersection, cân bằng tải broker, và tích hợp bảo mật.
+## 8. Mục tiêu, nội dung, phương pháp nghiên cứu
 
-## 1.3 Phạm vi nghiên cứu
+**Mục tiêu:**
 
-- **Quy mô**: 1 ngã tư, 4 hướng (Bắc, Nam, Đông, Tây), mỗi hướng 3 đèn (đỏ, vàng, xanh).
-- **Phần cứng**: ESP32 DevKit V1 điều khiển 12 LED qua GPIO.
-- **Phần mềm**: Mosquitto MQTT broker (Docker), Dashboard web, Mock ESP32 simulator.
-- **Môi trường thử nghiệm**: Mạng LAN (localhost) và WiFi nội bộ.
-- **Giới hạn**: Chưa tích hợp camera AI hoặc cảm biến mật độ giao thông thực tế.
+- Xây dựng thành công mô hình hệ thống giám sát và điều khiển tín hiệu đèn giao thông từ xa thông qua giao thức MQTT.
+- Đánh giá hiệu quả, đo lường độ trễ mạng (Round-Trip Time) và tỷ lệ mất gói tin (Packet Loss).
+- Xây dựng giao diện Dashboard thời gian thực hiện đại, hiển thị giám sát và cung cấp cơ chế điều khiển khẩn cấp.
 
-## 1.4 Phương pháp nghiên cứu
+**Nội dung nghiên cứu:**
 
-Nghiên cứu được thực hiện theo quy trình 4 giai đoạn:
+- Nghiên cứu kiến trúc IoT, giao thức MQTT, và các chuẩn thông điệp (Payload).
+- Cấu hình MQTT Broker (Mosquitto) với tính năng bảo mật và WebSocket.
+- Lập trình firmware cho vi điều khiển (ESP32) hoạt động như một thiết bị biên (Edge worker).
+- Phát triển phần mềm Dashboard hiển thị.
 
-```
-Thiết kế hệ thống → Triển khai → Thử nghiệm → Đánh giá
-```
+**Phương pháp nghiên cứu:**
 
-| Giai đoạn      | Nội dung                                                                | Công cụ                          |
-| -------------- | ----------------------------------------------------------------------- | -------------------------------- |
-| **Thiết kế**   | Kiến trúc hệ thống, MQTT topic tree, FSM đèn, sơ đồ phần cứng           | Draw.io, Markdown                |
-| **Triển khai** | Firmware ESP32, Docker infrastructure, Dashboard, Testing tools         | ESP-IDF, Docker, HTML/JS, Python |
-| **Thử nghiệm** | Smoke test (4 kịch bản), Benchmark RTT (500 messages × 6 payload sizes) | Python scripts                   |
-| **Đánh giá**   | Phân tích RTT, reliability, so sánh với yêu cầu SPEC                    | Matplotlib, CSV analysis         |
+- **Nghiên cứu lý thuyết:** Tham khảo tiêu chuẩn MQTT v5.0 của quy chuẩn OASIS.
+- **Nghiên cứu thực nghiệm:** Thiết kế kịch bản Benchmark, gửi hàng nghìn gói tin tự động để thu thập dữ liệu về độ trễ, lưu trữ thành tệp CSV, và viết mã Python vẽ biểu đồ xác suất (ECDF, Histogram).
 
-## 1.5 Bố cục báo cáo
+## 9. Đối tượng và phạm vi nghiên cứu
 
-Báo cáo gồm 6 chương:
-
-- **Chương 1**: Mở đầu — trình bày lý do, mục tiêu, phạm vi, phương pháp.
-- **Chương 2**: Cơ sở lý thuyết — giao thức MQTT, vi điều khiển ESP32, Docker.
-- **Chương 3**: Thiết kế hệ thống — kiến trúc, MQTT topic tree, FSM, phần cứng.
-- **Chương 4**: Triển khai — firmware, Docker infrastructure, dashboard, testing tools.
-- **Chương 5**: Thử nghiệm và đánh giá — benchmark, smoke test, phân tích kết quả.
-- **Chương 6**: Kết luận và hướng phát triển.
+- **Đối tượng nghiên cứu:**
+  - Giao thức truyền thông MQTT và các cơ chế QoS (0, 1).
+  - Vi điều khiển ESP32 và công nghệ web thời gian thực (WebSocket).
+- **Phạm vi nghiên cứu:**
+  - Đề tài giới hạn mô phỏng và thực nghiệm ở quy mô một nút giao thông (intersection) dạng ngã tư tiêu chuẩn gồm 4 hướng đi.
+  - Thử nghiệm độ trễ thực hiện trong môi trường mạng giả lập (Mock) và mạng cục bộ (LAN/WiFi).

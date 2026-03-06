@@ -1,176 +1,40 @@
-# Chương 3: Thiết Kế Hệ Thống
+# Chương 2. Thiết kế Kiến trúc Hệ thống Điều khiển
 
-## 3.1 Kiến trúc tổng quan
+Hệ thống điều khiển đèn giao thông dựa trên chuẩn MQTT theo mô hình Client-Broker-Client được nhóm thiết kế nhằm khắc phục điểm yếu của điều khiển vòng từ truyền thống, cung cấp khả năng phát hiện liên tục luồng giao thông và phản hồi linh hoạt.
 
-Hệ thống gồm 4 thành phần chính kết nối qua giao thức MQTT:
+## 2.1 Sơ đồ khối tổng thể của hệ thống
 
-```
-┌─────────────┐      MQTT       ┌──────────────┐      MQTT      ┌──────────────────┐
-│   ESP32     │ ◄────────────► │  Mosquitto   │ ◄────────────► │   Dashboard      │
-│  (Edge)     │    QoS 0/1     │  (Broker)    │    WebSocket   │   (Browser)      │
-│  12 LED     │                │  port:1883   │    port:9001   │                  │
-└─────────────┘                └──────────────┘                └──────────────────┘
-                                       ▲
-                                       │ MQTT Subscribe
-                                ┌──────┴──────┐
-                                │   Python    │
-                                │   Logger    │
-                                │  (*.jsonl)  │
-                                └─────────────┘
-```
+Hệ thống được chia làm 3 thành phần chính tuyến tính yếu cầu (End-to-end Architecture).
 
-| Thành phần        | Vai trò                                           | Công nghệ                   |
-| ----------------- | ------------------------------------------------- | --------------------------- |
-| **ESP32**         | Bộ điều khiển biên, xuất tín hiệu LED, FSM cục bộ | ESP-IDF 5.5 / C             |
-| **Mosquitto**     | MQTT broker trung gian, quản lý message routing   | Docker, port 1883 + 9001    |
-| **Dashboard**     | Giám sát trạng thái, gửi lệnh điều khiển từ xa    | HTML/CSS/JS, MQTT WebSocket |
-| **Python Logger** | Ghi log telemetry, benchmark RTT                  | Python 3.11+, paho-mqtt     |
+1. **MQTT Broker (Core):** Là máy chủ trung tâm nhận dữ liệu, xử lý phân quyền. Cài đặt trên Docker sử dụng mã nguồn mở Eclipse Mosquitto.
+2. **Edge Device (ESP32 Controller):** Lắp đặt trực tiếp tại các tủ điều khiển ngã tư. Đọc cảm biến cứng, điều khiển rơ-le đèn, gửi trạng thái về Broker, và lắng nghe lệnh ghi đè (Override Command).
+3. **Web Dashboard (Node-RED/HTML):** Trung tâm giám sát thành phố. Hiển thị UI trực quan trên web trình duyệt cho người trực ban, vẽ biểu đồ trạng thái thời gian thực.
 
-### Luồng dữ liệu chính
+## 2.2 Thiết kế Topic Tree MQTT
 
-1. **Điều khiển**: Dashboard → `cmd` → Broker → ESP32 → thực thi → `ack` → Dashboard
-2. **Giám sát**: ESP32 → `state` (1 msg/s) → Broker → Dashboard (cập nhật giao diện)
-3. **Telemetry**: ESP32 → `telemetry` (1 msg/5s) → Broker → Dashboard (hiển thị RSSI, heap)
-4. **Trạng thái**: ESP32 → `status` (retained, LWT) → Broker → Dashboard (online/offline)
+Thay vì giao tiếp theo địa chỉ IP khó dự đoán, giao thức MQTT dùng các Topic String. Hệ thống sử dụng Prefix chung: `city/demo/intersection/001/` định danh duy nhất ngã tư thứ 001.
 
-## 3.2 MQTT Topic Tree
+| Topic Path     | Chiều dữ liệu        | QoS | Chức năng (Ý nghĩa)                                      |
+| -------------- | -------------------- | --- | -------------------------------------------------------- |
+| `../state`     | Edge → Dashboard     | 0   | Phát trạng thái pha đèn, chu kỳ liên tục (Retained=True) |
+| `../telemetry` | Edge → Dashboard     | 0   | Phát định kì thông số RSSI mạng, RAM, thời gian sống     |
+| `../cmd`       | Dashboard → Edge     | 1   | Lệnh điều khiển khẩn cấp, yêu cầu báo nhận               |
+| `../ack`       | Edge → Dashboard     | 1   | Phản hồi xác nhận lệnh `cmd_id` đã thực thi              |
+| `../status`    | (Broker) → Dashboard | 1   | Bản tin LWT (Online / Offline) giữ lại trên Server       |
 
-Hệ thống sử dụng cấu trúc topic phân cấp, hỗ trợ mở rộng multi-intersection:
+## 2.3 Tiêu chuẩn hóa thông điệp (JSON Payload Schema)
 
-```
-city/{city_id}/intersection/{intersection_id}/
-├── cmd          ← Dashboard gửi lệnh
-├── ack          → ESP32 xác nhận lệnh
-├── state        → Trạng thái đèn (mode, phase, uptime)
-├── status       → Online/Offline (LWT, Retained)
-└── telemetry    → Số liệu hệ thống (RSSI, heap, uptime)
-```
+Nhằm đảm bảo khả năng mở rộng thuật toán đa ngôn ngữ (Python, C++, JS), tất cả gói tin được đóng gói theo định dạng chuẩn JSON.
 
-### Chi tiết QoS và Retained
+Đặc biệt lưu ý, lệnh điều khiển mạng đôi khi có hiện tượng lặp (do cơ chế QoS 1 thử gửi lại). Để giải quyết triệt để tính chất này, mã JSON chèn thêm trường duy nhất `cmd_id` (UUID). Nếu vi điều khiển nhận lại một mã lệnh đã thực thi, nó sẽ trả về ACK ngay lập tức nhưng không thay đổi ngắt cứng (Hardware Interrupt), gọi là tính "Idempotent" (Kỹ thuật thường dùng trong DevOps ngân hàng).
 
-| Topic           | Hướng             | QoS | Retained | Tần suất     | Lý do                                         |
-| --------------- | ----------------- | :-: | :------: | ------------ | --------------------------------------------- |
-| `.../cmd`       | Dashboard → ESP32 |  1  |    ❌    | Theo nhu cầu | Mất lệnh = mất an toàn                        |
-| `.../ack`       | ESP32 → Dashboard |  1  |    ❌    | Theo cmd     | Cần biết ESP32 đã nhận lệnh                   |
-| `.../state`     | ESP32 → Dashboard |  0  |    ❌    | 1 msg/s      | Mất 1 msg không sao, msg tiếp theo đến sau 1s |
-| `.../status`    | ESP32 → Broker    |  1  |    ✅    | Khi thay đổi | Dashboard mới mở cần biết trạng thái ngay     |
-| `.../telemetry` | ESP32 → Dashboard |  0  |    ❌    | 1 msg/5s     | Dữ liệu bổ sung, không critical               |
+## 2.4 Máy trạng thái điều khiển đèn (FSM)
 
-## 3.3 Payload Schema (JSON)
+Cụm đèn (Bắc-Nam gọi là NS, Đông-Tây gọi là EW) vận hành theo máy trạng thái hữu hạn, bao gồm 4 chế độ (Mode):
 
-### 3.3.1 Command (`cmd`)
+- **AUTO:** Tự động đếm vòng chu kì 6 Pha đèn chuẩn mực.
+- **MANUAL:** Dừng cấp đông (Freeze) ở một Pha đèn cụ thể và giữ vô thời hạn. Lệnh này được gửi trong tình huống có xe ưu tiên, sự cố tai nạn tĩnh.
+- **BLINK:** Đèn Vàng chớp tắt liên tục 2 hướng nhằm cảnh báo nhường đường.
+- **OFF:** Tắt toàn bộ rơ le đèn khi thi công hoặc cắt điện ngã tư diện rộng.
 
-```json
-{
-  "cmd_id": "a1b2c3d4-uuid-format",
-  "type": "SET_MODE | SET_PHASE",
-  "mode": "AUTO | MANUAL | BLINK | OFF",
-  "phase": 0,
-  "ts_ms": 1709712000000
-}
-```
-
-### 3.3.2 Acknowledgment (`ack`)
-
-```json
-{
-  "cmd_id": "a1b2c3d4-uuid-format",
-  "ok": true,
-  "err": null,
-  "edge_recv_ts_ms": 1709712000050
-}
-```
-
-**Idempotency**: ESP32 cache 32 `cmd_id` gần nhất. Nếu nhận cmd trùng `cmd_id`, bỏ qua (tránh thực thi lệnh 2 lần do QoS 1 gửi lại).
-
-### 3.3.3 State (`state`)
-
-```json
-{
-  "mode": "AUTO",
-  "phase": 0,
-  "since_ms": 5000,
-  "uptime_s": 3600,
-  "ts_ms": 1709712000000
-}
-```
-
-### 3.3.4 Telemetry (`telemetry`)
-
-```json
-{
-  "rssi_dbm": -55,
-  "heap_free_kb": 215.0,
-  "uptime_s": 3600,
-  "ts_ms": 1709712000000
-}
-```
-
-### 3.3.5 Status (`status`)
-
-```json
-{
-  "online": true,
-  "ts_ms": 1709712000000
-}
-```
-
-## 3.4 Finite State Machine (FSM)
-
-### 3.4.1 Các chế độ hoạt động (Mode)
-
-| Mode       | Mô tả    | Hành vi                                                                                  |
-| ---------- | -------- | ---------------------------------------------------------------------------------------- |
-| **AUTO**   | Tự động  | Cycle 6 phase liên tục (NS_GREEN → NS_YELLOW → ALL_RED → EW_GREEN → EW_YELLOW → ALL_RED) |
-| **MANUAL** | Thủ công | Giữ phase hiện tại, chờ lệnh SET_PHASE từ dashboard                                      |
-| **BLINK**  | Nháy     | Tất cả đỏ nháy (ALL_RED ↔ tắt, chu kỳ 1s)                                                |
-| **OFF**    | Tắt      | Tất cả đèn tắt                                                                           |
-
-### 3.4.2 Chu kỳ phase (AUTO mode)
-
-```
-Phase 0: NS_GREEN   (10s) → N/S xanh, E/W đỏ
-Phase 1: NS_YELLOW  ( 3s) → N/S vàng, E/W đỏ
-Phase 2: ALL_RED    ( 2s) → Tất cả đỏ (guard)
-Phase 3: EW_GREEN   (10s) → E/W xanh, N/S đỏ
-Phase 4: EW_YELLOW  ( 3s) → E/W vàng, N/S đỏ
-Phase 5: ALL_RED    ( 2s) → Tất cả đỏ (guard)
-→ Quay lại Phase 0
-```
-
-Tổng chu kỳ: **30 giây** (10 + 3 + 2 + 10 + 3 + 2).
-
-### 3.4.3 Quy tắc an toàn (Safety Rules)
-
-1. **Không bao giờ 2 hướng cùng xanh**: N/S và E/W luôn đối nghịch.
-2. **ALL_RED guard**: Giữa mỗi lần chuyển hướng luôn có 2 giây tất cả đỏ.
-3. **Fallback**: Nếu MQTT mất kết nối > 10 giây, ESP32 tự chuyển về AUTO mode.
-
-## 3.5 Sơ đồ phần cứng
-
-### GPIO Pin Mapping
-
-| GPIO | LED       |  Hướng   | Màu     |
-| :--: | --------- | :------: | ------- |
-|  13  | NS Red    | Bắc/Nam  | 🔴 Đỏ   |
-|  12  | NS Yellow | Bắc/Nam  | 🟡 Vàng |
-|  14  | NS Green  | Bắc/Nam  | 🟢 Xanh |
-|  27  | EW Red    | Đông/Tây | 🔴 Đỏ   |
-|  26  | EW Yellow | Đông/Tây | 🟡 Vàng |
-|  25  | EW Green  | Đông/Tây | 🟢 Xanh |
-
-> **Ghi chú**: Mỗi GPIO điều khiển 2 LED cùng lúc (N+S hoặc E+W) vì 2 hướng đối diện luôn cùng trạng thái.
-
-### Sơ đồ kết nối
-
-```
-ESP32 DevKit V1
-├── GPIO 13 ──► 220Ω ──► LED Đỏ (N) + LED Đỏ (S)
-├── GPIO 12 ──► 220Ω ──► LED Vàng (N) + LED Vàng (S)
-├── GPIO 14 ──► 220Ω ──► LED Xanh (N) + LED Xanh (S)
-├── GPIO 27 ──► 220Ω ──► LED Đỏ (E) + LED Đỏ (E)
-├── GPIO 26 ──► 220Ω ──► LED Vàng (E) + LED Vàng (W)
-├── GPIO 25 ──► 220Ω ──► LED Xanh (E) + LED Xanh (W)
-├── 3.3V ──► Cấp nguồn
-└── GND ──► Ground chung
-```
+Tại mô hình AUTO, 6 Pha được quy định theo tỷ lệ thời gian vàng. (1-NS_GREEN, 2-NS_YELLOW, 3-ALL_RED_CLEAR, 4-EW_GREEN, 5-EW_YELLOW, 6-ALL_RED_CLEAR). Bốn giây ALL_RED_CLEAR được bổ sung kĩ lưỡng nhằm đảm bảo toàn bộ phương tiện thoát khỏi tâm giao lộ, hạn chế nguy cơ va chạm.
