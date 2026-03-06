@@ -13,7 +13,6 @@
 #include "sdkconfig.h"
 #include <string.h>
 
-
 static const char *TAG = "WIFI";
 
 #define WIFI_CONNECTED_BIT BIT0
@@ -22,6 +21,7 @@ static const char *TAG = "WIFI";
 static EventGroupHandle_t s_wifi_event_group;
 static int s_retry_num = 0;
 static bool s_is_connected = false;
+static bool s_ever_connected = false; // Track if we ever connected successfully
 
 static void event_handler(void *arg, esp_event_base_t event_base,
                           int32_t event_id, void *event_data) {
@@ -30,7 +30,13 @@ static void event_handler(void *arg, esp_event_base_t event_base,
   } else if (event_base == WIFI_EVENT &&
              event_id == WIFI_EVENT_STA_DISCONNECTED) {
     s_is_connected = false;
-    if (s_retry_num < CONFIG_WIFI_MAXIMUM_RETRY) {
+    if (s_ever_connected) {
+      // Mid-session disconnect: retry forever with backoff
+      vTaskDelay(pdMS_TO_TICKS(2000));
+      esp_wifi_connect();
+      ESP_LOGW(TAG, "WiFi lost, reconnecting (infinite retry)...");
+    } else if (s_retry_num < CONFIG_WIFI_MAXIMUM_RETRY) {
+      // First connect: retry with limit
       esp_wifi_connect();
       s_retry_num++;
       ESP_LOGI(TAG, "Retry connection (%d/%d)", s_retry_num,
@@ -43,6 +49,7 @@ static void event_handler(void *arg, esp_event_base_t event_base,
     ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
     s_retry_num = 0;
     s_is_connected = true;
+    s_ever_connected = true; // Mark: we connected at least once
     xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
   }
 }

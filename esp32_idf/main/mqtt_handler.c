@@ -23,7 +23,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 static const char *TAG = "MQTT";
 
 // Topic buffer size
@@ -41,8 +40,8 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 static bool is_connected = false;
 static int64_t last_activity_ms = 0;
 
-// Idempotency cache (32 cmd_ids)
-#define CMD_ID_CACHE_SIZE 32
+// Idempotency cache (64 cmd_ids, ring buffer)
+#define CMD_ID_CACHE_SIZE 64
 #define CMD_ID_MAX_LEN 64
 static char cmd_id_cache[CMD_ID_CACHE_SIZE][CMD_ID_MAX_LEN];
 static int cmd_id_cache_idx = 0;
