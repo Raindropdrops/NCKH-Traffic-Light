@@ -86,6 +86,9 @@ class CaseResult:
     payload_bytes_mean: float
     status: str
     reason: str
+    # One-Way Latencies
+    mean_edge_lat: Optional[float]
+    mean_ret_lat: Optional[float]
 
 
 # =============================================================================
@@ -126,8 +129,19 @@ class RTTBenchmark:
             payload = json.loads(msg.payload.decode())
             cmd_id = payload.get("cmd_id")
             if cmd_id and cmd_id in self.records:
+                t_send = self.records[cmd_id]["t_send_ms"]
                 self.records[cmd_id]["t_ack_recv_ms"] = t_recv
-                self.records[cmd_id]["rtt_ms"] = t_recv - self.records[cmd_id]["t_send_ms"]
+                self.records[cmd_id]["rtt_ms"] = t_recv - t_send
+                
+                # Check for one-way latency (only works if edge sends epoch ms, not uptime)
+                edge_ts = payload.get("edge_recv_ts_ms", 0)
+                if edge_ts > 1600000000000: # Valid Epoch MS
+                    self.records[cmd_id]["edge_lat_ms"] = edge_ts - t_send
+                    self.records[cmd_id]["ret_lat_ms"] = t_recv - edge_ts
+                else:
+                    self.records[cmd_id]["edge_lat_ms"] = None
+                    self.records[cmd_id]["ret_lat_ms"] = None
+                    
                 self.received_count += 1
         except:
             pass
@@ -180,6 +194,8 @@ class RTTBenchmark:
                     "t_send_ms": t_send,
                     "t_ack_recv_ms": None,
                     "rtt_ms": None,
+                    "edge_lat_ms": None,
+                    "ret_lat_ms": None,
                     "payload_size": len(payload_json),
                     "actual_payload_bytes": actual_payload_bytes,
                     "mode": "AUTO",
@@ -218,12 +234,13 @@ class RTTBenchmark:
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(['cmd_id', 't_send_ms', 't_ack_recv_ms', 'rtt_ms', 
+            writer.writerow(['cmd_id', 't_send_ms', 't_ack_recv_ms', 'rtt_ms', 'edge_lat_ms', 'ret_lat_ms',
                            'payload_size', 'actual_payload_bytes', 'mode', 'phase', 'note'])
             for r in self.records.values():
                 writer.writerow([
                     r["cmd_id"], r["t_send_ms"], r["t_ack_recv_ms"] or '',
-                    r["rtt_ms"] or '', r["payload_size"], r.get("actual_payload_bytes", ''), r["mode"],
+                    r["rtt_ms"] or '', r.get("edge_lat_ms", '') or '', r.get("ret_lat_ms", '') or '',
+                    r["payload_size"], r.get("actual_payload_bytes", ''), r["mode"],
                     r["phase"] or '', r["note"]
                 ])
         print(f"💾 Saved: {filename}")
@@ -245,7 +262,7 @@ class RTTBenchmark:
                 mean=None, median=None, std=None, min_rtt=None, max_rtt=None,
                 p50=None, p75=None, p90=None, p95=None, p99=None, outlier_count=0, rtts=[],
                 payload_bytes_min=payload_min, payload_bytes_max=payload_max, payload_bytes_mean=payload_mean,
-                status=status, reason=reason
+                status=status, reason=reason, mean_edge_lat=None, mean_ret_lat=None
             )
         
         rtts.sort()

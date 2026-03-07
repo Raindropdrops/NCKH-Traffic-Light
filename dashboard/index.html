@@ -159,14 +159,25 @@
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
       }
       .status-badge.online {
-        background: rgba(34, 197, 94, 0.12);
-        color: #7cf3a7;
-        border: 1px solid rgba(34, 197, 94, 0.35);
+        background: rgba(34, 197, 94, 0.1);
+        color: var(--green);
+        border: 1px solid rgba(34, 197, 94, 0.2);
       }
       .status-badge.offline {
-        background: rgba(239, 68, 68, 0.12);
-        color: #fca5a5;
-        border: 1px solid rgba(239, 68, 68, 0.35);
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--red);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+      .status-badge.reconnecting {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
       }
       .status-dot {
         width: 8px;
@@ -738,6 +749,44 @@
       .lwt-online { color: #22c55e; }
       .lwt-offline { color: #ef4444; }
       .lwt-time { color: var(--dim); margin-left: auto; }
+      /* Responsiveness */
+      @media (max-width: 1024px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        .main-col {
+          grid-area: auto;
+        }
+        .side-col {
+          grid-area: auto;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
+        }
+        .bottom-row {
+          grid-area: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+        .mode-buttons {
+          flex-direction: column;
+        }
+        .controls-row {
+          flex-direction: column;
+        }
+        .select-wrapper {
+          width: 100%;
+        }
+        .side-col {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1043,6 +1092,8 @@
           clientId: "dashboard-" + Math.random().toString(16).slice(2, 8),
           keepalive: 30,
           clean: true,
+          reconnectPeriod: 3000,
+          connectTimeout: 5000,
         });
 
         client.on("connect", () => {
@@ -1058,8 +1109,14 @@
 
         client.on("close", () => {
           document.getElementById("statusBadge").className =
-            "status-badge offline";
-          document.getElementById("statusText").textContent = "DISCONNECTED";
+            "status-badge reconnecting";
+          document.getElementById("statusText").textContent = "RECONNECTING...";
+        });
+
+        client.on("offline", () => {
+          document.getElementById("statusBadge").className =
+            "status-badge reconnecting";
+          document.getElementById("statusText").textContent = "RECONNECTING...";
         });
 
         client.on("error", (err) => {
