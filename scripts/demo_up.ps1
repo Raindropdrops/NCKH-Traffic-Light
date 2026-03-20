@@ -68,12 +68,12 @@ else {
 
 # Step 5: Open Dashboard
 Write-Host "[5/5] Opening Dashboard..." -ForegroundColor Yellow
-Start-Process "http://localhost:1880/ui"
+Start-Process "http://localhost:1880/dashboard/index.html"
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Green
 Write-Host "  DEMO READY!" -ForegroundColor Green
-Write-Host "  Dashboard: http://localhost:1880/ui" -ForegroundColor Green
+Write-Host "  Dashboard: http://localhost:1880/dashboard/index.html" -ForegroundColor Green
 Write-Host "  Editor:    http://localhost:1880" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Green
 Write-Host ""
