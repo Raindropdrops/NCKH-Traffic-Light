@@ -40,10 +40,15 @@ Write-Host "  Services ready!" -ForegroundColor Green
 Write-Host "[3/5] Loading Node-RED flows..." -ForegroundColor Yellow
 $flowsPath = Join-Path $repoRoot "node-red\flows.json"
 if (Test-Path $flowsPath) {
-    docker cp $flowsPath nodered:/data/flows_nodered.json
+    docker cp $flowsPath nodered:/data/flows.json
+    docker cp "$repoRoot\node-red\flows_cred.json" nodered:/data/flows_cred.json
+    docker cp "$repoRoot\node-red\settings.js" nodered:/data/settings.js
+    docker cp "$repoRoot\node-red\package.json" nodered:/data/package.json
+    Write-Host "  Installing dependencies inside container..."
+    docker exec -w /data nodered npm install
     docker compose restart nodered
     Start-Sleep 8
-    Write-Host "  Flows loaded!" -ForegroundColor Green
+    Write-Host "  Node-RED configs loaded and dependencies installed!" -ForegroundColor Green
 }
 else {
     Write-Host "  WARNING: flows.json not found at $flowsPath" -ForegroundColor Red

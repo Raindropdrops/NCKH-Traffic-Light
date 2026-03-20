@@ -229,7 +229,8 @@ module.exports = {
      * When httpStaticRoot is set differently to httpAdminRoot, there is no need
      * to move httpAdminRoot
      */
-    //httpStatic: '/home/nol/node-red-static/', //single static source
+    httpStatic: [ { path: '/data/public/', root: '/dashboard/' } ],
+    //httpStatic_old: '/home/nol/node-red-static/', //single static source
     /**
      *  OR multiple static sources can be created using an array of objects...
      *  Each object can also contain an options object for further configuration.
@@ -621,3 +622,9 @@ module.exports = {
     //    */
     //},
 }
+
+
+
+
+
+
