@@ -38,15 +38,6 @@
         "sessionExpiry": ""
     },
     {
-        "id": "ui-tab.main",
-        "type": "ui_tab",
-        "name": "Traffic Control",
-        "icon": "dashboard",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
-    },
-    {
         "id": "comment.header",
         "type": "comment",
         "z": "flow.traffic-dashboard",
@@ -215,12 +206,8 @@
             [
                 "func.dashboard-store"
             ],
-            [
-                "ui_chart.rssi"
-            ],
-            [
-                "ui_chart.heap"
-            ]
+            [],
+            []
         ]
     },
     {
@@ -262,9 +249,7 @@
             [
                 "func.dashboard-store"
             ],
-            [
-                "ui_chart.rtt"
-            ]
+            []
         ]
     },
     {
@@ -282,20 +267,8 @@
         "x": 390,
         "y": 440,
         "wires": [
-            [
-                "ui.tpl.map"
-            ]
+            []
         ]
-    },
-    {
-        "id": "ui-group.dashboard",
-        "type": "ui_group",
-        "name": "Controls & Charts",
-        "tab": "ui-tab.main",
-        "order": 1,
-        "disp": false,
-        "width": "8",
-        "collapse": false
     },
     {
         "id": "func.dashboard-store",
@@ -312,9 +285,7 @@
         "x": 560,
         "y": 360,
         "wires": [
-            [
-                "ui.tpl.dashboard"
-            ]
+            []
         ]
     },
     {
@@ -336,123 +307,6 @@
                 "mqtt.cmd.out",
                 "debug.cmd"
             ]
-        ]
-    },
-    {
-        "id": "ui.tpl.dashboard",
-        "type": "ui_template",
-        "z": "flow.traffic-dashboard",
-        "group": "ui-group.dashboard",
-        "name": "Traffic Dashboard UI",
-        "order": 1,
-        "width": "8",
-        "height": "14",
-        "format": "<style>\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap');\n\n.tl-ctrl-panel {\n    font-family: 'Inter', sans-serif;\n    color: #f1f5f9;\n    display: flex;\n    flex-direction: column;\n    gap: 16px;\n    height: 100%;\n}\n\n.tl-card {\n    background: #1e293b;\n    border: 1px solid #334155;\n    border-radius: 12px;\n    padding: 16px;\n    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);\n}\n\n.tl-header-row {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    margin-bottom: 12px;\n}\n.tl-title { font-size: 14px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }\n\n/* Status Badge */\n.tl-status-badge {\n    padding: 4px 10px;\n    border-radius: 99px;\n    background: rgba(34, 197, 94, 0.1);\n    color: #22c55e;\n    font-size: 11px;\n    font-weight: 600;\n    display: flex;\n    align-items: center;\n    gap: 6px;\n}\n.tl-status-badge.offline { background: rgba(239, 68, 68, 0.1); color: #ef4444; }\n.tl-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 6px currentColor; }\n\n/* Stats Grid */\n.tl-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }\n.tl-stat-box { background: #0f172a; padding: 10px; border-radius: 8px; border: 1px solid #334155; }\n.tl-stat-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 4px; }\n.tl-stat-val { font-size: 14px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }\n\n/* Buttons */\n.tl-btn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }\n.tl-btn {\n    background: #0f172a;\n    border: 1px solid #334155;\n    color: #f1f5f9;\n    padding: 10px;\n    border-radius: 8px;\n    font-size: 12px;\n    font-weight: 600;\n    cursor: pointer;\n    transition: all 0.2s;\n    text-align: center;\n}\n.tl-btn:hover { background: #334155; border-color: #38bdf8; color: white; transform: translateY(-1px); }\n.tl-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }\n.tl-btn.green { border-color: #22c55e; color: #86efac; }\n.tl-btn.green:hover, .tl-btn.green.active { background: #22c55e; color: #0f172a; }\n.tl-btn.yellow { border-color: #eab308; color: #fde047; }\n.tl-btn.yellow:hover, .tl-btn.yellow.active { background: #eab308; color: #0f172a; }\n.tl-btn.red { border-color: #ef4444; color: #fca5a5; }\n.tl-btn.red:hover, .tl-btn.red.active { background: #ef4444; color: #0f172a; }\n\n/* Log Table */\n.tl-log-table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: 'JetBrains Mono', monospace; }\n.tl-log-table th { text-align: left; color: #94a3b8; padding: 6px; border-bottom: 1px solid #334155; }\n.tl-log-table td { padding: 6px; border-bottom: 1px solid #334155; color: #cbd5e1; }\n.tag { padding: 2px 4px; border-radius: 3px; font-weight: 700; font-size: 9px; }\n.tag.ok { background: rgba(34, 197, 94, 0.2); color: #4ade80; }\n.tag.err { background: rgba(239, 68, 68, 0.2); color: #f87171; }\n</style>\n\n<div class=\"tl-ctrl-panel\">\n    <!-- Header / Status -->\n    <div class=\"tl-card\">\n        <div class=\"tl-header-row\">\n            <div class=\"tl-title\">Intersection 001</div>\n            <div class=\"tl-status-badge\" ng-class=\"{offline: !dash.status.online}\">\n                <div class=\"tl-dot\"></div>\n                {{ dash.status.online ? 'ONLINE' : 'OFF' }}\n            </div>\n        </div>\n        <div class=\"tl-stats-grid\">\n            <div class=\"tl-stat-box\">\n                <span class=\"tl-stat-label\">Mode</span>\n                <span class=\"tl-stat-val\" style=\"color: #38bdf8\">{{ dash.display.mode }}</span>\n            </div>\n            <div class=\"tl-stat-box\">\n                <span class=\"tl-stat-label\">Phase</span>\n                <span class=\"tl-stat-val\">{{ dash.display.phase }}</span>\n            </div>\n             <div class=\"tl-stat-box\">\n                <span class=\"tl-stat-label\">Uptime</span>\n                <span class=\"tl-stat-val\">{{ dash.display.uptime }}</span>\n            </div>\n            <div class=\"tl-stat-box\">\n                <span class=\"tl-stat-label\">Last Seen</span>\n                <span class=\"tl-stat-val\">{{ dash.display.status_time }}</span>\n            </div>\n        </div>\n    </div>\n\n    <!-- Controls -->\n    <div class=\"tl-card\">\n        <div class=\"tl-title\" style=\"margin-bottom:10px\">Mode Control</div>\n        <div class=\"tl-btn-grid\" style=\"margin-bottom:16px\">\n            <div class=\"tl-btn\" ng-click=\"sendMode('AUTO')\" ng-class=\"{active: dash.display.mode=='AUTO'}\">AUTO</div>\n            <div class=\"tl-btn\" ng-click=\"sendMode('MANUAL')\" ng-class=\"{active: dash.display.mode=='MANUAL'}\">MANUAL</div>\n            <div class=\"tl-btn yellow\" ng-click=\"sendMode('BLINK')\" ng-class=\"{active: dash.display.mode=='BLINK'}\">BLINK</div>\n            <div class=\"tl-btn red\" ng-click=\"sendMode('OFF')\" ng-class=\"{active: dash.display.mode=='OFF'}\">OFF</div>\n        </div>\n\n        <div class=\"tl-title\" style=\"margin-bottom:10px\">Manual Phase</div>\n        <div class=\"tl-btn-grid\" style=\"grid-template-columns: 1fr 1fr 1fr;\">\n            <div class=\"tl-btn green\" ng-click=\"sendPhase(0)\">NS Green</div>\n            <div class=\"tl-btn yellow\" ng-click=\"sendPhase(1)\">Yel</div>\n            <div class=\"tl-btn red\" ng-click=\"sendPhase(2)\">Red</div>\n            <div class=\"tl-btn green\" ng-click=\"sendPhase(3)\">EW Green</div>\n            <div class=\"tl-btn yellow\" ng-click=\"sendPhase(4)\">Yel</div>\n            <div class=\"tl-btn red\" ng-click=\"sendPhase(5)\">Red</div>\n        </div>\n    </div>\n\n    <!-- Logs -->\n    <div class=\"tl-card\" style=\"flex:1; overflow:auto; min-height:150px;\">\n        <div class=\"tl-title\" style=\"margin-bottom:8px\">Command Log</div>\n        <table class=\"tl-log-table\">\n            <thead><tr><th>Time</th><th>CMD</th><th>RTT</th></tr></thead>\n            <tbody>\n                <tr ng-repeat=\"row in dash.ack_log | limitTo:10\">\n                    <td>{{ row.t.split(' ')[0] }}</td> <!-- Simplified time -->\n                    <td><span class=\"tag\" ng-class=\"row.ok ? 'ok':'err'\">{{ row.type || 'CMD' }}</span></td>\n                    <td>{{ row.rtt ? row.rtt + 'ms' : '-' }}</td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n</div>\n\n<script>\n(function(scope) {\n  scope.dash = scope.dash || {\n    status: { online: false },\n    display: { mode: '--', phase: '--', uptime: '--', rssi: '--', heap: '--' },\n    ack_log: []\n  };\n  scope.sendMode = function(mode) { scope.send({ topic: 'ui/set_mode', payload: { mode: mode } }); };\n  scope.sendPhase = function(phase) { scope.send({ topic: 'ui/set_phase', payload: { phase: phase } }); };\n  scope.$watch('msg', function(msg) {\n    if (msg && msg.payload && !msg.topic) { // Pass-through updates\n         scope.dash = msg.payload;\n    }\n    // Handle chart data pass-through? No, chart data goes to chart nodes.\n    // This template receives the \"Dashboard Object\" from func.dashboard-store\n  });\n})(scope);\n</script>\n",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 780,
-        "y": 360,
-        "wires": [
-            [
-                "func.build-ui-cmd"
-            ]
-        ]
-    },
-    {
-        "id": "ui-group.map",
-        "type": "ui_group",
-        "name": "Intersection Map",
-        "tab": "ui-tab.main",
-        "order": 1,
-        "disp": false,
-        "width": "16"
-    },
-    {
-        "id": "ui.tpl.map",
-        "type": "ui_template",
-        "z": "flow.traffic-dashboard",
-        "group": "ui-group.map",
-        "width": "16",
-        "height": "20",
-        "format": "<style>\n/* Map Card Container - Full Height/Width of Group */\n.tl-map-card {\n    width: 100%;\n    height: 100%;\n    min-height: 600px;\n    background: #0f172a; /* Slate 900 */\n    border-radius: 16px;\n    border: 1px solid #334155;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    position: relative;\n    overflow: hidden;\n    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);\n}\n</style>\n\n<div class=\"tl-map-card\" ng-bind-html=\"msg.payload\">\n    <!-- SVG Injected Here -->\n</div>\n",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "x": 600,
-        "y": 440,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ui_chart.rtt",
-        "type": "ui_chart",
-        "z": "flow.traffic-dashboard",
-        "name": "RTT",
-        "group": "ui-group.dashboard",
-        "order": 4,
-        "width": "8",
-        "height": "4",
-        "label": "Command Latency (ms)",
-        "chartType": "line",
-        "ymin": "0",
-        "ymax": "200",
-        "removeOlder": "5",
-        "colors": [
-            "#38bdf8"
-        ],
-        "x": 600,
-        "y": 660,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ui_chart.rssi",
-        "type": "ui_chart",
-        "z": "flow.traffic-dashboard",
-        "name": "RSSI",
-        "group": "ui-group.dashboard",
-        "order": 5,
-        "width": "4",
-        "height": "3",
-        "label": "Signal (dBm)",
-        "chartType": "line",
-        "ymin": "-90",
-        "ymax": "-30",
-        "removeOlder": "5",
-        "colors": [
-            "#22c55e"
-        ],
-        "x": 600,
-        "y": 520,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "ui_chart.heap",
-        "type": "ui_chart",
-        "z": "flow.traffic-dashboard",
-        "name": "Heap",
-        "group": "ui-group.dashboard",
-        "order": 6,
-        "width": "4",
-        "height": "3",
-        "label": "Free Heap (KB)",
-        "chartType": "line",
-        "ymin": "0",
-        "ymax": "300",
-        "removeOlder": "5",
-        "colors": [
-            "#f59e0b"
-        ],
-        "x": 600,
-        "y": 560,
-        "wires": [
-            []
         ]
     }
 ]
